@@ -8,6 +8,7 @@ initiate_project(
   path,
   project = "single_study",
   dependencies = "groundhog",
+  git_url,
   ...
 )
 }

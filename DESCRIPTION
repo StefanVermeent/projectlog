@@ -11,6 +11,11 @@ Encoding: UTF-8
 LazyData: true
 Imports:
   purrr,
+  stringr,
+  dplyr,
+  readr,
   renv,
-  groundhog
+  groundhog,
+  cli,
+  digest
 RoxygenNote: 7.2.1

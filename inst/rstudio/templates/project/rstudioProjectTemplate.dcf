@@ -11,7 +11,12 @@ Position: left
 
 Parameter: dependencies
 Widget: SelectInput
-Label: How to track package depencencies
+Label: How to track package dependencies
 Fields: renv, groundhog
 Default: groundhog
 Position: left
+
+Parameter: git_url
+Widget: TextInput
+Label: The URL to your Git Repository
+Default: git@[...].git
