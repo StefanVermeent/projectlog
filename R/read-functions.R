@@ -114,15 +114,7 @@ read_data <- function(file, read_fun, col_select = NULL, row_filter = NULL, row_
 
     log_milestone("project_log/MD5", milestone_type = "data_access", commit_message = commit_message)
 
-
   }
-
-
-
-
-
-
-
 }
 
 

@@ -25,6 +25,8 @@ Default: 'single_study'.}
 of package dependencies. Options include \code{\link[renv]{init}},
 \code{\link[groundhog]{groundhog}}, or 'none'.}
 
+\item{git_url}{Character, url of your remote git repository.}
+
 \item{...}{Additional arguments passed to and from functions.}
 }
 \value{
