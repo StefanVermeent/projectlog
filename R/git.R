@@ -64,28 +64,41 @@ has_git <- function(){
 #' @param milestone_type Character, A unique identifier for the milestone.
 #' Examples could be "preregistration" or "submission". Make sure that the
 #' identifiers are the same across similar commits to be able to link them
-#' together later on.
+#' together later on. Spaces are not allowed. Preferably use a single word
+#' or link multiple words (e.g., 'submission_to_journal').
 #' @param commit_message A message that will be added to your commit to Github.
 #' Here, you can give more detailed information about the nature of the changes.
 #' @return Nothing. This function is called for its side-effects.
 #' @export
 log_milestone <- function(..., milestone_type, commit_message) {
 
-  if(!gert::user_is_configured()) {
+  if(grepl(milestone_type, "\\s")) {
+
+    adjusted <- gsub(x = milestone_type, pattern = "\\s", replacement = "_")
+    cli::cli_abort("Spaces are not allowed in 'milestone_type'. You could try '{adjusted}' instead.")
+  }
+
+  if(gert::user_is_configured()) {
     gert::git_add(...)
     tryCatch(
-      gert::git_commit(paste0("MILESTONE ", milestone_type, commit_message)),
-      error = cli::cli_abort("Failed to commit changes.")
+      gert::git_commit(paste("MILESTONE", milestone_type, commit_message)),
+      error = function(e) {
+        cli::cli_abort("Failed to commit changes.")
+      }
     )
     tryCatch(
       gert::git_push(),
-      error = cli::cli_abort("Failed to push changes to remote repository.")
+      error = function(e) {
+        cli::cli_abort("Failed to push changes to remote repository.")
+      }
     )
 
     latest_commit <- gert::git_log()$commit[[1]]
     git_url <- gert::git_remote_info()$url |> stringr::str_remove("\\.git") |> paste0("/commit/", latest_commit)
 
     cli::cli_alert_success("Commit was successful! To see the commit on Github, go to {.url {git_url}}")
+  } else {
+    cli::cli_abort("Git user is not configured!")
   }
 }
 
@@ -122,7 +135,7 @@ log_changes <- function(..., commit_message) {
     tryCatch(
       gert::git_push(),
       error = function(e) {
-        cli::cli_abort("Faied to push changes to remote repository.")
+        cli::cli_abort("Failed to push changes to remote repository.")
       }
     )
 
@@ -133,4 +146,21 @@ log_changes <- function(..., commit_message) {
   } else {
     cli::cli_abort("Git user is not configured!")
   }
+}
+
+#' Show untracked project changes
+#'
+#' This function is a wrapper around 'gert::git_status())'.
+#' It shows all the files that have changed since the last commit to GitHub.
+#' It is recommended to routinely commit untracked changes to GitHub using
+#' the 'log_changes()' or 'log_milestone()' functions.
+#'
+#' @return A character vector of file names.
+#' @export
+show_changes <- function() {
+  status <- gert::git_status()
+  cli::cli_alert_info("The following files have changed since your last commit:")
+  print(status)
+
+  return(invisible(status$file))
 }
