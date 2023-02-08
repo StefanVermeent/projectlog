@@ -1,5 +1,5 @@
 Binding: initiate_project
-Title: OS Git Project - Do i see this?
+Title: OS Git Project
 OpenFiles: README.Rmd
 
 Parameter: project
@@ -18,5 +18,6 @@ Position: left
 
 Parameter: git_url
 Widget: TextInput
-Label: The URL to your Git Repository (https://github.com/<username>/<repo name>.git)
+Label: The URL to your Git Repository (https://github.com/<username>/<repo_name>.git)
 Position: left
+Default: https://github.com/

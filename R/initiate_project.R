@@ -126,7 +126,7 @@ initiate_project <- function(path, project = "single_study", dependencies = "gro
   if(use_git & valid_repo){
 
     tryCatch(
-      gert::git_remote_add(url = git_url, name = "origin", repo = "."),
+      gert::git_remote_add(url = git_url, name = "origin", repo = path),
 
       error = cli::cli_abort("Failed to connect to the remote Github repository that you specified.")
     )
