@@ -15,7 +15,7 @@
 #' @param ... Additional arguments passed to and from functions.
 #' @return The initial set-up of your project folder.
 #' @export
-initiate_project <- function(path, project = "single_study", dependencies = "groundhog", git_url, ...) {
+initiate_project <- function(path, project = "single_study", dependencies = "groundhog", git_url = "https://github.com/", ...) {
 
   dots <- list(...)
 
@@ -39,10 +39,10 @@ initiate_project <- function(path, project = "single_study", dependencies = "gro
     purrr::map(folders, function(x) {
       dir.create(file.path(path,x), recursive = TRUE)
     })
-    dir.create("registered_report")
+    dir.create(file.path(path,"registered_report"))
   }
 
-  writeLines("", con = "project_log/MD5")
+  writeLines("", con = file.path(path,"project_log/MD5"))
 
   readme <- "### Placeholder"
 
@@ -66,7 +66,10 @@ initiate_project <- function(path, project = "single_study", dependencies = "gro
 
   if(dependencies == "renv") {
 
-    # TODO
+    tryCatch(
+      library(renv),
+      error = cli::cli_abort("Package 'renv' not found. Try 'install.packages('renv')' first.")
+    )
   }
 
   writeLines(readme, con = file.path(path,"README.Rmd"))
@@ -81,15 +84,56 @@ initiate_project <- function(path, project = "single_study", dependencies = "gro
 
   # Link Git ----------------------------------------------------------------
 
-  # Configure user.name and user.email if necessary
-  cli::cli_h1("Configure Git")
-  configure_git()
-  cli::cli_alert_success("Git was configured successfully")
+  # Check if valid Git signature exists
+  cli::cli_h1("Configuring Git")
+  use_git <- has_git()
+  if(!use_git){
+    cli::cli_abort("Could not find a working installation of 'Git'")
+  } else {
+    cli::cli_alert_info("Working version of Git found!")
+    gert::git_init(path = path)
+  }
+  cli::cli_alert_success("Git was configured successfully.")
 
-  # Create local repo
+
+  # Create first commit
+  if(use_git){
+    tryCatch({
+      gert::git_add(files = ".", repo = path)
+      gert::git_commit(message = "Initial commit", repo = path)
+      cli::cli_alert_info("Creating first commit of the project.")
+    }, error = function(e){
+      cli::cli_abort("Failed to create first commit of the project.")
+    })
+  }
+
+  cli::cli_alert_success("First commit was created succesfully.")
+
+
+
+# Connect to remote repository --------------------------------------------
+
   cli::cli_h1("Connect to remote repository")
-  gert::git_remote_add(url = git_url)
+  # TODO: validate git url
+  valid_repo = TRUE
 
+  if(use_git & valid_repo) {
+
+  }
+
+  cli::cli_alert_info("Trying with url '{git_url}'")
+
+  if(use_git & valid_repo){
+
+    tryCatch(
+      gert::git_remote_add(url = git_url, name = "origin", repo = "."),
+
+      error = cli::cli_abort("Failed to connect to the remote Github repository that you specified.")
+    )
+
+    cli::cli_alert_success("Succesfully connected to remote repository!")
+
+  }
 }
 
 

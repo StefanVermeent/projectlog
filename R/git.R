@@ -12,6 +12,42 @@ configure_git <- function() {
   }
 }
 
+#' @title Check whether global 'Git' credentials exist
+#' @description Check whether the values \code{user.name} and \code{user.email}
+#' exist exist in the 'Git' global configuration settings.
+#' Uses \code{\link[gert:git_config]{git_config_global}}.
+#' @return Logical, indicating whether 'Git' global configuration settings could
+#' be retrieved, and contained the values
+#' \code{user.name} and \code{user.email}.
+#' @rdname has_git_user
+#' @examples
+#' has_git_user()
+#' @export
+#' @importFrom gert git_config_global
+has_git_user <- function(){
+  tryCatch({
+    cf <- gert::git_config_global()
+    if(!("user.name" %in% cf$name) & ("user.email" %in% cf$name)){
+      stop()
+    } else {
+      return(TRUE)
+    }
+  }, error = function(e){
+    message("No 'Git' credentials found, returning name = 'yourname' and email = 'yourname@email.com'.")
+    return(FALSE)
+  })
+}
+
+#' @importFrom gert libgit2_config git_config_global
+has_git <- function(){
+  tryCatch({
+    config <- gert::libgit2_config()
+    return(has_git_user() & (any(unlist(config[c("ssh", "https")]))))
+  }, error = function(e){
+    return(FALSE)
+  })
+}
+
 #' Log a milestone to git
 #'
 #' This function can be used to log important milestones to GitHub.
