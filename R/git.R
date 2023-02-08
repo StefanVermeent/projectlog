@@ -108,20 +108,29 @@ log_milestone <- function(..., milestone_type, commit_message) {
 #' @export
 log_changes <- function(..., commit_message) {
 
-  if(!gert::user_is_configured()) {
+
+  if(gert::user_is_configured()) {
+
     gert::git_add(...)
+
     tryCatch(
       gert::git_commit(commit_message),
-      error = cli::cli_abort("Failed to commit changes.")
+      error = function(e) {
+        cli::cli_abort("Failed to commit changes.")
+      }
     )
     tryCatch(
       gert::git_push(),
-      error = cli::cli_abort("Faied to push changes to remote repository.")
+      error = function(e) {
+        cli::cli_abort("Faied to push changes to remote repository.")
+      }
     )
 
     latest_commit <- gert::git_log()$commit[[1]]
     git_url <- gert::git_remote_info()$url |> stringr::str_remove("\\.git") |> paste0("/commit/", latest_commit)
 
     cli::cli_alert_success("Commit was successful! To see the commit on Github, go to {.url {git_url}}")
+  } else {
+    cli::cli_abort("Git user is not configured!")
   }
 }
