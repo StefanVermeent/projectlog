@@ -57,7 +57,7 @@ initiate_project <- function(path, project = "single_study", dependencies = "gro
       # Specify names of all required packages
       pkgs <- c('OSgit')
 
-      install.packages('groundhog)
+      install.packages('groundhog')
 
       groundhog.library(pkgs, date = date)
     "
