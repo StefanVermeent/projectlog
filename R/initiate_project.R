@@ -15,14 +15,14 @@
 #' @param ... Additional arguments passed to and from functions.
 #' @return The initial set-up of your project folder.
 #' @export
-initiate_project <- function(path, project = "single_study", dependencies = "groundhog", git_url = "https://github.com/", ...) {
+initiate_project <- function(path, project = "single_study", preregistration = "empty", dependencies = "groundhog", git_url = "https://github.com/", ...) {
 
   dots <- list(...)
 
 
   # Create folder structure -------------------------------------------------
   top_folders <- c("manuscript", "supplement", "project_log")
-  folders <- c("data", "scripts", "preregistrations", "analysis_objects")
+  folders <- c("data", "scripts", "materials", "preregistrations", "analysis_objects")
 
   if(project == "single_study") {
     purrr::map(top_folders, function(x) {
@@ -90,7 +90,15 @@ initiate_project <- function(path, project = "single_study", dependencies = "gro
   writeLines(readme, con = file.path(path,"README.Rmd"))
 
 
-  # Write files -------------------------------------------------------------
+  # Write preregistration ---------------------------------------------------
+  cli::cli_h1("Add necessary files")
+
+  add_preregistration(path, preregistration)
+
+
+
+
+
 
   # TODO: Preregistration
   # TODO: Registered report
@@ -146,10 +154,12 @@ initiate_project <- function(path, project = "single_study", dependencies = "gro
 
   cli::cli_h1("Connect to remote repository")
   # TODO: validate git url
-  valid_repo = TRUE
 
-  if(use_git & valid_repo) {
 
+  valid_repo <- is_valid_url(url = git_url)
+
+  if(!valid_repo) {
+    cli::cli_abort("{git_url} is not a valid ")
   }
 
   cli::cli_alert_info("Trying with url '{git_url}'")
@@ -166,6 +176,8 @@ initiate_project <- function(path, project = "single_study", dependencies = "gro
     )
     cli::cli_alert_success("Succesfully connected to remote repository!")
   }
+
+  cli::cli_alert_info("Opening your new project...")
 }
 
 

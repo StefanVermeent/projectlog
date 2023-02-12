@@ -70,7 +70,7 @@ has_git <- function(){
 #' Here, you can give more detailed information about the nature of the changes.
 #' @return Nothing. This function is called for its side-effects.
 #' @export
-log_milestone <- function(..., milestone_type, commit_message) {
+log_milestone_misc <- function(..., milestone_type, commit_message) {
 
   if(grepl(milestone_type, "\\s")) {
 
@@ -79,6 +79,15 @@ log_milestone <- function(..., milestone_type, commit_message) {
   }
 
   if(gert::user_is_configured()) {
+
+    files <- as.list(...) |>
+      unlist()
+
+    if(any(!file.exists(files))) {
+      error_files <- files[!file.exists(files)]
+      cli::cli_abort("Could not find the following specified file{?s} in your project: {error_files}")
+    }
+
     gert::git_add(...)
     tryCatch(
       gert::git_commit(paste("MILESTONE", milestone_type, commit_message)),
@@ -102,6 +111,19 @@ log_milestone <- function(..., milestone_type, commit_message) {
   }
 }
 
+log_milestone_prereg <- function() {
+
+}
+
+log_milestone_submission <- function() {
+
+}
+
+log_milestone_code <- function() {
+
+}
+
+
 #' Log changes to git
 #'
 #' This function can be used to log any changes to files to GitHub.
@@ -124,6 +146,14 @@ log_changes <- function(..., commit_message) {
 
   if(gert::user_is_configured()) {
 
+    files <- as.list(...) |>
+      unlist()
+
+      if(any(!file.exists(files))) {
+        error_files <- files[!file.exists(files)]
+        cli::cli_abort("Could not find the following specified file{?s} in your project: {error_files}")
+      }
+
     gert::git_add(...)
 
     tryCatch(
@@ -140,7 +170,7 @@ log_changes <- function(..., commit_message) {
     )
 
     latest_commit <- gert::git_log()$commit[[1]]
-    git_url <- gert::git_remote_info()$url |> stringr::str_remove("\\.git") |> paste0("/commit/", latest_commit)
+    git_url <- gert::git_remote_info()$url |> sub(x = _, pattern = "\\.git", replacement = "") |> paste0("/commit/", latest_commit)
 
     cli::cli_alert_success("Commit was successful! To see the commit on Github, go to {.url {git_url}}")
   } else {
@@ -163,4 +193,14 @@ show_changes <- function() {
   print(status)
 
   return(invisible(status$file))
+}
+
+is_valid_url <- function(url) {
+
+  valid_url <- regexpr(text = git_url, pattern = "((git|ssh|http(s)?)|(git@[\\w\\.]+))(:(//)?)([\\w\\.@\\:/\\-~]+)(\\.git)(/)?")
+  url_exists <- RCurl::url.exists(git_url)
+
+  if(valid_url & url_exists) {
+    TRUE
+  } else FALSE
 }
