@@ -21,15 +21,20 @@ initiate_project <- function(path, project = "single_study", dependencies = "gro
 
 
   # Create folder structure -------------------------------------------------
-  folders <- c("data", "scripts", "preregistrations", "manuscript", "supplement", "analysis_objects", "project_log")
+  top_folders <- c("manuscript", "supplement", "project_log")
+  folders <- c("data", "scripts", "preregistrations", "analysis_objects")
 
   if(project == "single_study") {
-    purrr::map(folders, function(x) {
+    purrr::map(top_folders, function(x) {
       dir.create(file.path(path,x), recursive = TRUE)
     })
   }
 
   if(project == "multistudy") {
+    dir.create(file.path(path,"study1"), recursive = TRUE)
+    purrr::map(top_folders, function(x) {
+      dir.create(file.path(path, x), recursive = TRUE)
+    })
     purrr::map(folders, function(x) {
       dir.create(file.path(path,"study1", x), recursive = TRUE)
     })
@@ -49,7 +54,13 @@ initiate_project <- function(path, project = "single_study", dependencies = "gro
 
   # Manage package dependencies ---------------------------------------------
   if(dependencies == "groundhog") {
-
+    tryCatch(
+      library(groundhog),
+      error = function(e) {
+        unlink(path, recursive = TRUE, force = T)
+        cli::cli_abort("Could not use the 'groundhog' package as it does not seem to be installed. Try 'install.packages('groundhog')' first.")
+      }
+    )
     groundhog_script <-
       "
       # Specify the date for which packages need to be installed
@@ -68,8 +79,12 @@ initiate_project <- function(path, project = "single_study", dependencies = "gro
 
     tryCatch(
       library(renv),
-      error = cli::cli_abort("Package 'renv' not found. Try 'install.packages('renv')' first.")
+      error = function(e) {
+        unlink(path, recursive = TRUE, force = T)
+        cli::cli_abort("Could not use the 'renv' package as it does not seem to be installed. Try 'install.packages('renv')' first.")
+      }
     )
+    renv::init()
   }
 
   writeLines(readme, con = file.path(path,"README.Rmd"))
@@ -81,6 +96,19 @@ initiate_project <- function(path, project = "single_study", dependencies = "gro
   # TODO: Registered report
   # TODO: README
 
+  # Create R Markdown file
+  rmarkdown::draft(
+    "my_preregistration.Rmd"
+    , "cos_prereg"
+    , package = "prereg"
+    , create_dir = FALSE
+    , edit = FALSE
+  )
+
+  # Render file
+  rmarkdown::render("my_preregistration.Rmd")
+
+
 
   # Link Git ----------------------------------------------------------------
 
@@ -88,7 +116,9 @@ initiate_project <- function(path, project = "single_study", dependencies = "gro
   cli::cli_h1("Configuring Git")
   use_git <- has_git()
   if(!use_git){
+    unlink(path, recursive = TRUE, force = T)
     cli::cli_abort("Could not find a working installation of 'Git'")
+
   } else {
     cli::cli_alert_info("Working version of Git found!")
     gert::git_init(path = path)
@@ -103,6 +133,7 @@ initiate_project <- function(path, project = "single_study", dependencies = "gro
       gert::git_commit(message = "Initial commit", repo = path)
       cli::cli_alert_info("Creating first commit of the project.")
     }, error = function(e){
+      unlink(path, recursive = TRUE, force = T)
       cli::cli_abort("Failed to create first commit of the project.")
     })
   }
@@ -129,6 +160,7 @@ initiate_project <- function(path, project = "single_study", dependencies = "gro
       gert::git_remote_add(url = git_url, name = "origin", repo = path),
 
       error = function(e) {
+        unlink(path, recursive = TRUE, force = T)
         cli::cli_abort("Failed to connect to the remote Github repository that you specified. (the temp message)")
       }
     )
