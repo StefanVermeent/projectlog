@@ -15,21 +15,21 @@ read_data <- function(file, read_fun, col_select = NULL, row_filter = NULL, row_
       cli::cli_alert_info("Using function {read_fun}() from the `readr` package.")
     }
   } else {
-    input <- stringr::str_split(read_fun, "::", simplify = T)
+    input <- strsplit(read_fun, "::")
 
     tryCatch(
-      input[1,1] %in% .packages(TRUE),
-      error = cli::cli_abort("There is no package called '{input[1,1]}'. Try install.packages('{input[1,1]}') first.")
+      input[[1]][1] %in% .packages(TRUE),
+      error = cli::cli_abort("There is no package called '{input[[1]][1]}'. Try install.packages('{input[[1]][1]}') first.")
     )
 
-    if(!input[1,1] %in% .packages(TRUE)) {
-      cli::cli_abort("Package `{input[1,1]}` not found. Try install_packages('{input[1,1]}') first.")
+    if(!input[[1]][1] %in% .packages(TRUE)) {
+      cli::cli_abort("Package `{input[[1]][1]}` not found. Try install_packages('{input[[1]][1]}') first.")
     }
-    if(!input[1,2] %in% ls(glue::glue("package:{input[1,1]}"))) {
-      cli::cli_abort("'{input[1,2]}' is not a valid function in package `{input[1,1]}`. Did you make a typo?")
+    if(!input[[1]][2] %in% ls(glue::glue("package:{input[[1]][1]}"))) {
+      cli::cli_abort("'{input[[1]][2]}' is not a valid function in package `{input[[1]][1]}`. Did you make a typo?")
     }
 
-    cli::cli_alert_info("Using function {input[1,2]}() from the '{input[1,1]}' package.")
+    cli::cli_alert_info("Using function {input[[1]][2]}() from the '{input[[1]][1]}' package.")
   }
 
 
@@ -53,14 +53,13 @@ read_data <- function(file, read_fun, col_select = NULL, row_filter = NULL, row_
 
   code <- list()
 
-  code$read = ifelse(stringr::str_detect(read_fun, "::"), read_fun, paste0("readr::", read_fun)) |>
+  code$read = ifelse(grepl(x = read_fun, pattern = "::"), read_fun, paste0("readr::", read_fun)) |>
     paste0("('", file, "', ", col_select, ", ", dots_chr, ")")
   code$filter = paste0("dplyr::filter(", as.character(row_filter), ")")
   code$shuffle = paste0("shuffle(data = _, shuffle_vars = ", row_shuffle, ", long_format = ", long_format, ", seed = ", seed, ")")
 
 
   pipeline_chr <- code |>
-    purrr::compact() |>
     paste(collapse = " |> ")
 
   cli::cli_alert_info("The following code will be executed: {pipeline_chr}", wrap = T)

@@ -48,9 +48,10 @@ has_git <- function(){
   })
 }
 
-#' Log a milestone to git
+#' Log a custom milestone to git
 #'
-#' This function can be used to log important milestones to GitHub.
+#' This function can be used to log important milestones to GitHub that are
+#' not covered by any of the log_milestone.
 #' For example, you could use this function to commit the final version of
 #' a preregistration or to commit a submission to a scientific journal.
 #' see \code{\link[OSgit::log_changes]{OSgit::log_changes}} for a very similar function that
@@ -73,34 +74,30 @@ has_git <- function(){
 log_milestone_misc <- function(..., milestone_type, commit_message) {
 
   if(grepl(milestone_type, "\\s")) {
-
     adjusted <- gsub(x = milestone_type, pattern = "\\s", replacement = "_")
     cli::cli_abort("Spaces are not allowed in 'milestone_type'. You could try '{adjusted}' instead.")
   }
 
   if(gert::user_is_configured()) {
 
-    files <- as.list(...) |>
-      unlist()
+      validate_files(...)
+      gert::git_add(...)
+      commit_push(commit_message = paste("MILESTONE", milestone_type, commit_message))
 
-    if(any(!file.exists(files))) {
-      error_files <- files[!file.exists(files)]
-      cli::cli_abort("Could not find the following specified file{?s} in your project: {error_files}")
+      latest_commit <- gert::git_log()$commit[[1]]
+      git_url <- gert::git_remote_info()$url |> stringr::str_remove("\\.git") |> paste0("/commit/", latest_commit)
+
+      cli::cli_alert_success("Commit was successful! To see the commit on Github, go to {.url {git_url}}")
+    } else {
+      cli::cli_abort("Git user is not configured!")
     }
+}
 
+log_milestone_prereg <- function() {
+  if(gert::user_is_configured()) {
+    validate_files(...)
     gert::git_add(...)
-    tryCatch(
-      gert::git_commit(paste("MILESTONE", milestone_type, commit_message)),
-      error = function(e) {
-        cli::cli_abort("Failed to commit changes.")
-      }
-    )
-    tryCatch(
-      gert::git_push(),
-      error = function(e) {
-        cli::cli_abort("Failed to push changes to remote repository.")
-      }
-    )
+    commit_push(commit_message = paste("MILESTONE prereg", commit_message))
 
     latest_commit <- gert::git_log()$commit[[1]]
     git_url <- gert::git_remote_info()$url |> stringr::str_remove("\\.git") |> paste0("/commit/", latest_commit)
@@ -111,12 +108,19 @@ log_milestone_misc <- function(..., milestone_type, commit_message) {
   }
 }
 
-log_milestone_prereg <- function() {
+log_milestone_submission <- function(..., commit_message = "") {
+  if(gert::user_is_configured()) {
+    validate_files(...)
+    gert::git_add(...)
+    commit_push(commit_message = paste("MILESTONE submission", commit_message))
 
-}
+    latest_commit <- gert::git_log()$commit[[1]]
+    git_url <- gert::git_remote_info()$url |> stringr::str_remove("\\.git") |> paste0("/commit/", latest_commit)
 
-log_milestone_submission <- function() {
-
+    cli::cli_alert_success("Commit was successful! To see the commit on Github, go to {.url {git_url}}")
+  } else {
+    cli::cli_abort("Git user is not configured!")
+  }
 }
 
 log_milestone_code <- function() {
@@ -128,7 +132,7 @@ log_milestone_code <- function() {
 #'
 #' This function can be used to log any changes to files to GitHub.
 #' It should be used for any changes that do not constitute major
-#' milestones (e.g., timestamping a preregistration). For milestone commits,
+#' milestones, such as regular code updates. For milestone commits,
 #' use \code{\link[OSgit::log_changes]{OSgit::log_changes}}.
 #' You can use this function routinely to update the remote Github repository
 #' with your latest changes. This way, you make sure that the changes are
@@ -143,34 +147,13 @@ log_milestone_code <- function() {
 #' @export
 log_changes <- function(..., commit_message) {
 
-
   if(gert::user_is_configured()) {
-
-    files <- as.list(...) |>
-      unlist()
-
-      if(any(!file.exists(files))) {
-        error_files <- files[!file.exists(files)]
-        cli::cli_abort("Could not find the following specified file{?s} in your project: {error_files}")
-      }
-
+    validate_files(...)
     gert::git_add(...)
-
-    tryCatch(
-      gert::git_commit(commit_message),
-      error = function(e) {
-        cli::cli_abort("Failed to commit changes.")
-      }
-    )
-    tryCatch(
-      gert::git_push(),
-      error = function(e) {
-        cli::cli_abort("Failed to push changes to remote repository.")
-      }
-    )
+    commit_push(commit_message = paste(commit_message))
 
     latest_commit <- gert::git_log()$commit[[1]]
-    git_url <- gert::git_remote_info()$url |> sub(x = _, pattern = "\\.git", replacement = "") |> paste0("/commit/", latest_commit)
+    git_url <- gert::git_remote_info()$url |> stringr::str_remove("\\.git") |> paste0("/commit/", latest_commit)
 
     cli::cli_alert_success("Commit was successful! To see the commit on Github, go to {.url {git_url}}")
   } else {
@@ -203,4 +186,21 @@ is_valid_url <- function(url) {
   if(valid_url & url_exists) {
     TRUE
   } else FALSE
+}
+
+
+commit_push <- function(commit_message) {
+
+  tryCatch(
+    gert::git_commit(commit_message),
+    error = function(e) {
+      cli::cli_abort("Failed to commit changes.")
+    }
+  )
+  tryCatch(
+    gert::git_push(),
+    error = function(e) {
+      cli::cli_abort("Failed to push changes to remote repository.")
+    }
+  )
 }

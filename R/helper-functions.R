@@ -31,3 +31,13 @@ shuffle <- function(data, shuffle_vars, long_format, seed = seed) {
 
   data
 }
+
+validate_files <- function(...) {
+  files <- as.list(...) |>
+    unlist()
+
+  if(any(!file.exists(files))) {
+    error_files <- files[!file.exists(files)]
+    cli::cli_abort("Could not find the following specified file{?s} in your project: {error_files}")
+  }
+}

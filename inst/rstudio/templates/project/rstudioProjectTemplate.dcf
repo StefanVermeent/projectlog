@@ -12,8 +12,15 @@ Position: left
 Parameter: dependencies
 Widget: SelectInput
 Label: How to track package dependencies
-Fields: renv, groundhog
+Fields: renv, groundhog, none
 Default: groundhog
+Position: left
+
+Parameter: preregistration
+Widget: SelectInput
+Label: Specify preregistration template
+Fields: empty, aspredicted, brandt, cos, fmri, prp_quant, psyquant, rr, vantveer, secondary
+Default: empty
 Position: left
 
 Parameter: git_url
@@ -21,3 +28,4 @@ Widget: TextInput
 Label: The URL to your Git Repository (https://github.com/<username>/<repo_name>.git)
 Position: left
 Default: https://github.com/
+
