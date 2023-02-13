@@ -21,7 +21,7 @@ Nothing. This function is called for its side-effects.
 \description{
 This function can be used to log any changes to files to GitHub.
 It should be used for any changes that do not constitute major
-milestones (e.g., timestamping a preregistration). For milestone commits,
+milestones, such as regular code updates. For milestone commits,
 use \code{\link[OSgit::log_changes]{OSgit::log_changes}}.
 You can use this function routinely to update the remote Github repository
 with your latest changes. This way, you make sure that the changes are

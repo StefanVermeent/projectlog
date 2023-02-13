@@ -7,6 +7,7 @@
 initiate_project(
   path,
   project = "single_study",
+  preregistration = "empty",
   dependencies = "groundhog",
   git_url = "https://github.com/",
   ...
