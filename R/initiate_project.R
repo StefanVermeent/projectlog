@@ -95,11 +95,6 @@ initiate_project <- function(path, project = "single_study", preregistration = "
 
   add_preregistration(path, preregistration)
 
-
-
-
-
-
   # TODO: Preregistration
   # TODO: Registered report
   # TODO: README
@@ -153,8 +148,6 @@ initiate_project <- function(path, project = "single_study", preregistration = "
 # Connect to remote repository --------------------------------------------
 
   cli::cli_h1("Connect to remote repository")
-  # TODO: validate git url
-
 
   valid_repo <- is_valid_url(url = git_url)
 
@@ -171,7 +164,7 @@ initiate_project <- function(path, project = "single_study", preregistration = "
 
       error = function(e) {
         unlink(path, recursive = TRUE, force = T)
-        cli::cli_abort("Failed to connect to the remote Github repository that you specified. (the temp message)")
+        cli::cli_abort("Failed to connect to the remote Github repository that you specified.")
       }
     )
     cli::cli_alert_success("Succesfully connected to remote repository!")

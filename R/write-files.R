@@ -16,6 +16,17 @@ add_preregistration <- function(path, template) {
     )
   } else {
     if(template == "empty") {
+      file.copy(
+        from = "inst/rstudio/templates/project/resources/prereg_empty.Rmd",
+        to = file.path(prereg_path, "preregistration.Rmd")
+      )
+    }
+
+    if(template == "secondary") {
+      file.copy(
+        from = "inst/rstudio/templates/project/resources/secondary.Rmd",
+        to = file.path(prereg_path, "preregistration.Rmd")
+      )
     }
   }
 }

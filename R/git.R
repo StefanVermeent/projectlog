@@ -123,8 +123,19 @@ log_milestone_submission <- function(..., commit_message = "") {
   }
 }
 
-log_milestone_code <- function() {
+log_milestone_code <- function(..., commit_message = "") {
+  if(gert::user_is_configured()) {
+    validate_files(...)
+    gert::git_add(...)
+    commit_push(commit_message = paste("MILESTONE code", commit_message))
 
+    latest_commit <- gert::git_log()$commit[[1]]
+    git_url <- gert::git_remote_info()$url |> stringr::str_remove("\\.git") |> paste0("/commit/", latest_commit)
+
+    cli::cli_alert_success("Commit was successful! To see the commit on Github, go to {.url {git_url}}")
+  } else {
+    cli::cli_abort("Git user is not configured!")
+  }
 }
 
 
