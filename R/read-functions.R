@@ -1,8 +1,8 @@
 #' @title Read a data file into a tibble and log data access on GitHub
 #' @description This is a wrapper around any specified function for
 #' reading in data files. Upon accessing the data file, it checks the file
-#' against the history of previously accessed data files (through it's MD5 hash)
-#' to assess whether it constitutes first-time access the the data. If so, it
+#' against the history of previously accessed data files (through its MD5 hash)
+#' to assess whether it constitutes first-time access to the data. If so, it
 #' automatically logs this event on GitHub (after prompting the user). This is
 #' useful if you want to show in your log that you accessed parts of your data
 #' in a particular order (e.g., you first accessed your independent variables
@@ -138,9 +138,20 @@ read_data <- function(file, read_fun, col_select = NULL, row_filter = NULL, row_
       paste(data_hash, sep = "\n") |>
       readr::write_file("project_log/MD5")
 
-    log_milestone("project_log/MD5", milestone_type = "data_access", commit_message = commit_message)
+    tryCatch(
+      log_milestone("project_log/MD5", milestone_type = "data_access", commit_message = commit_message),
+      error = function(e) {
+        readr::read_file("project_log/MD5") |>
+          gsub(x = _, pattern = paste0("\n", data_hash), replacement = "") |>
+          readr::write_file("project_log/MD5")
+        cli::cli_abort("Failed to commit data access to remote GitHub repository. Reverting changes to MD5 file...")
+      }
+    )
 
+    return(data)
   }
+  cli::cli_alert_info("Data file was accessed before, so no commit will be initiated.")
+  return(data)
 }
 
 

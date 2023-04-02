@@ -29,3 +29,9 @@ Label: The URL to your Git Repository (https://github.com/<username>/<repo_name>
 Position: left
 Default: https://github.com/
 
+Parameter: private
+Widget: SelectInput
+Label: Should the GitHub Repository be set to Private or Public?
+Fields: TRUE, FALSE
+Position: right
+Default: TRUE

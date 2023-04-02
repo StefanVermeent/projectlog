@@ -15,14 +15,14 @@
 #' @param ... Additional arguments passed to and from functions.
 #' @return The initial set-up of your project folder.
 #' @export
-initiate_project <- function(path, project = "single_study", preregistration = "empty", dependencies = "groundhog", git_url = "https://github.com/", ...) {
+initiate_project <- function(path, project = "single_study", preregistration = "empty", dependencies = "groundhog", git_url = "https://github.com/", private = TRUE, ...) {
 
   dots <- list(...)
 
 
   # Create folder structure -------------------------------------------------
-  top_folders <- c("manuscript", "supplement", "project_log")
-  folders <- c("data", "scripts", "materials", "preregistrations", "analysis_objects")
+  top_folders <- c("manuscript", "supplement", "project_log", "preregistrations")
+  folders <- c("data", "scripts", "materials", "analysis_objects")
 
   if(project == "single_study") {
     purrr::map(top_folders, function(x) {
@@ -99,19 +99,6 @@ initiate_project <- function(path, project = "single_study", preregistration = "
   # TODO: Registered report
   # TODO: README
 
-  # Create R Markdown file
-  rmarkdown::draft(
-    "my_preregistration.Rmd"
-    , "cos_prereg"
-    , package = "prereg"
-    , create_dir = FALSE
-    , edit = FALSE
-  )
-
-  # Render file
-  rmarkdown::render("my_preregistration.Rmd")
-
-
 
   # Link Git ----------------------------------------------------------------
 
@@ -128,49 +115,19 @@ initiate_project <- function(path, project = "single_study", preregistration = "
   }
   cli::cli_alert_success("Git was configured successfully.")
 
+  # Switch to new project and manually create an .Rproj file
+  setwd(path)
+  add_rproj(path)
 
-  # Create first commit
-  if(use_git){
-    tryCatch({
-      gert::git_add(files = ".", repo = path)
-      gert::git_commit(message = "Initial commit", repo = path)
-      cli::cli_alert_info("Creating first commit of the project.")
-    }, error = function(e){
-      unlink(path, recursive = TRUE, force = T)
-      cli::cli_abort("Failed to create first commit of the project.")
-    })
-  }
+  # Create local git repository
+  usethis::use_git(message = "Initial commit")
 
-  cli::cli_alert_success("First commit was created succesfully.")
-
-
-
-# Connect to remote repository --------------------------------------------
-
-  cli::cli_h1("Connect to remote repository")
-
-  valid_repo <- is_valid_url(url = git_url)
-
-  if(!valid_repo) {
-    cli::cli_abort("{git_url} is not a valid ")
-  }
-
-  cli::cli_alert_info("Trying with url '{git_url}'")
-
-  if(use_git & valid_repo){
-
-    tryCatch(
-      gert::git_remote_add(url = git_url, name = "origin", repo = path),
-
-      error = function(e) {
-        unlink(path, recursive = TRUE, force = T)
-        cli::cli_abort("Failed to connect to the remote Github repository that you specified.")
-      }
-    )
-    cli::cli_alert_success("Succesfully connected to remote repository!")
-  }
-
-  cli::cli_alert_info("Opening your new project...")
+  # Create remote git repository
+  usethis::use_github(
+    private = TRUE,
+    protocol = 'https',
+    host = git_url
+  )
 }
 
 
