@@ -45,10 +45,12 @@ initiate_project <- function(path, project = "single_study", preregistration = "
   }
 
   if(project == "registered_report") {
-    purrr::map(folders, function(x) {
-      dir.create(file.path(path,x), recursive = TRUE)
-    })
+    dir.create(file.path(path,"supplement"), recursive = TRUE)
+    dir.create(file.path(path,"project_log"), recursive = TRUE)
     dir.create(file.path(path,"registered_report"))
+    purrr::map(folders, function(x) {
+      dir.create(file.path(path, x), recursive = TRUE)
+    })
   }
 
   writeLines("", con = file.path(path,"project_log/MD5"))
