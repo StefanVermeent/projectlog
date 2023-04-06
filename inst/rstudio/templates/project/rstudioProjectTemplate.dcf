@@ -26,6 +26,6 @@ Position: left
 Parameter: private_repo
 Widget: SelectInput
 Label: Should the GitHub Repository be set to Private or Public?
-Fields: TRUE, FALSE
-Position: right
-Default: TRUE
+Fields: yes, no
+Position: left
+Default: yes
