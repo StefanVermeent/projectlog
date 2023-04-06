@@ -1,0 +1,7 @@
+---
+title           : "Title here"
+shorttitle      : "Short title here"
+date            : "date here"
+authors           : "authors here"
+---
+
