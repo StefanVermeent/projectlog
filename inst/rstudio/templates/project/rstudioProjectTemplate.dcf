@@ -23,13 +23,7 @@ Fields: empty, aspredicted, brandt, cos, fmri, prp_quant, psyquant, rr, vantveer
 Default: empty
 Position: left
 
-Parameter: git_url
-Widget: TextInput
-Label: The URL to your Git Repository (https://github.com/<username>/<repo_name>.git)
-Position: left
-Default: https://github.com/
-
-Parameter: private
+Parameter: private_repo
 Widget: SelectInput
 Label: Should the GitHub Repository be set to Private or Public?
 Fields: TRUE, FALSE
