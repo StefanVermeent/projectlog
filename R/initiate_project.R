@@ -99,7 +99,7 @@ initiate_project <- function(path, project = "single_study", preregistration = "
   cli::cli_h1("Add necessary files")
   add_readme(path = path)
   add_preregistration(path, preregistration)
-  if(project==registered_report) {
+  if(project=='registered_report') {
     add_registered_report(path = path)
   }
 
