@@ -15,7 +15,7 @@
 #' @param ... Additional arguments passed to and from functions.
 #' @return The initial set-up of your project folder.
 #' @export
-initiate_project <- function(path, project = "single_study", preregistration = "empty", dependencies = "groundhog", git_url = "https://github.com/", private = TRUE, ...) {
+initiate_project <- function(path, project = "single_study", preregistration = "empty", dependencies = "groundhog", private_repo = TRUE, ...) {
 
   dots <- list(...)
 
@@ -28,6 +28,10 @@ initiate_project <- function(path, project = "single_study", preregistration = "
     purrr::map(top_folders, function(x) {
       dir.create(file.path(path,x), recursive = TRUE)
     })
+    purrr::map(folders, function(x) {
+      dir.create(file.path(path,x), recursive = TRUE)
+    })
+
   }
 
   if(project == "multistudy") {
@@ -90,14 +94,12 @@ initiate_project <- function(path, project = "single_study", preregistration = "
   writeLines(readme, con = file.path(path,"README.Rmd"))
 
 
-  # Write preregistration ---------------------------------------------------
+
+# Write necessary files ---------------------------------------------------
   cli::cli_h1("Add necessary files")
-
+  add_readme(path = path)
   add_preregistration(path, preregistration)
-
-  # TODO: Preregistration
-  # TODO: Registered report
-  # TODO: README
+  if(project==registered_report) add_registered_report(path = path)
 
 
   # Link Git ----------------------------------------------------------------
@@ -125,8 +127,7 @@ initiate_project <- function(path, project = "single_study", preregistration = "
   # Create remote git repository
   usethis::use_github(
     private = TRUE,
-    protocol = 'https',
-    host = git_url
+    protocol = 'https'
   )
 }
 

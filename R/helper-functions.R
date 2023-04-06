@@ -41,3 +41,25 @@ validate_files <- function(...) {
     cli::cli_abort("Could not find the following specified file{?s} in your project: {error_files}")
   }
 }
+
+
+copy_resource <- function(file, from, to) {
+
+  dir_files <- list.files(system.file(from, package = "OSgit"))
+
+  tryCatch(
+    file %in% dir_files,
+    error = function(e) {
+      cli::cli_abort("Could not copy preregistration template to the correct folder.")
+    }
+  )
+  path_to_file <- file.path(system.file(from, package = "OSgit"), file)
+
+  file.copy(
+    from = path_to_file,
+    to = to
+  )
+
+}
+
+

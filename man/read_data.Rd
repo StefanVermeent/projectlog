@@ -47,8 +47,8 @@ MD5 hash overview to GitHub in case of first-time data access.
 \description{
 This is a wrapper around any specified function for
 reading in data files. Upon accessing the data file, it checks the file
-against the history of previously accessed data files (through it's MD5 hash)
-to assess whether it constitutes first-time access the the data. If so, it
+against the history of previously accessed data files (through its MD5 hash)
+to assess whether it constitutes first-time access to the data. If so, it
 automatically logs this event on GitHub (after prompting the user). This is
 useful if you want to show in your log that you accessed parts of your data
 in a particular order (e.g., you first accessed your independent variables

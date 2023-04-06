@@ -1,12 +1,14 @@
 add_readme <- function(path) {
-
-
+  copy_resource(file = 'README.Rmd', from = 'rmd', to = path)
+  cli::cli_alert_success("Added README file.")
 }
 
 
 add_preregistration <- function(path, template) {
 
   prereg_path <- grep(x = list.dirs(path = path), pattern = "preregistrations", value = T)
+  print(prereg_path)
+  print(file.path(prereg_path, "preregistation.Rmd"))
   if(!template %in% c("empty", "secondary")) {
     rmarkdown::draft(
       file = file.path(prereg_path, "preregistration.Rmd"),
@@ -16,36 +18,25 @@ add_preregistration <- function(path, template) {
     )
   } else {
     if(template == "empty") {
-      file.copy(
-        from = "inst/rstudio/templates/project/resources/prereg_empty.Rmd",
-        to = file.path(prereg_path, "preregistration.Rmd")
-      )
+      copy_resource(file = "prereg_empty.rmd", from = "rmd", to = prereg_path)
     }
 
     if(template == "secondary") {
-      file.copy(
-        from = "inst/rstudio/templates/project/resources/secondary.Rmd",
-        to = file.path(prereg_path, "preregistration.Rmd")
-      )
+      copy_resource(file = "secondary.rmd", from = "rmd", to = prereg_path)
     }
   }
+  cli::cli_alert_success("Added preregistration file.")
 }
+
+
 
 add_registered_report <- function(path) {
-
   rr_path <- grep(x = list.dirs(path = path), pattern = "registered_report", value = T)
-
-  file.copy(
-    from = "inst/rstudio/templates/project/resources/registered_report.Rmd",
-    to = file.path(rr_path, "registered_report.Rmd")
-  )
-
-
+  copy_resource(file = "registered_report.Rmd", from = "rmd", to = rr_path)
+  cli::cli_alert_success("Added registered report file.")
 }
 
-add_manuscript <- function(path) {
 
-}
 
 add_rproj <- function(path) {
 
