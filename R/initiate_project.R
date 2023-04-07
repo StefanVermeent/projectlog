@@ -19,7 +19,7 @@ initiate_project <- function(path, project = "single_study", preregistration = "
 
   dots <- list(...)
 
-
+  cli::cli_h1("Create project folder structure")
   # Create folder structure -------------------------------------------------
   top_folders <- c("manuscript", "supplement", "project_log", "preregistrations")
   folders <- c("data", "scripts", "materials", "analysis_objects")
@@ -131,10 +131,10 @@ initiate_project <- function(path, project = "single_study", preregistration = "
   usethis::use_git(message = "Initial commit")
 
   # Create remote git repository
-  usethis::use_github(
-    private = TRUE,
-    protocol = 'https'
-  )
+#  usethis::use_github(
+#    private = TRUE,
+#    protocol = 'https'
+#  )
 }
 
 
