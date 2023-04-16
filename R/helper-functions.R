@@ -36,10 +36,16 @@ validate_files <- function(...) {
   files <- as.list(...) |>
     unlist()
 
+  if(length(files) == 0) files <- "."
+
   if(any(!file.exists(files))) {
     error_files <- files[!file.exists(files)]
     cli::cli_abort("Could not find the following specified file{?s} in your project: {error_files}")
   }
+}
+
+validate_tag <- function(tag) {
+
 }
 
 

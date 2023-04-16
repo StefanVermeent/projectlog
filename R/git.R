@@ -48,7 +48,7 @@ has_git <- function(){
   })
 }
 
-#' Log a custom milestone to git
+#' Log a milestone to git
 #'
 #' This function can be used to log important milestones to GitHub that are
 #' not covered by any of the log_milestone.
@@ -57,7 +57,6 @@ has_git <- function(){
 #' see \code{\link[OSgit::log_changes]{OSgit::log_changes}} for a very similar function that
 #' can be used for more minor commits (i.e., non-milestone changes to your
 #' project.)
-#'
 #' @param ... Character, a vector of files that you want to commit.
 #' Use "." to commit all changed files. Use \code{\link[gert::git_status]{gert::git_status()}}
 #' to get an overview of all the files that have been changed since the
@@ -71,73 +70,15 @@ has_git <- function(){
 #' Here, you can give more detailed information about the nature of the changes.
 #' @return Nothing. This function is called for its side-effects.
 #' @export
-log_milestone_misc <- function(..., milestone_type, commit_message) {
-
-  if(grepl(milestone_type, "\\s")) {
-    adjusted <- gsub(x = milestone_type, pattern = "\\s", replacement = "_")
-    cli::cli_abort("Spaces are not allowed in 'milestone_type'. You could try '{adjusted}' instead.")
-  }
-
-  if(gert::user_is_configured()) {
-
-      validate_files(...)
-      gert::git_add(...)
-      commit_push(commit_message = paste("MILESTONE", milestone_type, commit_message))
-
-      latest_commit <- gert::git_log()$commit[[1]]
-      git_url <- gert::git_remote_info()$url |> stringr::str_remove("\\.git") |> paste0("/commit/", latest_commit)
-
-      cli::cli_alert_success("Commit was successful! To see the commit on Github, go to {.url {git_url}}")
-    } else {
-      cli::cli_abort("Git user is not configured!")
-    }
-}
-
-log_milestone_prereg <- function() {
+log_milestone <- function(..., commit_message, tag) {
   if(gert::user_is_configured()) {
     validate_files(...)
+    validate_tag(tag)
     gert::git_add(...)
-    commit_push(commit_message = paste("MILESTONE prereg", commit_message))
-
-    latest_commit <- gert::git_log()$commit[[1]]
-    git_url <- gert::git_remote_info()$url |> stringr::str_remove("\\.git") |> paste0("/commit/", latest_commit)
-
-    cli::cli_alert_success("Commit was successful! To see the commit on Github, go to {.url {git_url}}")
-  } else {
-    cli::cli_abort("Git user is not configured!")
+    commit_tag_push(tag = tag, commit_message = commit_message)
   }
+
 }
-
-log_milestone_submission <- function(..., commit_message = "") {
-  if(gert::user_is_configured()) {
-    validate_files(...)
-    gert::git_add(...)
-    commit_push(commit_message = paste("MILESTONE submission", commit_message))
-
-    latest_commit <- gert::git_log()$commit[[1]]
-    git_url <- gert::git_remote_info()$url |> stringr::str_remove("\\.git") |> paste0("/commit/", latest_commit)
-
-    cli::cli_alert_success("Commit was successful! To see the commit on Github, go to {.url {git_url}}")
-  } else {
-    cli::cli_abort("Git user is not configured!")
-  }
-}
-
-log_milestone_code <- function(..., commit_message = "") {
-  if(gert::user_is_configured()) {
-    validate_files(...)
-    gert::git_add(...)
-    commit_push(commit_message = paste("MILESTONE code", commit_message))
-
-    laftest_commit <- gert::git_log()$commit[[1]]
-    git_url <- gert::git_remote_info()$url |> stringr::str_remove("\\.git") |> paste0("/commit/", latest_commit)
-
-    cli::cli_alert_success("Commit was successful! To see the commit on Github, go to {.url {git_url}}")
-  } else {
-    cli::cli_abort("Git user is not configured!")
-  }
-}
-
 
 #' Log changes to git
 #'
@@ -156,11 +97,11 @@ log_milestone_code <- function(..., commit_message = "") {
 #' Here, you can give more detailed information about the nature of the changes.
 #' @return Nothing. This function is called for its side-effects.
 #' @export
-log_changes <- function(..., commit_message) {
+log_changes <- function(files = ".", commit_message) {
 
   if(gert::user_is_configured()) {
-    validate_files(...)
-    gert::git_add(...)
+    validate_files(files)
+    gert::git_add(files)
     commit_push(commit_message = paste(commit_message))
 
     latest_commit <- gert::git_log()$commit[[1]]
@@ -203,15 +144,70 @@ is_valid_url <- function(url) {
 commit_push <- function(commit_message) {
 
   tryCatch(
-    gert::git_commit(commit_message),
+    commit <- gert::git_commit(commit_message),
     error = function(e) {
       cli::cli_abort("Failed to commit changes.")
     }
   )
+
+  git_tag_create(name = )
+
   tryCatch(
     gert::git_push(),
     error = function(e) {
       cli::cli_abort("Failed to push changes to remote repository.")
     }
   )
+
+  tryCatch(
+    gert::git_tag(),
+    error = function(e) {
+      cli::cli_abort("Failed to push changes to remote repository.")
+    }
+  )
 }
+
+
+commit_tag_push <- function(tag, commit_message) {
+
+  matching_tags <- gert::git_tag_list()$name |>
+    gsub(pattern = "[0-9]*$", replacement = "") |>
+    grepl(pattern = tag) |>
+    sum()
+
+  cli::cli_h1("Searching for existing project milestones")
+  cli::cli_alert_info("The following existing milestone tags were found:")
+  cli::cli_ul(cli::col_blue(gert::git_tag_list()$name |> gsub(pattern = "[0-9]*$", replacement = "") |> unique()))
+
+  if(matching_tags > 0) {
+    tag <- paste0(tag,matching_tags)
+  } else {
+    if(!usethis::ui_yeah(paste0("You have not used the tag '", cli::col_blue(tag), "' before. Are you sure you want to continue?"))) {
+      return(cli::cli_alert_info("No changes were committed."))
+    }
+  }
+
+  tryCatch(
+    commit <- gert::git_commit(commit_message),
+    gert::git_tag_create(name = tag, message = '', ref = commit, repo = '.'),
+    gert::git_tag_push(name = tag, repo = "."),
+
+    error = function(e) {
+      cli::cli_abort("Failed to commit and/or tag changes.")
+    }
+  )
+
+  tryCatch(
+    gert::git_push(),
+    error = function(e) {
+      cli::cli_abort("Failed to push changes to remote repository.")
+    }
+  )
+
+  cli::cli_bullets(c(
+    "v" = "All changes were pushed to the remote repository.",
+    "v" = paste("Tag",cli::col_blue(tag),"was succesfully created."),
+    "i" = paste0("Go to", gert::git_remote_list()$url |> gsub(x = _, pattern = "\\.git$", replacement = ""), "/commit/", commit)
+  ))
+}
+

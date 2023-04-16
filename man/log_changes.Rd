@@ -4,16 +4,16 @@
 \alias{log_changes}
 \title{Log changes to git}
 \usage{
-log_changes(..., commit_message)
+log_changes(files = ".", commit_message)
 }
 \arguments{
+\item{commit_message}{A message that will be added to your commit to Github.
+Here, you can give more detailed information about the nature of the changes.}
+
 \item{...}{Character, a vector of files that you want to commit.
 Use "." to commit all changed files. Use \code{\link[gert::git_status]{gert::git_status()}}
 to get an overview of all the files that have been changed since the
 last commit.}
-
-\item{commit_message}{A message that will be added to your commit to Github.
-Here, you can give more detailed information about the nature of the changes.}
 }
 \value{
 Nothing. This function is called for its side-effects.

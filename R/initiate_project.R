@@ -11,7 +11,7 @@
 #' @param dependencies Character, indicates whether and how you want to keep track
 #' of package dependencies. Options include \code{\link[renv]{init}},
 #' \code{\link[groundhog]{groundhog}}, or 'none'.
-#' @param git_url Character, url of your remote git repository.
+#' @param private_repo Logical, Should the created GitHub repository be private or public?
 #' @param ... Additional arguments passed to and from functions.
 #' @return The initial set-up of your project folder.
 #' @export
