@@ -30,10 +30,20 @@ knitr::opts_chunk$set(
 
 You can install the development version of `OSgit` from GitHub as follows:
 
-```{r}
+```{r message=FALSE}
 # install.packages('devtools')
 devtools::install_github("StefanVermeent/OSgit")
 ```
+
+# Before we start... Setting up Git
+
+One of the main aims of OSgit is that it can be used by people who are not (intimately) familiar with Git or GitHub.
+However, you will still need to to three things to ensure that OSgit works properly:<br>
+    (1) Create a free account on [GitHub](https://github.com/join)<br>
+    (2) Install [Git](https://git-scm.com/downloads) on your device<br>
+    (3) Make sure R knows where to find git on your device<br>
+    
+These three steps are described in more detail in the Git vignette (TBD).
 
 # Main components
 
