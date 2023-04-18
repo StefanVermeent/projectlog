@@ -30,33 +30,34 @@
 read_data <- function(file, read_fun, col_select = NULL, row_filter = NULL, row_shuffle = NULL, long_format = FALSE, seed = 3985843, ...) {
 
   # Validate input
+  read_fun <- read_fun |> gsub(pattern="\\(|\\)", replacement = "")
 
   if(!file.exists(file)) {
-    cli::cli_abort("file not found in directory.")
+    cli::cli_abort(paste("The file", cli::col_blue(file.path(getwd(), file)), "was not found in your project directory."))
   }
 
   if(stringr::str_detect(read_fun, "::", negate = TRUE)) {
     if(!read_fun %in% ls("package:readr")) {
-      cli::cli_abort("{read_fun} is not a valid function in package `readr`. Check your input for typos. If the function is part of another package than `readr`, specify the package name explicitly (e.g., 'haven::read_spss')")
+      cli::cli_abort(paste0(cli::col_blue("`{read_fun}()`"), " is not a valid function in package ", cli::col_red("`readr`"),". Check your input for typos. If the function is part of another package than ", cli::col_red("`readr`"),", specify the package name explicitly (e.g., '", cli::col_red('haven::read_spss'),"')."))
     } else {
-      cli::cli_alert_info("Using function {read_fun}() from the `readr` package.")
+      cli::cli_alert_info(paste("Using function", cli::col_blue('`{read_fun}`'), "from the", cli::col_red('`readr`'), "package."))
     }
   } else {
     input <- strsplit(read_fun, "::")
 
     tryCatch(
       input[[1]][1] %in% .packages(TRUE),
-      error = cli::cli_abort("There is no package called '{input[[1]][1]}'. Try install.packages('{input[[1]][1]}') first.")
+      error = cli::cli_abort(paste0("There is no package called ", cli::col_red('{input[[1]][1]}'), ". Try 'install.packages('{input[[1]][1]}')' first."))
     )
 
     if(!input[[1]][1] %in% .packages(TRUE)) {
-      cli::cli_abort("Package `{input[[1]][1]}` not found. Try install_packages('{input[[1]][1]}') first.")
+      cli::cli_abort(paste0("Package ", cli::col_red('`{input[[1]][1]}`'), " not found. Try 'install_packages('{input[[1]][1]}')' first."))
     }
     if(!input[[1]][2] %in% ls(glue::glue("package:{input[[1]][1]}"))) {
-      cli::cli_abort("'{input[[1]][2]}' is not a valid function in package `{input[[1]][1]}`. Did you make a typo?")
+      cli::cli_abort(paste0(cli::col_blue("'{input[[1]][2]}'"), " is not a valid function in package ", cli::col_red('`{input[[1]][1]}`'), ". Did you make a typo?"))
     }
 
-    cli::cli_alert_info("Using function {input[[1]][2]}() from the '{input[[1]][1]}' package.")
+    cli::cli_alert_info(paste0("Using function ", cli::col_blue('{input[[1]][2]}()'), " from the '{input[[1]][1]}' package."))
   }
 
 
@@ -69,7 +70,9 @@ read_data <- function(file, read_fun, col_select = NULL, row_filter = NULL, row_
         paste0(names(dots[x]), " = ", dots[[x]])
       }) |>
       purrr::compact() |>
-      paste(collapse = ", ")
+      paste(collapse = ", ") |>
+      (\(.)  paste(', ', .))()
+
   } else {
     dots_chr = ""
   }
@@ -81,7 +84,7 @@ read_data <- function(file, read_fun, col_select = NULL, row_filter = NULL, row_
   code <- list()
 
   code$read = ifelse(grepl(x = read_fun, pattern = "::"), read_fun, paste0("readr::", read_fun)) |>
-    paste0("('", file, "', ", col_select, ", ", dots_chr, ")")
+    paste0("('", file, "', ", col_select, dots_chr, ")")
   code$filter = paste0("dplyr::filter(", as.character(row_filter), ")")
   code$shuffle = paste0("shuffle(data = _, shuffle_vars = ", row_shuffle, ", long_format = ", long_format, ", seed = ", seed, ")")
 
@@ -102,30 +105,31 @@ read_data <- function(file, read_fun, col_select = NULL, row_filter = NULL, row_
   cli::cli_h1("Check for first-time data access")
   data_hash <- digest::digest(data)
 
-  committed_hashes <-
-    gert::git_log()$message |>
-    grep(pattern = "MILESTONE data_access", x = _, value = TRUE) |>
+  previous_commits <-
+    gert::git_tag_list() |>
+    dplyr::filter(stringr::str_detect(name, "data_access")) |>
+    dplyr::pull(commit) |>
+    purrr::map_df(function(x){
+      gert::git_commit_info(ref = x) |>
+        tidyr::as_tibble()
+    })
+
+  committed_hashes <- gert::git_log() |>
+    dplyr::filter(commit %in% previous_commits$id) |>
+    dplyr::pull(message) |>
     (\(.) regmatches(x = ., m = gregexpr("[a-z0-9]{32}", text = .)))() |>
     unlist()
 
   cli::cli_alert_info("{length(committed_hashes)} previously committed data files found.")
 
   if(!data_hash %in% committed_hashes) {
-
-    response = FALSE
-
-    while(response != 'Y' & response != "n") {
-      response <- readline(prompt = "NEW DATA FILE DETECTED. This will trigger an automatic commit to GitHub. Are you sure you want to continue? [Y/n]:")
-    }
-
-    if(response == "n") {
+    if(usethis::ui_yeah("NEW DATA FILE DETECTED. This will trigger an automatic commit to GitHub. Are you sure you want to continue?")) {
+      cli::cli_h1("Commit data access milestone to GitHub")
+      message <- readline(prompt = "If you want, you can type a short commit message with more details about the data file. Press enter for a default message: ")
+      message <- gsub(x = message, pattern = "\'|\"", replacement = "")
+    } else {
       return(cli::cli_alert_info("Reading the data file was aborted."))
     }
-
-    cli::cli_h1("Commit data access milestone to GitHub")
-
-    message <- readline(prompt = "If you want, you can type a short commit message with more details about the data file. Press enter for a default message: ")
-
 
     # Construct commit message
     commit_code <- glue::glue("code {pipeline_chr}")
@@ -134,12 +138,32 @@ read_data <- function(file, read_fun, col_select = NULL, row_filter = NULL, row_
 
     cli::cli_alert_info("The following commit message will be used: {commit_message}")
 
-    readr::read_file("project_log/MD5") |>
-      paste(data_hash, sep = "\n") |>
-      readr::write_file("project_log/MD5")
+    write_file(file = "project_log/MD5", x = paste("\n", data_hash), append = TRUE)
 
+    print(gert::git_status())
+
+    matching_tags <- gert::git_tag_list()$name |>
+      gsub(pattern = "[0-9]*$", replacement = "") |>
+      grepl(pattern = "data_access") |>
+      sum()
+
+    if(matching_tags > 0) {
+      tag <- paste0("data_access",matching_tags)
+    } else {
+      tag <- "data_access"
+    }
+    print(tag)
+    print(gert::git_status())
+    gert::git_add("project_log/MD5")
+    print(gert::git_status())
+    print('shit is added')
     tryCatch(
-      log_milestone("project_log/MD5", milestone_type = "data_access", commit_message = commit_message),
+      {
+        commit <- gert::git_commit(commit_message)
+        gert::git_tag_create(name = tag, message = '', ref = commit, repo = '.')
+        gert::git_tag_push(name = tag, repo = ".")
+        gert::git_push()
+      },
       error = function(e) {
         readr::read_file("project_log/MD5") |>
           gsub(x = _, pattern = paste0("\n", data_hash), replacement = "") |>
@@ -153,9 +177,6 @@ read_data <- function(file, read_fun, col_select = NULL, row_filter = NULL, row_
   cli::cli_alert_info("Data file was accessed before, so no commit will be initiated.")
   return(data)
 }
-
-
-
 
 
 
