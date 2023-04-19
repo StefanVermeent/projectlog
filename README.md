@@ -11,15 +11,36 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 status](https://www.r-pkg.org/badges/version/OSgit)](https://CRAN.R-project.org/package=OSgit)  
 <!-- badges: end -->
 
-# The purpose of OSgit
+# The purpose of `projectlog`
 
-OSgit
+The two core aims of `projectlog` are:
 
-TBD
+1.  Help you to easily keep track of important points in your project,
+    such as preregistrations, data access, and article submissions and
+    revisions.
+2.  Create a clear, reproducible, and verifiable history of your
+    project—including major milestones—for others (e.g., reviewers or
+    readers of your article).
 
-OSgit is most useful for empirical projects and is geared towards
-researchers in the social sciences (given that that’s the field I’m most
-)
+If you are already using git in your workflow to track your changes and
+share your code and materials, `projectlog` provides functionality that
+automates common steps and helps you get the most out of the information
+that Git stores for you. If you are not familiar with Git—or if the mere
+mention of it strikes fear into your heart—then `projectlog` is set up
+in a way that you rarely have to interact with Git directly.
+
+# Before we start… Setting up Git
+
+One of the main aims of OSgit is that it can be used by people who are
+not (intimately) familiar with Git or GitHub. However, you will still
+need to to three things to ensure that OSgit works properly:<br> (1)
+Create a free account on [GitHub](https://github.com/join)<br> (2)
+Install [Git](https://git-scm.com/downloads) on your device<br> (3) Make
+sure R knows where to find git on your device<br>
+
+These three steps are described in more detail in the Git vignette
+(TBD). Note that in principle, you only have to go through these steps
+once for a particular device.
 
 # Installation
 
@@ -29,125 +50,6 @@ follows:
 ``` r
 # install.packages('devtools')
 devtools::install_github("StefanVermeent/OSgit")
-#> Warning in untar2(tarfile, files, list, exdir, restore_times): skipping pax
-#> global extended headers
-
-#> Warning in untar2(tarfile, files, list, exdir, restore_times): skipping pax
-#> global extended headers
-#> utf8    (1.2.2  -> 1.2.3 ) [CRAN]
-#> pillar  (1.8.1  -> 1.9.0 ) [CRAN]
-#> fansi   (1.0.3  -> 1.0.4 ) [CRAN]
-#> bit     (4.0.4  -> 4.0.5 ) [CRAN]
-#> vctrs   (0.4.2  -> 0.6.1 ) [CRAN]
-#> tibble  (3.1.8  -> 3.2.1 ) [CRAN]
-#> rlang   (1.0.6  -> 1.1.0 ) [CRAN]
-#> hms     (1.1.2  -> 1.1.3 ) [CRAN]
-#> cli     (3.4.1  -> 3.6.1 ) [CRAN]
-#> vroom   (1.6.0  -> 1.6.1 ) [CRAN]
-#> stringi (1.7.8  -> 1.7.12) [CRAN]
-#> digest  (0.6.29 -> 0.6.31) [CRAN]
-#> readr   (2.1.3  -> 2.1.4 ) [CRAN]
-#> dplyr   (1.0.10 -> 1.1.1 ) [CRAN]
-#> stringr (1.4.1  -> 1.5.0 ) [CRAN]
-#> purrr   (0.3.5  -> 1.0.1 ) [CRAN]
-#> package 'utf8' successfully unpacked and MD5 sums checked
-#> Warning: cannot remove prior installation of package 'utf8'
-#> Warning in file.copy(savedcopy, lib, recursive = TRUE): problem copying C:
-#> \Users\Stefa\AppData\Local\R\win-library\4.2\00LOCK\utf8\libs\x64\utf8.dll to C:
-#> \Users\Stefa\AppData\Local\R\win-library\4.2\utf8\libs\x64\utf8.dll: Permission
-#> denied
-#> Warning: restored 'utf8'
-#> package 'pillar' successfully unpacked and MD5 sums checked
-#> package 'fansi' successfully unpacked and MD5 sums checked
-#> Warning: cannot remove prior installation of package 'fansi'
-#> Warning in file.copy(savedcopy, lib, recursive = TRUE): problem copying C:
-#> \Users\Stefa\AppData\Local\R\win-library\4.2\00LOCK\fansi\libs\x64\fansi.dll
-#> to C:\Users\Stefa\AppData\Local\R\win-library\4.2\fansi\libs\x64\fansi.dll:
-#> Permission denied
-#> Warning: restored 'fansi'
-#> package 'bit' successfully unpacked and MD5 sums checked
-#> package 'vctrs' successfully unpacked and MD5 sums checked
-#> Warning: cannot remove prior installation of package 'vctrs'
-#> Warning in file.copy(savedcopy, lib, recursive = TRUE): problem copying C:
-#> \Users\Stefa\AppData\Local\R\win-library\4.2\00LOCK\vctrs\libs\x64\vctrs.dll
-#> to C:\Users\Stefa\AppData\Local\R\win-library\4.2\vctrs\libs\x64\vctrs.dll:
-#> Permission denied
-#> Warning: restored 'vctrs'
-#> package 'tibble' successfully unpacked and MD5 sums checked
-#> Warning: cannot remove prior installation of package 'tibble'
-#> Warning in file.copy(savedcopy, lib, recursive = TRUE): problem copying C:
-#> \Users\Stefa\AppData\Local\R\win-library\4.2\00LOCK\tibble\libs\x64\tibble.dll
-#> to C:\Users\Stefa\AppData\Local\R\win-library\4.2\tibble\libs\x64\tibble.dll:
-#> Permission denied
-#> Warning: restored 'tibble'
-#> package 'rlang' successfully unpacked and MD5 sums checked
-#> Warning: cannot remove prior installation of package 'rlang'
-#> Warning in file.copy(savedcopy, lib, recursive = TRUE): problem copying C:
-#> \Users\Stefa\AppData\Local\R\win-library\4.2\00LOCK\rlang\libs\x64\rlang.dll
-#> to C:\Users\Stefa\AppData\Local\R\win-library\4.2\rlang\libs\x64\rlang.dll:
-#> Permission denied
-#> Warning: restored 'rlang'
-#> package 'hms' successfully unpacked and MD5 sums checked
-#> package 'cli' successfully unpacked and MD5 sums checked
-#> Warning: cannot remove prior installation of package 'cli'
-#> Warning in file.copy(savedcopy, lib, recursive = TRUE): problem copying C:
-#> \Users\Stefa\AppData\Local\R\win-library\4.2\00LOCK\cli\libs\x64\cli.dll to C:
-#> \Users\Stefa\AppData\Local\R\win-library\4.2\cli\libs\x64\cli.dll: Permission
-#> denied
-#> Warning: restored 'cli'
-#> package 'vroom' successfully unpacked and MD5 sums checked
-#> package 'stringi' successfully unpacked and MD5 sums checked
-#> Warning: cannot remove prior installation of package 'stringi'
-#> Warning in file.copy(savedcopy, lib, recursive = TRUE): problem copying C:
-#> \Users\Stefa\AppData\Local\R\win-library\4.2\00LOCK\stringi\libs\icudt69l.dat
-#> to C:\Users\Stefa\AppData\Local\R\win-library\4.2\stringi\libs\icudt69l.dat:
-#> Invalid argument
-#> Warning in file.copy(savedcopy, lib, recursive = TRUE): problem copying C:
-#> \Users\Stefa\AppData\Local\R\win-library\4.2\00LOCK\stringi\libs\x64\stringi.dll
-#> to C:\Users\Stefa\AppData\Local\R\win-library\4.2\stringi\libs\x64\stringi.dll:
-#> Permission denied
-#> Warning: restored 'stringi'
-#> package 'digest' successfully unpacked and MD5 sums checked
-#> Warning: cannot remove prior installation of package 'digest'
-#> Warning in file.copy(savedcopy, lib, recursive = TRUE): problem copying C:
-#> \Users\Stefa\AppData\Local\R\win-library\4.2\00LOCK\digest\libs\x64\digest.dll
-#> to C:\Users\Stefa\AppData\Local\R\win-library\4.2\digest\libs\x64\digest.dll:
-#> Permission denied
-#> Warning: restored 'digest'
-#> package 'readr' successfully unpacked and MD5 sums checked
-#> Warning: cannot remove prior installation of package 'readr'
-#> Warning in file.copy(savedcopy, lib, recursive = TRUE): problem copying C:
-#> \Users\Stefa\AppData\Local\R\win-library\4.2\00LOCK\readr\libs\x64\readr.dll
-#> to C:\Users\Stefa\AppData\Local\R\win-library\4.2\readr\libs\x64\readr.dll:
-#> Permission denied
-#> Warning: restored 'readr'
-#> package 'dplyr' successfully unpacked and MD5 sums checked
-#> Warning: cannot remove prior installation of package 'dplyr'
-#> Warning in file.copy(savedcopy, lib, recursive = TRUE): problem copying C:
-#> \Users\Stefa\AppData\Local\R\win-library\4.2\00LOCK\dplyr\libs\x64\dplyr.dll
-#> to C:\Users\Stefa\AppData\Local\R\win-library\4.2\dplyr\libs\x64\dplyr.dll:
-#> Permission denied
-#> Warning: restored 'dplyr'
-#> package 'stringr' successfully unpacked and MD5 sums checked
-#> package 'purrr' successfully unpacked and MD5 sums checked
-#> Warning: cannot remove prior installation of package 'purrr'
-#> Warning in file.copy(savedcopy, lib, recursive = TRUE): problem copying C:
-#> \Users\Stefa\AppData\Local\R\win-library\4.2\00LOCK\purrr\libs\x64\purrr.dll
-#> to C:\Users\Stefa\AppData\Local\R\win-library\4.2\purrr\libs\x64\purrr.dll:
-#> Permission denied
-#> Warning: restored 'purrr'
-#> 
-#> The downloaded binary packages are in
-#>  C:\Users\Stefa\AppData\Local\Temp\RtmpWylyxi\downloaded_packages
-#>          checking for file 'C:\Users\Stefa\AppData\Local\Temp\RtmpWylyxi\remotes579c24a759b9\StefanVermeent-OSgit-085c670/DESCRIPTION' ...     checking for file 'C:\Users\Stefa\AppData\Local\Temp\RtmpWylyxi\remotes579c24a759b9\StefanVermeent-OSgit-085c670/DESCRIPTION' ...   ✔  checking for file 'C:\Users\Stefa\AppData\Local\Temp\RtmpWylyxi\remotes579c24a759b9\StefanVermeent-OSgit-085c670/DESCRIPTION' (472ms)
-#>       ─  preparing 'OSgit':
-#>    checking DESCRIPTION meta-information ...  ✔  checking DESCRIPTION meta-information
-#>       ─  checking for LF line-endings in source and make files and shell scripts
-#>   ─  checking for empty or unneeded directories
-#>      Omitted 'LazyData' from DESCRIPTION
-#>       ─  building 'OSgit_0.1.0.tar.gz'
-#>      
-#> 
 ```
 
 # Before we start… Setting up Git
