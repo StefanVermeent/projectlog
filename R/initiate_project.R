@@ -53,12 +53,10 @@ initiate_project <- function(path, project = "single_study", preregistration = "
     })
   }
 
-  writeLines("", con = file.path(path,"project_log/MD5"))
-
   readme <- "### Placeholder"
 
 
-  # Manage package dependencies ---------------------------------------------
+  # Write necessary files ---------------------------------------------------
   if(dependencies == "groundhog") {
     tryCatch(
       library(groundhog),
@@ -79,6 +77,7 @@ initiate_project <- function(path, project = "single_study", preregistration = "
       groundhog.library(pkgs, date = date)
     "
     writeLines(groundhog_script, con = file.path(path,"dependencies.R"))
+    cli::cli_alert_success("Initiated `groundhog` for managing package dependencies ('dependencies.R')")
   }
 
   if(dependencies == "renv") {
@@ -91,14 +90,14 @@ initiate_project <- function(path, project = "single_study", preregistration = "
       }
     )
     renv::init()
+    cli::cli_alert_success("Initiated `renv` for managing package dependencies ('dependencies.R')")
   }
 
-  writeLines(readme, con = file.path(path,"README.Rmd"))
 
 
-
-# Write necessary files ---------------------------------------------------
   cli::cli_h1("Add necessary files")
+  writeLines("", con = file.path(path,"project_log/MD5"))
+  cli::cli_alert_success(cli::col_blue("'project_log/MD5'"))
   add_readme(path = path)
   if(project!='registered_report') {
     add_preregistration(path, preregistration)
@@ -131,10 +130,10 @@ initiate_project <- function(path, project = "single_study", preregistration = "
   usethis::use_git(message = "Initial commit")
 
   # Create remote git repository
-#  usethis::use_github(
-#    private = TRUE,
-#    protocol = 'https'
-#  )
+  usethis::use_github(
+    private = TRUE,
+    protocol = 'https'
+  )
 }
 
 

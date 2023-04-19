@@ -65,7 +65,24 @@ In other words, milestones are the events in your project history that you want 
 Let's say that you finished your preregistration and want to mark it as a timestamped version in GitHub.
 In order to do this, you would use the `log_milestone` function:
 
-```{r, eval=FALSE}
+```{r, eval=F, echo=T}
+log_milestone("preregistrations/preregistration.md", commit_message = "Timestamped preregistration for study 1", tag = "preregistration")
+#> ✔ Initializing empty, orphan 'gh-pages' branch in GitHub repo 'jane/mypackage'
+#> ✔ GitHub Pages is publishing from:
+#> • URL: 'https://jane.github.io/mypackage/'
+#> • Branch: 'gh-pages'
+#> • Path: '/'
+#> ✔ Creating '.github/'
+#> ✔ Adding '^\\.github$' to '.Rbuildignore'
+#> ✔ Adding '*.html' to '.github/.gitignore'
+#> ✔ Creating '.github/workflows/'
+#> ✔ Saving 'r-lib/actions/examples/pkgdown.yaml@v2' to '.github/workflows/pkgdown.yaml'
+#> • Learn more at <https://github.com/r-lib/actions/blob/v2/examples/README.md>.
+#> ✔ Recording 'https://jane.github.io/mypackage/' as site's url in '_pkgdown.yml'
+#> ✔ Adding 'https://jane.github.io/mypackage/' to URL field in DESCRIPTION
+#> ✔ Setting 'https:/jane.github.io/mypackage/' as homepage of GitHub repo 'jane/mypackage'
+```
+
 log_milestone(".", commit_message = "Timestamped preregistration for study 1", tag = "preregistration")
 ```
 

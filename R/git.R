@@ -211,3 +211,23 @@ commit_tag_push <- function(tag, commit_message) {
   ))
 }
 
+#' Show existing milestone tags
+#'
+#' This function is a wrapper around `gert::git_tag_list()`
+#' It shows all the tags that were previously used for milestones.
+#' Use this function to make sure that tags of the same type of milestone (e.g., a preregistration) are consistent.
+#'
+#' @return A character vector of file names.
+#' @export
+existing_tags <- function() {
+
+  tags <- gert::git_tag_list()
+  if(nrow(tags == 0)) {
+    return(cli::cli_alert_info("No existing tags were found. It seems like you haven't logged any milestones yet."))
+  } else{
+    tags |>
+      dplyr::select(names)
+
+  }
+}
+
