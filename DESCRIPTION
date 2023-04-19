@@ -19,3 +19,8 @@ Imports:
   cli,
   digest
 RoxygenNote: 7.2.1
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+URL: https://stefanvermeent.github.io/OSgit/

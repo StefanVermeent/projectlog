@@ -23,7 +23,12 @@ knitr::opts_chunk$set(
 
 # The purpose of OSgit
 
+OSgit 
 
+TBD
+
+
+OSgit is most useful for empirical projects and is geared towards researchers in the social sciences (given that that's the field I'm most )
 
 
 # Installation
@@ -49,6 +54,7 @@ These three steps are described in more detail in the Git vignette (TBD).
 
 ## Initiating an OSgit project
 
+TBD
 
 ## Logging project milestones to GitHub
 
@@ -103,8 +109,18 @@ As you can see, `log_changes()` is very similar to `log_milestone()`.
 The only difference is that `log_changes()` does not create a tag that get's added to the commit.
 
 
-
 ## Logging data access
 
+One special type of milestone that OSgit allows you to log is the first time you access certain parts of your data.
+It is becoming increasingly common to conduct secondary data analyses on existing data following open science principles.
+This is helped, for example, by specific [preregistration templates for secondary data](https://osf.io/x4gzt/).
+In addition, several established openly available datasets---such as the [ABCD study](https://abcdstudy.org/)---actively encourage using the Registered Report format.
+In such cases, you might want to document that you only accessed the data after writing your preregistration or after obtaining Stage 1 acceptance of your Registered Report.
+You might even want to explore isolated parts of the data without making crucial links between dependent and independent variables---for example, making sure that there is enough variation in key variables.
+OSgit allows you to automatically log your access to the data.
+
+Explanation TBD
 
 ## Creating your project log
+
+TBD
