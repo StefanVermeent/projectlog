@@ -21,7 +21,7 @@ initiate_project <- function(path, project = "single_study", preregistration = "
 
   cli::cli_h1("Create project folder structure")
   # Create folder structure -------------------------------------------------
-  top_folders <- c("manuscript", "supplement", "project_log", "preregistrations")
+  top_folders <- c("manuscript", "supplement", "project_log", "preregistrations", "codebooks")
   folders <- c("data", "scripts", "materials", "analysis_objects")
 
   if(project == "single_study") {
@@ -93,8 +93,6 @@ initiate_project <- function(path, project = "single_study", preregistration = "
     cli::cli_alert_success("Initiated `renv` for managing package dependencies ('dependencies.R')")
   }
 
-
-
   cli::cli_h1("Add necessary files")
   writeLines("", con = file.path(path,"project_log/MD5"))
   cli::cli_alert_success(cli::col_blue("'project_log/MD5'"))
@@ -117,7 +115,7 @@ initiate_project <- function(path, project = "single_study", preregistration = "
     cli::cli_abort("Could not find a working installation of 'Git'")
 
   } else {
-    cli::cli_alert_info("Working version of Git found!")
+    cli::cli_alert_success("Working version of Git found!")
     gert::git_init(path = path)
   }
   cli::cli_alert_success("Git was configured successfully.")
