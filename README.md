@@ -16,7 +16,7 @@ status](https://www.r-pkg.org/badges/version/projectlog)](https://CRAN.R-project
 `projectlog` is a project workflow package geared towards empirical
 researchers.
 
-The two core aims of `projectlog` are:
+The three core aims of `projectlog` are:
 
 1.  Help you to set up an R project structure following best practices.
 2.  Help you to easily keep track of important points in your project,
@@ -137,17 +137,18 @@ achieve the same thing. For example, if you register three
 preregistrations over the course of your project, all of them should get
 identical tags (e.g., ‘preregistration’).
 
-projectlog does not come with predefined tags, but instead gives you the
-freedom to name the tags yourself. The only requirement is that the tag
-does not contain spaces and does not end with a number. The latter
-requirement is necessary because projectlog automatically appends a
+`projectlog` does not come with predefined tags, but instead gives you
+the freedom to name the tags yourself. The only requirement is that the
+tag does not contain spaces and does not end with a number. The latter
+requirement is necessary because `projectlog` automatically appends a
 number to your tab if the same tag was used before. For example, if
 you’ve used the tag ‘preregistration’ before to timestamp the
 preregistration for your first study, and later on use the same tag
-again to timestamp the preregistration for your second study, projectlog
-will automatically change the new tag to ‘preregistration1’. The reason
-for this is that Git tags need to be unique strings. When summarizing
-your project history later on, the same tags will be grouped together.
+again to timestamp the preregistration for your second study,
+`projectlog` will automatically change the new tag to
+‘preregistration1’. The reason for this is that Git tags need to be
+unique strings. When summarizing your project history later on, the same
+tags will be grouped together.
 
 This freedom to define your own tag comes with a trade-off: you will
 have to be careful that you do not make typos, and that new tags exactly
@@ -182,7 +183,7 @@ get’s added to the commit.
 
 ## Logging data access
 
-One special type of milestone that projectlog allows you to log is the
+One special type of milestone that `projectlog` allows you to log is the
 first time you access certain parts of your data. It is becoming
 increasingly common to conduct secondary data analyses on existing data
 following open science principles. This is helped, for example, by
@@ -195,7 +196,7 @@ accessed the data after writing your preregistration or after obtaining
 Stage 1 acceptance of your Registered Report. You might even want to
 explore isolated parts of the data without making crucial links between
 dependent and independent variables—for example, making sure that there
-is enough variation in key variables. projectlog allows you to
+is enough variation in key variables. `projectlog` allows you to
 automatically log your access to the data.
 
 ``` r
