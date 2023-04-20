@@ -1,14 +1,14 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# OSgit
+# projectlog
 
 <!-- badges: start -->
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/OSgit)](https://CRAN.R-project.org/package=OSgit)  
+status](https://www.r-pkg.org/badges/version/projectlog)](https://CRAN.R-project.org/package=projectlog)  
 <!-- badges: end -->
 
 # The purpose of `projectlog`
@@ -31,9 +31,9 @@ in a way that you rarely have to interact with Git directly.
 
 # Before we start… Setting up Git
 
-One of the main aims of OSgit is that it can be used by people who are
+One of the main aims of projectlog is that it can be used by people who are
 not (intimately) familiar with Git or GitHub. However, you will still
-need to to three things to ensure that OSgit works properly:<br> (1)
+need to to three things to ensure that projectlog works properly:<br> (1)
 Create a free account on [GitHub](https://github.com/join)<br> (2)
 Install [Git](https://git-scm.com/downloads) on your device<br> (3) Make
 sure R knows where to find git on your device<br>
@@ -44,19 +44,19 @@ once for a particular device.
 
 # Installation
 
-You can install the development version of `OSgit` from GitHub as
+You can install the development version of `projectlog` from GitHub as
 follows:
 
 ``` r
 # install.packages('devtools')
-devtools::install_github("StefanVermeent/OSgit")
+devtools::install_github("StefanVermeent/projectlog")
 ```
 
 # Before we start… Setting up Git
 
-One of the main aims of OSgit is that it can be used by people who are
+One of the main aims of projectlog is that it can be used by people who are
 not (intimately) familiar with Git or GitHub. However, you will still
-need to to three things to ensure that OSgit works properly:<br> (1)
+need to to three things to ensure that projectlog works properly:<br> (1)
 Create a free account on [GitHub](https://github.com/join)<br> (2)
 Install [Git](https://git-scm.com/downloads) on your device<br> (3) Make
 sure R knows where to find git on your device<br>
@@ -66,7 +66,7 @@ These three steps are described in more detail in the Git vignette
 
 # Main components
 
-## Initiating an OSgit project
+## Initiating an projectlog project
 
 TBD
 
@@ -113,10 +113,10 @@ study 1”, tag = “preregistration”)
     You should use the same tag across all milestones that achieve the same thing.
     For example, if you register three preregistrations over the course of your project, all of them should get identical tags (e.g., 'preregistration').
 
-    OSgit does not come with predefined tags, but instead gives you the freedom to name the tags yourself.
+    projectlog does not come with predefined tags, but instead gives you the freedom to name the tags yourself.
     The only requirement is that the tag does not contain spaces and does not end with a number.
-    The latter requirement is necessary because OSgit automatically appends a number to your tab if the same tag was used before.
-    For example, if you've used the tag 'preregistration' before to timestamp the preregistration for your first study, and later on use the same tag again to timestamp the preregistration for your second study, OSgit will automatically change the new tag to 'preregistration1'.
+    The latter requirement is necessary because projectlog automatically appends a number to your tab if the same tag was used before.
+    For example, if you've used the tag 'preregistration' before to timestamp the preregistration for your first study, and later on use the same tag again to timestamp the preregistration for your second study, projectlog will automatically change the new tag to 'preregistration1'.
     The reason for this is that Git tags need to be unique strings.
     When summarizing your project history later on, the same tags will be grouped together.
 
@@ -146,7 +146,7 @@ get’s added to the commit.
 
 ## Logging data access
 
-One special type of milestone that OSgit allows you to log is the first
+One special type of milestone that projectlog allows you to log is the first
 time you access certain parts of your data. It is becoming increasingly
 common to conduct secondary data analyses on existing data following
 open science principles. This is helped, for example, by specific
@@ -158,7 +158,7 @@ you only accessed the data after writing your preregistration or after
 obtaining Stage 1 acceptance of your Registered Report. You might even
 want to explore isolated parts of the data without making crucial links
 between dependent and independent variables—for example, making sure
-that there is enough variation in key variables. OSgit allows you to
+that there is enough variation in key variables. projectlog allows you to
 automatically log your access to the data.
 
 Explanation TBD

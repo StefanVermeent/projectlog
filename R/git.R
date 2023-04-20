@@ -54,7 +54,7 @@ has_git <- function(){
 #' not covered by any of the log_milestone.
 #' For example, you could use this function to commit the final version of
 #' a preregistration or to commit a submission to a scientific journal.
-#' see \code{\link[OSgit::log_changes]{OSgit::log_changes}} for a very similar function that
+#' see \code{\link[projectlog::log_changes]{projectlog::log_changes}} for a very similar function that
 #' can be used for more minor commits (i.e., non-milestone changes to your
 #' project.)
 #' @param ... Character, a vector of files that you want to commit.
@@ -85,7 +85,7 @@ log_milestone <- function(..., commit_message, tag) {
 #' This function can be used to log any changes to files to GitHub.
 #' It should be used for any changes that do not constitute major
 #' milestones, such as regular code updates. For milestone commits,
-#' use \code{\link[OSgit::log_changes]{OSgit::log_changes}}.
+#' use \code{\link[projectlog::log_changes]{projectlog::log_changes}}.
 #' You can use this function routinely to update the remote Github repository
 #' with your latest changes. This way, you make sure that the changes are
 #' safely stored remotely.
@@ -188,10 +188,11 @@ commit_tag_push <- function(tag, commit_message) {
   }
 
   tryCatch(
-    commit <- gert::git_commit(commit_message),
-    gert::git_tag_create(name = tag, message = '', ref = commit, repo = '.'),
-    gert::git_tag_push(name = tag, repo = "."),
-
+    {
+    commit <- gert::git_commit(commit_message)
+    gert::git_tag_create(name = tag, message = '', ref = commit, repo = '.')
+    gert::git_tag_push(name = tag, repo = ".")
+    },
     error = function(e) {
       cli::cli_abort("Failed to commit and/or tag changes.")
     }

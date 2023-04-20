@@ -13,11 +13,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-# OSgit
+# projectlog
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![CRAN status](https://www.r-pkg.org/badges/version/OSgit)](https://CRAN.R-project.org/package=OSgit)                                                                                     
+[![CRAN status](https://www.r-pkg.org/badges/version/projectlog)](https://CRAN.R-project.org/package=projectlog)                                                                                     
 <!-- badges: end -->
 
 
@@ -36,8 +36,8 @@ If you are not familiar with Git---or if the mere mention of it strikes fear int
 
 # Before we start... Setting up Git
 
-One of the main aims of OSgit is that it can be used by people who are not (intimately) familiar with Git or GitHub.
-However, you will still need to to three things to ensure that OSgit works properly:<br>
+One of the main aims of projectlog is that it can be used by people who are not (intimately) familiar with Git or GitHub.
+However, you will still need to to three things to ensure that projectlog works properly:<br>
     (1) Create a free account on [GitHub](https://github.com/join)<br>
     (2) Install [Git](https://git-scm.com/downloads) on your device<br>
     (3) Make sure R knows where to find git on your device<br>
@@ -48,11 +48,11 @@ Note that in principle, you only have to go through these steps once for a parti
 
 # Installation
 
-You can install the development version of `OSgit` from GitHub as follows:
+You can install the development version of `projectlog` from GitHub as follows:
 
 ```{r message=FALSE}
 # install.packages('devtools')
-devtools::install_github("StefanVermeent/OSgit")
+devtools::install_github("StefanVermeent/projectlog")
 ```
 
 ## Example
@@ -63,7 +63,44 @@ See the [vignette](XXX) for a more detailed overview and examples.
 ### Initiating your project
 
 
+```{r}
+knitr::include_graphics("inst/img/open_project.png")
+#> ── Create project folder structure ───────────────────────────────────────────────────────────────────────────────────
+#> Loaded 'groundhog' (version:2.2.1)
+#> Tips and troubleshooting: https://groundhogR.com
+#> ✔ Initiated `groundhog` for managing package dependencies ('dependencies.R')
 
+#> ── Add necessary files ───────────────────────────────────────────────────────────────────────────────────────────────
+#> ✔ 'project_log/MD5'
+#> ✔ README file: README.Rmd
+#> ✔ Preregistration: test-repo/preregistrations/preregistation.Rmd
+
+#> ── Configuring Git ───────────────────────────────────────────────────────────────────────────────────────────────────
+#> ✔ Working version of Git found!
+#> ✔ Git was configured successfully.
+#> ✔ Setting active project to 'C:/Repositories/test-repo'
+#> ✔ Adding '.Rproj.user', '.Rhistory', '.Rdata', '.httr-oauth', '.DS_Store' to '.gitignore'
+#> There are 6 uncommitted files:
+#> * '.gitignore'
+#> * 'dependencies.R'
+#> * 'preregistrations/'
+#> * 'project_log/'
+#> * 'README.Rmd'
+#> * 'test-repo.Rproj'
+#> Is it ok to commit them?
+
+#> 1: Yes
+#> 2: No
+#> 3: Not now
+
+#> Selection: 1
+#> ✔ Adding files
+#> ✔ Making a commit with message 'Initial commit'
+#> ✔ Creating private GitHub repository 'StefanVermeent/test-repo'
+#> ✔ Setting remote 'origin' to 'https://github.com/StefanVermeent/test-repo.git'
+#> ✔ Pushing 'master' branch to GitHub and setting 'origin/master' as upstream branch
+#> ✔ Opening URL 'https://github.com/StefanVermeent/test-repo'
+```
 
 TBD
 
@@ -78,22 +115,43 @@ In order to do this, you would use the `log_milestone` function:
 
 ```{r, eval=F, echo=T}
 log_milestone("preregistrations/preregistration.md", commit_message = "Timestamped preregistration for study 1", tag = "preregistration")
-#> ✔ Initializing empty, orphan 'gh-pages' branch in GitHub repo 'jane/mypackage'
-#> ✔ GitHub Pages is publishing from:
-#> • URL: 'https://jane.github.io/mypackage/'
-#> • Branch: 'gh-pages'
-#> • Path: '/'
-#> ✔ Creating '.github/'
-#> ✔ Adding '^\\.github$' to '.Rbuildignore'
-#> ✔ Adding '*.html' to '.github/.gitignore'
-#> ✔ Creating '.github/workflows/'
-#> ✔ Saving 'r-lib/actions/examples/pkgdown.yaml@v2' to '.github/workflows/pkgdown.yaml'
-#> • Learn more at <https://github.com/r-lib/actions/blob/v2/examples/README.md>.
-#> ✔ Recording 'https://jane.github.io/mypackage/' as site's url in '_pkgdown.yml'
-#> ✔ Adding 'https://jane.github.io/mypackage/' to URL field in DESCRIPTION
-#> ✔ Setting 'https:/jane.github.io/mypackage/' as homepage of GitHub repo 'jane/mypackage'
-```
+#> ── Create project folder structure ───────────────────────────────────────────────────────────────────────────────────
+#> Loaded 'groundhog' (version:2.2.1)
+#> Tips and troubleshooting: https://groundhogR.com
+#> ✔ Initiated `groundhog` for managing package dependencies ('dependencies.R')
 
+#> ── Add necessary files ───────────────────────────────────────────────────────────────────────────────────────────────
+#> ✔ 'project_log/MD5'
+#> ✔ README file: README.Rmd
+#> ✔ Preregistration: test-repo/preregistrations/preregistation.Rmd
+
+#> ── Configuring Git ───────────────────────────────────────────────────────────────────────────────────────────────────
+#> ✔ Working version of Git found!
+#> ✔ Git was configured successfully.
+#> ✔ Setting active project to 'C:/Repositories/test-repo'
+#> ✔ Adding '.Rproj.user', '.Rhistory', '.Rdata', '.httr-oauth', '.DS_Store' to '.gitignore'
+#> There are 6 uncommitted files:
+#> * '.gitignore'
+#> * 'dependencies.R'
+#> * 'preregistrations/'
+#> * 'project_log/'
+#> * 'README.Rmd'
+#> * 'test-repo.Rproj'
+#> Is it ok to commit them?
+
+#> 1: Yes
+#> 2: No
+#> 3: Not now
+
+#> Selection: 1
+#> ✔ Adding files
+#> ✔ Making a commit with message 'Initial commit'
+#> ✔ Creating private GitHub repository 'StefanVermeent/test-repo'
+#> ✔ Setting remote 'origin' to 'https://github.com/StefanVermeent/test-repo.git'
+#> ✔ Pushing 'master' branch to GitHub and setting 'origin/master' as upstream branch
+#> ✔ Opening URL 'https://github.com/StefanVermeent/test-repo'
+```
+```{r, eval=F, echo=T}
 log_milestone(".", commit_message = "Timestamped preregistration for study 1", tag = "preregistration")
 ```
 
@@ -106,10 +164,10 @@ The third argument (tag) is a unique tag that defines this milestone.
 You should use the same tag across all milestones that achieve the same thing.
 For example, if you register three preregistrations over the course of your project, all of them should get identical tags (e.g., 'preregistration').
 
-OSgit does not come with predefined tags, but instead gives you the freedom to name the tags yourself.
+projectlog does not come with predefined tags, but instead gives you the freedom to name the tags yourself.
 The only requirement is that the tag does not contain spaces and does not end with a number.
-The latter requirement is necessary because OSgit automatically appends a number to your tab if the same tag was used before.
-For example, if you've used the tag 'preregistration' before to timestamp the preregistration for your first study, and later on use the same tag again to timestamp the preregistration for your second study, OSgit will automatically change the new tag to 'preregistration1'.
+The latter requirement is necessary because projectlog automatically appends a number to your tab if the same tag was used before.
+For example, if you've used the tag 'preregistration' before to timestamp the preregistration for your first study, and later on use the same tag again to timestamp the preregistration for your second study, projectlog will automatically change the new tag to 'preregistration1'.
 The reason for this is that Git tags need to be unique strings.
 When summarizing your project history later on, the same tags will be grouped together.
 
@@ -139,13 +197,13 @@ The only difference is that `log_changes()` does not create a tag that get's add
 
 ## Logging data access
 
-One special type of milestone that OSgit allows you to log is the first time you access certain parts of your data.
+One special type of milestone that projectlog allows you to log is the first time you access certain parts of your data.
 It is becoming increasingly common to conduct secondary data analyses on existing data following open science principles.
 This is helped, for example, by specific [preregistration templates for secondary data](https://osf.io/x4gzt/).
 In addition, several established openly available datasets---such as the [ABCD study](https://abcdstudy.org/)---actively encourage using the Registered Report format.
 In such cases, you might want to document that you only accessed the data after writing your preregistration or after obtaining Stage 1 acceptance of your Registered Report.
 You might even want to explore isolated parts of the data without making crucial links between dependent and independent variables---for example, making sure that there is enough variation in key variables.
-OSgit allows you to automatically log your access to the data.
+projectlog allows you to automatically log your access to the data.
 
 Explanation TBD
 

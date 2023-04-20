@@ -51,7 +51,7 @@ validate_tag <- function(tag) {
 
 copy_resource <- function(file, from, to) {
 
-  dir_files <- list.files(system.file(from, package = "OSgit"))
+  dir_files <- list.files(system.file(from, package = "projectlog"))
 
   tryCatch(
     file %in% dir_files,
@@ -59,7 +59,7 @@ copy_resource <- function(file, from, to) {
       cli::cli_abort("Could not copy preregistration template to the correct folder.")
     }
   )
-  path_to_file <- file.path(system.file(from, package = "OSgit"), file)
+  path_to_file <- file.path(system.file(from, package = "projectlog"), file)
 
   file.copy(
     from = path_to_file,

@@ -70,7 +70,7 @@ initiate_project <- function(path, project = "single_study", preregistration = "
       # Specify the date for which packages need to be installed
       date <- '2023-01-01'
       # Specify names of all required packages
-      pkgs <- c('OSgit')
+      pkgs <- c('projectlog')
 
       install.packages('groundhog')
 

@@ -1,4 +1,4 @@
-Package: OSgit
+Package: projectlog
 Type: Package
 Title: What the Package Does (Title Case)
 Version: 0.1.0
@@ -23,4 +23,4 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-URL: https://stefanvermeent.github.io/OSgit/
+URL: https://stefanvermeent.github.io/projectlog/
