@@ -50,7 +50,7 @@ Note that in principle, you only have to go through these steps once for a parti
 
 You can install the development version of `projectlog` from GitHub as follows:
 
-```{r message=FALSE}
+```{r, eval=F, echo=T}
 # install.packages('devtools')
 devtools::install_github("StefanVermeent/projectlog")
 ```
@@ -62,8 +62,11 @@ See the [vignette](XXX) for a more detailed overview and examples.
 
 ### Initiating your project
 
-```{r}
+```{r, eval=TRUE, echo=FALSE, message=TRUE, fig.height = 2}
 knitr::include_graphics("inst/img/open_project.png")
+```
+
+```{r, eval=TRUE,echo=TRUE}
 #> ── Create project folder structure ───────────────────────────────────────────────────────────────────────────────────
 #> Loaded 'groundhog' (version:2.2.1)
 #> Tips and troubleshooting: https://groundhogR.com
@@ -167,7 +170,7 @@ In such cases, you might want to document that you only accessed the data after 
 You might even want to explore isolated parts of the data without making crucial links between dependent and independent variables---for example, making sure that there is enough variation in key variables.
 projectlog allows you to automatically log your access to the data.
 
-```{r}
+```{r, eval=FALSE, echo=TRUE}
 read_data(file = "data/data.csv", read_fun = "read_csv", col_select = c(id, iv1, iv2), row_shuffle = "id")
 ```
 
