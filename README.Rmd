@@ -62,7 +62,6 @@ See the [vignette](XXX) for a more detailed overview and examples.
 
 ### Initiating your project
 
-
 ```{r}
 knitr::include_graphics("inst/img/open_project.png")
 #> ── Create project folder structure ───────────────────────────────────────────────────────────────────────────────────
@@ -115,45 +114,8 @@ In order to do this, you would use the `log_milestone` function:
 
 ```{r, eval=F, echo=T}
 log_milestone("preregistrations/preregistration.md", commit_message = "Timestamped preregistration for study 1", tag = "preregistration")
-#> ── Create project folder structure ───────────────────────────────────────────────────────────────────────────────────
-#> Loaded 'groundhog' (version:2.2.1)
-#> Tips and troubleshooting: https://groundhogR.com
-#> ✔ Initiated `groundhog` for managing package dependencies ('dependencies.R')
-
-#> ── Add necessary files ───────────────────────────────────────────────────────────────────────────────────────────────
-#> ✔ 'project_log/MD5'
-#> ✔ README file: README.Rmd
-#> ✔ Preregistration: test-repo/preregistrations/preregistation.Rmd
-
-#> ── Configuring Git ───────────────────────────────────────────────────────────────────────────────────────────────────
-#> ✔ Working version of Git found!
-#> ✔ Git was configured successfully.
-#> ✔ Setting active project to 'C:/Repositories/test-repo'
-#> ✔ Adding '.Rproj.user', '.Rhistory', '.Rdata', '.httr-oauth', '.DS_Store' to '.gitignore'
-#> There are 6 uncommitted files:
-#> * '.gitignore'
-#> * 'dependencies.R'
-#> * 'preregistrations/'
-#> * 'project_log/'
-#> * 'README.Rmd'
-#> * 'test-repo.Rproj'
-#> Is it ok to commit them?
-
-#> 1: Yes
-#> 2: No
-#> 3: Not now
-
-#> Selection: 1
-#> ✔ Adding files
-#> ✔ Making a commit with message 'Initial commit'
-#> ✔ Creating private GitHub repository 'StefanVermeent/test-repo'
-#> ✔ Setting remote 'origin' to 'https://github.com/StefanVermeent/test-repo.git'
-#> ✔ Pushing 'master' branch to GitHub and setting 'origin/master' as upstream branch
-#> ✔ Opening URL 'https://github.com/StefanVermeent/test-repo'
 ```
-```{r, eval=F, echo=T}
-log_milestone(".", commit_message = "Timestamped preregistration for study 1", tag = "preregistration")
-```
+
 
 `log_milestones` takes three arguments.
 The first argument (...) takes all the files that you want to include in this commit.
@@ -187,7 +149,7 @@ For the most part, these intermediate changes are not important enough to be con
 For example, they might be incremental updates to your code, bug fixes, and various intermediate versions of your manuscript.
 To log these changes, you would use the `log_changes()` function:
 
-```{r, eval=FALSE}
+```{r, eval=F, echo=T}
 log_changes(".", commit_message = "add data exclusions to analysis script")
 ```
 
@@ -205,7 +167,9 @@ In such cases, you might want to document that you only accessed the data after 
 You might even want to explore isolated parts of the data without making crucial links between dependent and independent variables---for example, making sure that there is enough variation in key variables.
 projectlog allows you to automatically log your access to the data.
 
-Explanation TBD
+```{r}
+read_data(file = "data/data.csv", read_fun = "read_csv", col_select = c(id, iv1, iv2), row_shuffle = "id")
+```
 
 ## Creating your project log
 
