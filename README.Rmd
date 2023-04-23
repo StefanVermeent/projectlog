@@ -27,7 +27,7 @@ knitr::opts_chunk$set(
 
 The three core aims of `projectlog` are:
 
-  1. Help you to set up an R project structure following best practices.
+  1. Help you to set up or convert your R project following best practices.
   2. Help you to easily keep track of important points in your project, such as preregistrations, first-time data access, and article submissions and revisions.
   3. Create a clear, reproducible, and verifiable history of your project---including major milestones---for others (e.g., reviewers or readers of your article).
 
@@ -116,7 +116,11 @@ Let's say that you finished your preregistration and want to mark it as a timest
 In order to do this, you would use the `log_milestone` function:
 
 ```{r, eval=F, echo=T}
-log_milestone("preregistrations/preregistration.md", commit_message = "Timestamped preregistration for study 1", tag = "preregistration")
+log_milestone(
+  "preregistrations/preregistration.md", 
+  commit_message = "Timestamped preregistration for study 1", 
+  tag = "preregistration"
+  )
 ```
 
 
@@ -171,7 +175,11 @@ You might even want to explore isolated parts of the data without making crucial
 `projectlog` allows you to automatically log your access to the data.
 
 ```{r, eval=FALSE, echo=TRUE}
-read_data(file = "data/data.csv", read_fun = "read_csv", col_select = c(id, iv1, iv2), row_shuffle = "id")
+read_data(
+  file = "data/data.csv", 
+  read_fun = "read_csv", 
+  col_select = c(id, iv1, iv2), 
+  row_shuffle = "id")
 ```
 
 ## Creating your project log
