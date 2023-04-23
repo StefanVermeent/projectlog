@@ -24,6 +24,7 @@
 #' (only relevant when shuffling variables using row_shuffle).
 #' @param seed integer used for replicability purposes when randomly shuffling
 #' data.
+#' @param ... Additional arguments for the read function.
 #' @return A `tibble()`. Side effects are committing and pushing the updated
 #' MD5 hash overview to GitHub in case of first-time data access.
 #' @export

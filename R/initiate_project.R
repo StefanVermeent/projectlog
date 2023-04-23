@@ -8,12 +8,13 @@
 #' 'multistudy' for a project consisting of multiple studies, and
 #' 'registered_report' for a project containing a Registered Report.
 #' Default: 'single_study'.
+#' @param preregistration Character, The preregistration template that you want to use.
 #' @param dependencies Character, indicates whether and how you want to keep track
-#' of package dependencies. Options include \code{\link[renv]{init}},
-#' \code{\link[groundhog]{groundhog}}, or 'none'.
+#' of package dependencies. Options include "renv",
+#' "groundhog", or "none".
 #' @param private_repo Logical, Should the created GitHub repository be private or public?
 #' @param ... Additional arguments passed to and from functions.
-#' @return The initial set-up of your project folder.
+#' @return The initial set-up of your project repository.
 #' @export
 initiate_project <- function(path, project = "single_study", preregistration = "empty", dependencies = "groundhog", private_repo = TRUE, ...) {
 
