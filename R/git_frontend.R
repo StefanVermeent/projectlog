@@ -1,29 +1,3 @@
-#' @title Check whether global 'Git' credentials exist
-#' @description Check whether the values \code{user.name} and \code{user.email}
-#' exist exist in the 'Git' global configuration settings.
-#' Uses \code{\link[gert:git_config]{git_config_global}}.
-#' @return Logical, indicating whether 'Git' global configuration settings could
-#' be retrieved, and contained the values
-#' \code{user.name} and \code{user.email}.
-#' @rdname has_git_user
-#' @examples
-#' has_git_user()
-#' @export
-#' @importFrom gert git_config_global
-has_git_user <- function(){
-  tryCatch({
-    cf <- gert::git_config_global()
-    if(!("user.name" %in% cf$name) & ("user.email" %in% cf$name)){
-      stop()
-    } else {
-      return(TRUE)
-    }
-  }, error = function(e){
-    message("No 'Git' credentials found, returning name = 'yourname' and email = 'yourname@email.com'.")
-    return(FALSE)
-  })
-}
-
 #' Show untracked project changes
 #'
 #' This function is a wrapper around 'gert::git_status())'.
@@ -50,7 +24,7 @@ show_changes <- function() {
 #'
 #' @return A character vector of file names.
 #' @export
-existing_tags <- function() {
+show_tags <- function() {
 
   tags <- gert::git_tag_list()
   if(nrow(tags == 0)) {

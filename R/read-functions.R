@@ -179,6 +179,12 @@ read_data <- function(file, read_fun, col_select = NULL, row_filter = NULL, row_
 }
 
 
+#' Shuffle variables in data.
+#' @param data Tibble or data.frame.
+#' @param shuffle_vars Vector, Names of variables that should be shuffled.
+#' @param long_format Logical, Is data in long-format (TRUE) or in wide-format (FALSE)?
+#' @param seed Character, Random seed to make sure shuffling is identical in subsequent `read_data()` calls.
+#' @NoRd
 shuffle <- function(data, shuffle_vars, long_format, seed = seed) {
 
   if(is.null(shuffle_vars)) {

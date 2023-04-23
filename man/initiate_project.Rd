@@ -26,9 +26,9 @@ Default: 'single_study'.}
 of package dependencies. Options include \code{\link[renv]{init}},
 \code{\link[groundhog]{groundhog}}, or 'none'.}
 
-\item{...}{Additional arguments passed to and from functions.}
+\item{private_repo}{Logical, Should the created GitHub repository be private or public?}
 
-\item{git_url}{Character, url of your remote git repository.}
+\item{...}{Additional arguments passed to and from functions.}
 }
 \value{
 The initial set-up of your project folder.

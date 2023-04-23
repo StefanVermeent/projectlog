@@ -72,9 +72,9 @@ initiate_project <- function(path, project = "single_study", preregistration = "
       # Specify names of all required packages
       pkgs <- c('projectlog')
 
-      install.packages('groundhog')
+      # install.packages('groundhog')
 
-      groundhog.library(pkgs, date = date)
+      groundhog::groundhog.library(pkgs, date = date)
     "
     writeLines(groundhog_script, con = file.path(path,"dependencies.R"))
     cli::cli_alert_success("Initiated `groundhog` for managing package dependencies ('dependencies.R')")
