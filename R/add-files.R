@@ -65,3 +65,21 @@ PackageInstallArgs: --no-multiarch --with-keep.source
     con = file.path(getwd(), proj_name)
   )
 }
+
+copy_resource <- function(file, from, to) {
+
+  dir_files <- list.files(system.file(from, package = "projectlog"))
+
+  tryCatch(
+    file %in% dir_files,
+    error = function(e) {
+      cli::cli_abort("Could not copy preregistration template to the correct folder.")
+    }
+  )
+  path_to_file <- file.path(system.file(from, package = "projectlog"), file)
+
+  file.copy(
+    from = path_to_file,
+    to = to
+  )
+}
