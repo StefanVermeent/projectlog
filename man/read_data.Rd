@@ -39,6 +39,8 @@ for full details on the selection language.}
 
 \item{seed}{integer used for replicability purposes when randomly shuffling
 data.}
+
+\item{...}{Additional arguments for the read function.}
 }
 \value{
 A `tibble()`. Side effects are committing and pushing the updated

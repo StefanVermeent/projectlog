@@ -22,16 +22,18 @@ Options include 'single_study' for a project consisting of a single study,
 'registered_report' for a project containing a Registered Report.
 Default: 'single_study'.}
 
+\item{preregistration}{Character, The preregistration template that you want to use.}
+
 \item{dependencies}{Character, indicates whether and how you want to keep track
-of package dependencies. Options include \code{\link[renv]{init}},
-\code{\link[groundhog]{groundhog}}, or 'none'.}
+of package dependencies. Options include "renv",
+"groundhog", or "none".}
 
 \item{private_repo}{Logical, Should the created GitHub repository be private or public?}
 
 \item{...}{Additional arguments passed to and from functions.}
 }
 \value{
-The initial set-up of your project folder.
+The initial set-up of your project repository.
 }
 \description{
 This function creates your project folder.

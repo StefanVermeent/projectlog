@@ -8,7 +8,7 @@ log_changes(files = ".", commit_message)
 }
 \arguments{
 \item{files}{A vector of files that you want to commit.
-Use "." to commit all changed files. Use \code{\link[gert::git_status]{gert::git_status()}}
+Use "." to commit all changed files. Use `gert::git_status`
 to get an overview of all the files that have been changed since the
 last commit.}
 
@@ -22,7 +22,7 @@ Nothing. This function is called for its side-effects.
 This function can be used to log any changes to files to GitHub.
 It should be used for any changes that do not constitute major
 milestones, such as regular code updates. For milestone commits,
-use \code{\link[projectlog::log_milestones]{projectlog::log_milestones}}.
+use `projectlog::log_milestones`.
 You can use this function routinely to update the remote Github repository
 with your latest changes. This way, you make sure that the changes are
 safely stored remotely.

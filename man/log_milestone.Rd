@@ -8,14 +8,14 @@ log_milestone(files, commit_message, tag)
 }
 \arguments{
 \item{files}{A vector of files that you want to commit.
-Use "." to commit all changed files. Use \code{\link[gert::git_status]{gert::git_status()}}
+Use "." to commit all changed files. Use `gert::git_status`
 to get an overview of all the files that have been changed since the
 last commit.}
 
 \item{commit_message}{A message that will be added to your commit to Github.
 Here, you can give more detailed information about the nature of the changes.}
 
-\item{Tag}{Character, A unique identifier for the milestone.
+\item{tag}{Character, A unique identifier for the milestone.
 Examples could be "preregistration" or "submission". Make sure that the
 identifiers are the same across similar commits to be able to link them
 together later on. Spaces and trailing numbers are not allowed.
@@ -29,7 +29,7 @@ This function can be used to log important milestones to GitHub that are
 not covered by any of the log_milestone.
 For example, you could use this function to commit the final version of
 a preregistration or to commit a submission to a scientific journal.
-see \code{\link[projectlog::log_changes]{projectlog::log_changes}} for a very similar function that
+see `projectlog::log_changes` for a very similar function that
 can be used for more minor commits (i.e., non-milestone changes to your
 project.)
 }
