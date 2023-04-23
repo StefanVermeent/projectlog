@@ -6,7 +6,7 @@ Author: Stefan Vermeent
 Maintainer: Stefan Vermeent <p.c.s.vermeent@gmail.com>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Imports:

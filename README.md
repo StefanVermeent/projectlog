@@ -9,7 +9,7 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/projectlog)](https://CRAN.R-project.org/package=projectlog)  
-[![R-CMD-check](https://github.com/stefanvermeent/OSgit/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/stefanvermeent/OSgit/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/stefanvermeent/projectlog/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/stefanvermeent/projectlog/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 # The purpose of `projectlog`
