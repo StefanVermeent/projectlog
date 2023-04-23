@@ -9,6 +9,7 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/projectlog)](https://CRAN.R-project.org/package=projectlog)  
+[![R-CMD-check](https://github.com/stefanvermeent/OSgit/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/stefanvermeent/OSgit/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 # The purpose of `projectlog`
@@ -18,7 +19,8 @@ researchers.
 
 The three core aims of `projectlog` are:
 
-1.  Help you to set up an R project structure following best practices.
+1.  Help you to set up or convert your R project following best
+    practices.
 2.  Help you to easily keep track of important points in your project,
     such as preregistrations, first-time data access, and article
     submissions and revisions.
@@ -120,7 +122,11 @@ a timestamped version in GitHub. In order to do this, you would use the
 `log_milestone` function:
 
 ``` r
-log_milestone("preregistrations/preregistration.md", commit_message = "Timestamped preregistration for study 1", tag = "preregistration")
+log_milestone(
+  "preregistrations/preregistration.md", 
+  commit_message = "Timestamped preregistration for study 1", 
+  tag = "preregistration"
+  )
 ```
 
 `log_milestones` takes three arguments. The first argument (…) takes all
@@ -200,7 +206,11 @@ is enough variation in key variables. `projectlog` allows you to
 automatically log your access to the data.
 
 ``` r
-read_data(file = "data/data.csv", read_fun = "read_csv", col_select = c(id, iv1, iv2), row_shuffle = "id")
+read_data(
+  file = "data/data.csv", 
+  read_fun = "read_csv", 
+  col_select = c(id, iv1, iv2), 
+  row_shuffle = "id")
 ```
 
 ## Creating your project log
