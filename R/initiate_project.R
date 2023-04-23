@@ -60,7 +60,7 @@ initiate_project <- function(path, project = "single_study", preregistration = "
   # Write necessary files ---------------------------------------------------
   if(dependencies == "groundhog") {
     tryCatch(
-      library(groundhog),
+      'groundhog'  %in% .packages(TRUE),
       error = function(e) {
         unlink(path, recursive = TRUE, force = T)
         cli::cli_abort("Could not use the 'groundhog' package as it does not seem to be installed. Try 'install.packages('groundhog')' first.")
