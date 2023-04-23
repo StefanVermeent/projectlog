@@ -138,7 +138,7 @@ read_data <- function(file, read_fun, col_select = NULL, row_filter = NULL, row_
 
     cli::cli_alert_info("The following commit message will be used: {commit_message}")
 
-    write_file(file = "project_log/MD5", x = paste("\n", data_hash), append = TRUE)
+    readr::write_file(file = "project_log/MD5", x = paste("\n", data_hash), append = TRUE)
 
     print(gert::git_status())
 
@@ -184,7 +184,7 @@ read_data <- function(file, read_fun, col_select = NULL, row_filter = NULL, row_
 #' @param shuffle_vars Vector, Names of variables that should be shuffled.
 #' @param long_format Logical, Is data in long-format (TRUE) or in wide-format (FALSE)?
 #' @param seed Character, Random seed to make sure shuffling is identical in subsequent `read_data()` calls.
-#' @NoRd
+#' @keywords internal
 shuffle <- function(data, shuffle_vars, long_format, seed = seed) {
 
   if(is.null(shuffle_vars)) {
@@ -202,7 +202,7 @@ shuffle <- function(data, shuffle_vars, long_format, seed = seed) {
   data <- shuffle_vars |>
     purrr::map_dfc(function(x){
       data |>
-        dplyr::select(matches(x)) |>
+        dplyr::select(tidyselect::matches(x)) |>
         dplyr::mutate(rows = rep(1:length(row_nums), row_nums)) |>
         dplyr::group_split(rows) |>
         sample() |>
@@ -214,7 +214,7 @@ shuffle <- function(data, shuffle_vars, long_format, seed = seed) {
         dplyr::select(-matches(shuffle_vars))
     ) |>
     dplyr::select(names(data)) |>
-    dplyr::arrange(across(matches(shuffle_vars[[1]])))
+    dplyr::arrange(dplyr::across(tidyselect::matches(shuffle_vars[[1]])))
 
   data
 }

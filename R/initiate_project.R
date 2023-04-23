@@ -83,14 +83,14 @@ initiate_project <- function(path, project = "single_study", preregistration = "
   if(dependencies == "renv") {
 
     tryCatch(
-      library(renv),
+      'renv'  %in% .packages(TRUE),
       error = function(e) {
         unlink(path, recursive = TRUE, force = T)
         cli::cli_abort("Could not use the 'renv' package as it does not seem to be installed. Try 'install.packages('renv')' first.")
       }
     )
     renv::init()
-    cli::cli_alert_success("Initiated `renv` for managing package dependencies ('dependencies.R')")
+    cli::cli_alert_success("Initiated `renv` for managing package dependencies.")
   }
 
   cli::cli_h1("Add necessary files")

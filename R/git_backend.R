@@ -1,5 +1,5 @@
 #' Configure Git name and email if necessary
-#' @NoRd
+#' @keywords internal
 configure_git <- function() {
   if(!gert::user_is_configured()) {
     cli::cli_alert_warning("user.name and user.email have not been configured yet.")
@@ -11,7 +11,7 @@ configure_git <- function() {
 }
 
 #' Check if Git user name and email are configured
-#' @NoRd
+#' @keywords internal
 has_git_user <- function(){
   tryCatch({
     cf <- gert::git_config_global()
@@ -27,7 +27,7 @@ has_git_user <- function(){
 }
 
 #' Check if Git is configured
-#' @NoRd
+#' @keywords internal
 has_git <- function(){
   tryCatch({
     config <- gert::libgit2_config()

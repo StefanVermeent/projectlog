@@ -90,7 +90,7 @@ log_changes <- function(files = ".", commit_message) {
 
 #' Count number of existing tags on GitHub that match the currently supplied tag.
 #' @param tag Character, the tag that should be given to the milestone commit.
-#' @NoRd
+#' @keywords internal
 count_matching_tags <- function(tag) {
   gert::git_tag_list()$name |>
     gsub(pattern = "[0-9]*$", replacement = "") |>
@@ -100,7 +100,7 @@ count_matching_tags <- function(tag) {
 
 #' Check whether files to be logged are valid.
 #' @param files Vector of files to be logged.
-#' @NoRd
+#' @keywords internal
 validate_files <- function(files) {
   if(nrow(gert::git_status()) == 0) {
     cli::cli_abort("There are no files with changes to log.")
@@ -121,7 +121,7 @@ validate_files <- function(files) {
 
 #' Check whether supplied tag is valid
 #' @param tag Character, a tag to be used in the milestone commit.
-#' @NoRd
+#' @keywords internal
 validate_tag <- function(tag) {
   TRUE
   #TODO
@@ -129,12 +129,12 @@ validate_tag <- function(tag) {
 
 #' Check whether milestone can be committed to GitHub.
 #' @param commit_message Character, message for the milestone commit.
-#' @NoRd
+#' @keywords internal
 validate_commit <- function(commit_message) {
   tryCatch(
   commit <- gert::git_commit(commit_message),
   error = function(e) {
-    git_reset_mixed()
+    gert::git_reset_mixed()
     cli::cli_abort("Failed to commit your changes locally. Reverting changes...")
   })
 }

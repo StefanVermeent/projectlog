@@ -1,6 +1,6 @@
 #' Add README file to project
 #' @param path Character, path to project repository.
-#' @NoRd
+#' @keywords internal
 add_readme <- function(path) {
   copy_resource(file = 'README.Rmd', from = 'rmd', to = path)
   cli::cli_alert_success(paste("README file:", cli::col_blue("README.Rmd")))
@@ -9,7 +9,7 @@ add_readme <- function(path) {
 #' Add preregistration file to project
 #' @param path Character, path to project repository.
 #' @param template Character, preregistration template to be used.
-#' @NoRd
+#' @keywords internal
 add_preregistration <- function(path, template) {
 
   prereg_path <- grep(x = list.dirs(path = path), pattern = "preregistrations", value = T)
@@ -35,7 +35,7 @@ add_preregistration <- function(path, template) {
 
 #' Add Registered Report file to project
 #' @param path Character, path to project repository.
-#' @NoRd
+#' @keywords internal
 add_registered_report <- function(path) {
   rr_path <- grep(x = list.dirs(path = path), pattern = "registered_report", value = T)
   copy_resource(file = "registered_report.Rmd", from = "rmd", to = rr_path)
@@ -45,7 +45,7 @@ add_registered_report <- function(path) {
 
 #' Add .Rproj file to project
 #' @param path Character, path to project repository.
-#' @NoRd
+#' @keywords internal
 add_rproj <- function(path) {
 
   proj_name <-
@@ -85,7 +85,7 @@ PackageInstallArgs: --no-multiarch --with-keep.source
 #' @param file Character, file to be copied.
 #' @param from Character, Internal path to the file.
 #' @param to Character, Location that the file should be copied to.
-#' @NoRd
+#' @keywords internal
 copy_resource <- function(file, from, to) {
 
   dir_files <- list.files(system.file(from, package = "projectlog"))
