@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# projectlog
+# projectlog <a href="https://stefanvermeent.github.io/projectlog/"><img src="man/figures/logo.png" align="right" height="139" /></a>
 
 <!-- badges: start -->
 
@@ -14,8 +14,7 @@ status](https://www.r-pkg.org/badges/version/projectlog)](https://CRAN.R-project
 
 # The purpose of `projectlog`
 
-`projectlog` is a project workflow package geared towards empirical
-researchers.
+`projectlog` is a project workflow package for empirical researchers.
 
 The three core aims of `projectlog` are:
 

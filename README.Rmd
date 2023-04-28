@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# projectlog
+# projectlog <a href="https://stefanvermeent.github.io/projectlog/"><img src="man/figures/logo.png" align="right" height="139" /></a>
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 
 # The purpose of `projectlog`
 
-`projectlog` is a project workflow package geared towards empirical researchers.
+`projectlog` is a project workflow package for empirical researchers.
 
 The three core aims of `projectlog` are:
 
