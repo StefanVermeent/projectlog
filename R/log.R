@@ -106,6 +106,14 @@ validate_files <- function(files) {
     cli::cli_abort("There are no files with changes to log.")
   }
 
+  list.files(files, recursive = TRUE) %in% gert::git_status()$file |>
+    purrr::map(function(x) {
+
+      if(file.size(x) > 1e+08) {
+        cli::cli_abort(paste0("File '", cli::col_blue(x), "' exceeds the maximum file size for GitHub (100mb). Either remove or edit the file, or go to {.url {'https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-git-large-file-storage'}} for more information on how to handle big files on GitHub."))
+      }
+    })
+
   if(files == ".") {
     return(invisible(TRUE))
   }
