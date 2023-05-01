@@ -87,7 +87,7 @@ read_data <- function(file, read_fun, col_select = NULL, row_filter = NULL, row_
   code$read = ifelse(grepl(x = read_fun, pattern = "::"), read_fun, paste0("readr::", read_fun)) |>
     paste0("('", file, "', ", col_select, dots_chr, ")")
   code$filter = paste0("dplyr::filter(", as.character(row_filter), ")")
-  code$shuffle = paste0("shuffle(data = _, shuffle_vars = ", row_shuffle, ", long_format = ", long_format, ", seed = ", seed, ")")
+  code$shuffle = paste0("shuffle(data = _, shuffle_vars = '", row_shuffle, "', long_format = ", long_format, ", seed = ", seed, ")")
 
 
   pipeline_chr <- code |>
