@@ -1,11 +1,13 @@
 Package: projectlog
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Tools for documenting your project workflow
 Version: 0.1.0
 Author: Stefan Vermeent
 Maintainer: Stefan Vermeent <p.c.s.vermeent@gmail.com>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: projectlog provides functionality for  1) initiating a project folder structure,
+    2) keeping track of project milestones as well as incremental changes, and 3) generating
+    a clear overview of your project history (e.g., for reviewers or readers of the corresponding
+    article).
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
@@ -22,12 +24,15 @@ Imports:
   glue,
   renv,
   rlang,
-  tidyselect
-RoxygenNote: 7.2.1
+  tidyselect,
+  fs
+RoxygenNote: 7.2.3
 Suggests: 
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
+Depends:
+  R (>= 2.10)
 VignetteBuilder: knitr
 URL: https://stefanvermeent.github.io/projectlog/
 Config/testthat/edition: 3
