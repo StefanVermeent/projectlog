@@ -14,11 +14,12 @@ status](https://www.r-pkg.org/badges/version/projectlog)](https://CRAN.R-project
 
 # The purpose of `projectlog`
 
-Good project management is a crucial part of a researcher’s workflow.
-
-`projectlog` helps researchers managing and documenting their project
-from start to finish. The three core aims of `projectlog` are to help
-with:
+Good project management and documentation is a crucial part any
+researcher’s workflow. Not only does it make your own life easier, but
+it makes it easier to share your code, data, and other materials with
+other researchers. `projectlog` helps researchers managing and
+documenting their project from start to finish. The three core aims of
+`projectlog` are to help with:
 
 1.  **Initiation**: Set up or convert your R project following best
     practices using a convenient project template.

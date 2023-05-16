@@ -24,8 +24,8 @@ knitr::opts_chunk$set(
 
 # The purpose of `projectlog`
 
-Good project management is a crucial part of a researcher's workflow.
-
+Good project management and documentation is a crucial part any researcher's workflow.
+Not only does it make your own life easier, but it makes it easier to share your code, data, and other materials with other researchers.
 `projectlog` helps researchers managing and documenting their project from start to finish.
 The three core aims of `projectlog` are to help with:
 
