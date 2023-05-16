@@ -22,25 +22,46 @@
     <loc>https://stefanvermeent.github.io/projectlog/index.html</loc>
   </url>
   <url>
-    <loc>https://stefanvermeent.github.io/projectlog/reference/add_preregistration.html</loc>
+    <loc>https://stefanvermeent.github.io/projectlog/reference/add_manuscript_readme.html</loc>
   </url>
   <url>
-    <loc>https://stefanvermeent.github.io/projectlog/reference/add_readme.html</loc>
+    <loc>https://stefanvermeent.github.io/projectlog/reference/add_materials_readme.html</loc>
   </url>
   <url>
-    <loc>https://stefanvermeent.github.io/projectlog/reference/add_registered_report.html</loc>
+    <loc>https://stefanvermeent.github.io/projectlog/reference/add_preregistration_readme.html</loc>
+  </url>
+  <url>
+    <loc>https://stefanvermeent.github.io/projectlog/reference/add_project_readme.html</loc>
   </url>
   <url>
     <loc>https://stefanvermeent.github.io/projectlog/reference/add_rproj.html</loc>
   </url>
   <url>
+    <loc>https://stefanvermeent.github.io/projectlog/reference/add_scripts_readme.html</loc>
+  </url>
+  <url>
+    <loc>https://stefanvermeent.github.io/projectlog/reference/add_supplement_readme.html</loc>
+  </url>
+  <url>
+    <loc>https://stefanvermeent.github.io/projectlog/reference/check_data_access.html</loc>
+  </url>
+  <url>
     <loc>https://stefanvermeent.github.io/projectlog/reference/configure_git.html</loc>
+  </url>
+  <url>
+    <loc>https://stefanvermeent.github.io/projectlog/reference/construct_code.html</loc>
   </url>
   <url>
     <loc>https://stefanvermeent.github.io/projectlog/reference/copy_resource.html</loc>
   </url>
   <url>
     <loc>https://stefanvermeent.github.io/projectlog/reference/count_matching_tags.html</loc>
+  </url>
+  <url>
+    <loc>https://stefanvermeent.github.io/projectlog/reference/get_git_url.html</loc>
+  </url>
+  <url>
+    <loc>https://stefanvermeent.github.io/projectlog/reference/get_project_name.html</loc>
   </url>
   <url>
     <loc>https://stefanvermeent.github.io/projectlog/reference/has_git.html</loc>
@@ -77,6 +98,9 @@
   </url>
   <url>
     <loc>https://stefanvermeent.github.io/projectlog/reference/validate_files.html</loc>
+  </url>
+  <url>
+    <loc>https://stefanvermeent.github.io/projectlog/reference/validate_fun.html</loc>
   </url>
   <url>
     <loc>https://stefanvermeent.github.io/projectlog/reference/validate_tag.html</loc>
