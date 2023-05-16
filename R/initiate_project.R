@@ -20,54 +20,64 @@ initiate_project <- function(path, project = "single_study", preregistration = "
 
   dots <- list(...)
 
+  if(dir.exists(path)){
+    cli::cli_abort("This directory already exists!")
+  }
+
   cli::cli_h1("Create project folder structure")
-  # Create folder structure -------------------------------------------------
-  top_folders <- c("manuscript", "supplement", "project_log", "preregistrations", "codebooks")
-  folders <- c("data", "scripts", "materials", "analysis_objects")
+
+  add_project_readme(path = path)
 
   if(project == "single_study") {
-    purrr::map(top_folders, function(x) {
-      dir.create(file.path(path,x), recursive = TRUE)
-    })
-    purrr::map(folders, function(x) {
-      dir.create(file.path(path,x), recursive = TRUE)
-    })
-
+    c("codebooks", "data", "manuscript", "preregistration", "scripts", "supplement", "materials") |>
+      lapply(function(x){
+        dir.create(file.path(path, x), recursive = TRUE)
+      })
+    add_manuscript_readme(path = file.path(path, "manuscript"))
+    add_preregistration_readme(path = file.path(path, "preregistration"))
+    add_scripts_readme(path = file.path(path, "scripts"))
+    add_supplement_readme(path = file.path(path, "supplement"))
+    add_materials_readme(path = file.path(path, "materials"))
   }
 
   if(project == "multistudy") {
-    dir.create(file.path(path,"study1"), recursive = TRUE)
-    purrr::map(top_folders, function(x) {
-      dir.create(file.path(path, x), recursive = TRUE)
-    })
-    purrr::map(folders, function(x) {
-      dir.create(file.path(path,"study1", x), recursive = TRUE)
-    })
+    c("manuscript", "supplement", "study1") |>
+      lapply(function(x){
+        dir.create(file.path(path, x), recursive = TRUE)
+        })
+    c("codebooks", "data", "preregistration", "scripts", "materials") |>
+      lapply(function(x){
+        dir.create(file.path(path, "study1", x))
+      })
+    add_manuscript_readme(path = file.path(path, "manuscript"))
+    add_preregistration_readme(path = file.path(path, "study1", "preregistration"))
+    add_scripts_readme(path = file.path(path, "study1", "scripts"))
+    add_supplement_readme(path = file.path(path, "supplement"))
+    add_materials_readme(path = file.path(path, "study1", "materials"))
   }
 
-  if(project == "registered_report") {
-    dir.create(file.path(path,"supplement"), recursive = TRUE)
-    dir.create(file.path(path,"project_log"), recursive = TRUE)
-    dir.create(file.path(path,"registered_report"))
-    purrr::map(folders, function(x) {
-      dir.create(file.path(path, x), recursive = TRUE)
-    })
-  }
+  dir.create(file.path(path, ".projectlog"))
+  writeLines("", con = file.path(path,".projectlog/MD5"))
 
-  readme <- "### Placeholder"
-
+  cli::cli_alert_success("All folders and related files were successfully created. The directory looks as follows:")
+  fs::dir_tree(path)
 
   # Write necessary files ---------------------------------------------------
-  if(dependencies == "groundhog") {
-    tryCatch(
-      'groundhog'  %in% .packages(TRUE),
-      error = function(e) {
-        unlink(path, recursive = TRUE, force = T)
-        cli::cli_abort("Could not use the 'groundhog' package as it does not seem to be installed. Try 'install.packages('groundhog')' first.")
-      }
-    )
-    groundhog_script <-
-      "
+
+  if(dependencies != "none"){
+
+    cli::cli_h1("Setting up project dependency management")
+
+    if(dependencies == "groundhog") {
+      tryCatch(
+        'groundhog'  %in% .packages(TRUE),
+        error = function(e) {
+          unlink(path, recursive = TRUE, force = T)
+          cli::cli_abort("Could not use the 'groundhog' package as it does not seem to be installed. Try 'install.packages('groundhog')' first.")
+        }
+      )
+      groundhog_script <-
+        "
       # Specify the date for which packages need to be installed
       date <- '2023-01-01'
       # Specify names of all required packages
@@ -77,39 +87,27 @@ initiate_project <- function(path, project = "single_study", preregistration = "
 
       groundhog::groundhog.library(pkgs, date = date)
     "
-    writeLines(groundhog_script, con = file.path(path,"dependencies.R"))
-    cli::cli_alert_success("Initiated `groundhog` for managing package dependencies ('dependencies.R')")
-  }
+      writeLines(groundhog_script, con = file.path(path,"dependencies.R"))
+      cli::cli_alert_success("Initiated `groundhog` for managing package dependencies ('dependencies.R')")
+    }
 
-  if(dependencies == "renv") {
-
-    tryCatch(
-      'renv'  %in% .packages(TRUE),
-      error = function(e) {
-        unlink(path, recursive = TRUE, force = T)
-        cli::cli_abort("Could not use the 'renv' package as it does not seem to be installed. Try 'install.packages('renv')' first.")
-      }
-    )
-    renv::init()
-    cli::cli_alert_success("Initiated `renv` for managing package dependencies.")
+    if(dependencies == "renv") {
+      tryCatch(
+        'renv'  %in% .packages(TRUE),
+        error = function(e) {
+          unlink(path, recursive = TRUE, force = T)
+          cli::cli_abort("Could not use the 'renv' package as it does not seem to be installed. Try 'install.packages('renv')' first.")
+        }
+      )
+      renv::init()
+      cli::cli_alert_success("Initiated `renv` for managing package dependencies.")
+    }
   }
-
-  cli::cli_h1("Add necessary files")
-  writeLines("", con = file.path(path,"project_log/MD5"))
-  cli::cli_alert_success(cli::col_blue("'project_log/MD5'"))
-  add_readme(path = path)
-  if(project!='registered_report') {
-    add_preregistration(path, preregistration)
-  }
-  if(project=='registered_report') {
-    add_registered_report(path = path)
-  }
-
 
   # Link Git ----------------------------------------------------------------
 
   # Check if valid Git signature exists
-  cli::cli_h1("Configuring Git")
+  cli::cli_h1("Configure Git")
   use_git <- has_git()
   if(!use_git){
     unlink(path, recursive = TRUE, force = T)
@@ -134,5 +132,3 @@ initiate_project <- function(path, project = "single_study", preregistration = "
     protocol = 'https'
   )
 }
-
-

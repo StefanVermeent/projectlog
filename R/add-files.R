@@ -1,21 +1,104 @@
-#' Add README file to project
+#' Add top-level project README file to project
 #' @param path Character, path to project repository.
 #' @keywords internal
-add_readme <- function(path) {
-  copy_resource(file = 'README.Rmd', from = 'rmd', to = path)
-  cli::cli_alert_success(paste("README file:", cli::col_blue("README.Rmd")))
+add_project_readme <- function(path){
+  link <- paste0(get_git_url(), "/tree/master/")
+
+  README <- writeLines(
+    paste0("
+  ---
+  title: '[Your title here]'
+  output: github_document
+  bibliography: bib-files/references.bib
+  csl: bib-files/apa.csl
+  link-citations: true
+  ---
+
+  *Last updated `r format(Sys.time(), 'on %A, %B %d, %Y at %I:%M %p')`*
+
+  ## Overview
+
+  This repository contains a preregistration, data, code, an (eventual) reproducible manuscript/supplement for a project entitled '[Your title here]'.
+
+  [Brief description of your project here].
+
+  ## Directory Structure
+
+  The names of each folder are intended to be self-explanatory. There are six components organize the inputs and outputs of this project:
+
+  1.  [`codebooks`](", link, "codebooks): lists of variable names, labels, and value labels (where applicable).
+  2.  [`data`](", link, "data): raw data, stored as `.Rdata` and .csv files.
+  3.  [`manuscript`](", link, "manuscript): a reproducible manuscript for submission to a journal.
+  4.  [`preregistration`](", link, "preregistration): a preregistration document that details the plans for this project.
+  5.  [`scripts`](", link, "scripts): R-scripts that read, analyze, and produce all outputs.
+  6.  [`supplement`](", link, "supplement): a supplemental text with additional information and materials.
+
+  ## References"
+    ),
+    con = file.path(path,"README.Rmd"))
+}
+
+#' Add manuscript folder README file to project
+#' @param path Character, path to project repository.
+#' @keywords internal
+add_manuscript_readme <- function(path){
+  README <- writeLines(
+    paste0(
+    "---
+bibliography: bib-files/references.bib
+csl: apa.csl
+format:
+  docx:
+    reference-doc: reference-doc.docx
+    toc: true
+    toc-location: left
+    toc-title: Table of Contents
+output:
+  officedown::rdocx_document:
+    page_margins:
+      bottom: 1
+      footer: 0
+      gutter: 0
+      header: 0.5
+      left: 1
+      right: 1
+      top: 1
+    plots:
+      align: center
+      caption:
+        pre: 'Figure '
+        sep: '. '
+        style: Image Caption
+    tables:
+      caption:
+        pre: 'Table '
+        sep: '. '
+        style: Table Caption
+  pdf_document: default
+  word_document: default
+editor:
+  markdown:
+    wrap: sentence
+---
+
+These are the supplemental materials.
+
+## References
+  "
+    ),
+    con = file.path(path,"README.Rmd")
+  )
 }
 
 #' Add preregistration file to project
 #' @param path Character, path to project repository.
 #' @param template Character, preregistration template to be used.
 #' @keywords internal
-add_preregistration <- function(path, template) {
-
+add_preregistration_readme <- function(path){
   prereg_path <- grep(x = list.dirs(path = path), pattern = "preregistrations", value = T)
   if(!template %in% c("empty", "secondary")) {
     rmarkdown::draft(
-      file = file.path(prereg_path, "preregistration.Rmd"),
+      file = file.path(prereg_path, "README.Rmd"),
       template = paste0(template, "_prereg"),
       package = "prereg",
       edit = FALSE
@@ -29,18 +112,96 @@ add_preregistration <- function(path, template) {
       copy_resource(file = "secondary.rmd", from = "rmd", to = prereg_path)
     }
   }
-  cli::cli_alert_success(paste("Preregistration:", cli::col_blue(file.path(prereg_path, "preregistation.Rmd"))))
 }
 
-
-#' Add Registered Report file to project
+#' Add scripts folder README file to project
 #' @param path Character, path to project repository.
 #' @keywords internal
-add_registered_report <- function(path) {
-  rr_path <- grep(x = list.dirs(path = path), pattern = "registered_report", value = T)
-  copy_resource(file = "registered_report.Rmd", from = "rmd", to = rr_path)
-  cli::cli_alert_success(paste("Registered Report:", cli::col_blue(file.path(rr_path, "registered_report.Rmd"))))
+add_scripts_readme <- function(path){
+  README <- writeLines(
+    paste0(
+    "---
+title: 'Analysis scripts'
+output: github_document
+bibliography: bib-files/references.bib
+csl: bib-files/apa.csl
+link-citations: true
+---"
+    ),
+    con = file.path(path,"README.Rmd")
+  )
 }
+
+#' Add supplemental materials file
+#' @param path Character, path to project repository.
+#' @keywords internal
+add_supplement_readme <- function(path){
+  README <- writeLines(
+    paste0(
+    "---
+bibliography: bib-files/references.bib
+csl: apa.csl
+format:
+  docx:
+    reference-doc: reference-doc.docx
+    toc: true
+    toc-location: left
+    toc-title: Table of Contents
+output:
+  officedown::rdocx_document:
+    page_margins:
+      bottom: 1
+      footer: 0
+      gutter: 0
+      header: 0.5
+      left: 1
+      right: 1
+      top: 1
+    plots:
+      align: center
+      caption:
+        pre: 'Figure '
+        sep: '. '
+        style: Image Caption
+    tables:
+      caption:
+        pre: 'Table '
+        sep: '. '
+        style: Table Caption
+  pdf_document: default
+  word_document: default
+editor:
+  markdown:
+    wrap: sentence
+---
+
+These are the supplemental materials.
+
+## References
+  "
+    ),
+    con = file.path(path,"README.Rmd")
+  )
+}
+
+#' Add materials folder README file to project
+#' @param path Character, path to project repository.
+#' @keywords internal
+add_materials_readme <- function(path){
+  README <- writeLines(
+    paste0(
+      "---
+title: 'Materials'
+output: github_document
+bibliography: bib-files/references.bib
+csl: bib-files/apa.csl
+link-citations: true
+---"
+    ),
+    con = file.path(path,"README.Rmd")
+  )
+}
+
 
 
 #' Add .Rproj file to project
@@ -49,8 +210,7 @@ add_registered_report <- function(path) {
 add_rproj <- function(path) {
 
   proj_name <-
-    regexpr(pattern = "([a-z]|[0-9]|-|_)*$", text = path) |>
-    regmatches(m = _, x = path) |>
+    get_project_name(path) |>
     paste0(".Rproj")
 
   writeLines(
@@ -103,3 +263,4 @@ copy_resource <- function(file, from, to) {
     to = to
   )
 }
+

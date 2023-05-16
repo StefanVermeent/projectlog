@@ -30,45 +30,16 @@
 #' @export
 read_data <- function(file, read_fun, col_select = NULL, row_filter = NULL, row_shuffle = NULL, long_format = FALSE, seed = 3985843, ...) {
 
-  # Validate input
   read_fun <- read_fun |> gsub(pattern="\\(|\\)", replacement = "")
 
-  if(!file.exists(file)) {
-    cli::cli_abort(paste("The file", cli::col_blue(file.path(getwd(), file)), "was not found in your project directory."))
-  }
+  validate_fun()
 
-  if(stringr::str_detect(read_fun, "::", negate = TRUE)) {
-    if(!read_fun %in% ls("package:readr")) {
-      cli::cli_abort(paste0(cli::col_blue("`{read_fun}()`"), " is not a valid function in package ", cli::col_red("`readr`"),". Check your input for typos. If the function is part of another package than ", cli::col_red("`readr`"),", specify the package name explicitly (e.g., '", cli::col_red('haven::read_spss'),"')."))
-    } else {
-      cli::cli_alert_info(paste("Using function", cli::col_blue('`{read_fun}`'), "from the", cli::col_red('`readr`'), "package."))
-    }
-  } else {
-    input <- strsplit(read_fun, "::")
-
-    tryCatch(
-      input[[1]][1] %in% .packages(TRUE),
-      error = cli::cli_abort(paste0("There is no package called ", cli::col_red('{input[[1]][1]}'), ". Try 'install.packages('{input[[1]][1]}')' first."))
-    )
-
-    if(!input[[1]][1] %in% .packages(TRUE)) {
-      cli::cli_abort(paste0("Package ", cli::col_red('`{input[[1]][1]}`'), " not found. Try 'install_packages('{input[[1]][1]}')' first."))
-    }
-    if(!input[[1]][2] %in% ls(glue::glue("package:{input[[1]][1]}"))) {
-      cli::cli_abort(paste0(cli::col_blue("'{input[[1]][2]}'"), " is not a valid function in package ", cli::col_red('`{input[[1]][1]}`'), ". Did you make a typo?"))
-    }
-
-    cli::cli_alert_info(paste0("Using function ", cli::col_blue('{input[[1]][2]}()'), " from the '{input[[1]][1]}' package."))
-  }
-
-
-  # Capture and tidy dots
   dots <- list(...)
 
   if(length(dots) > 0) {
     dots_chr <- 1:length(dots) |>
       purrr::map(function(x) {
-        paste0(names(dots[x]), " = ", dots[[x]])
+        paste0(names(dots[x]), " = '", dots[[x]], "'")
       }) |>
       purrr::compact() |>
       paste(collapse = ", ") |>
@@ -78,48 +49,16 @@ read_data <- function(file, read_fun, col_select = NULL, row_filter = NULL, row_
     dots_chr = ""
   }
 
-  # Capture data read and manipulation inputs
-  col_select = paste0("col_select = ", ifelse(!is.null(col_select), as.character(col_select), "NULL"))
-  row_shuffle = ifelse(is.null(row_shuffle), "NULL", row_shuffle)
-
-  code <- list()
-
-  code$read = ifelse(grepl(x = read_fun, pattern = "::"), read_fun, paste0("readr::", read_fun)) |>
-    paste0("('", file, "', ", col_select, dots_chr, ")")
-  code$filter = paste0("dplyr::filter(", as.character(row_filter), ")")
-  code$shuffle = paste0("shuffle(data = _, shuffle_vars = '", row_shuffle, "', long_format = ", long_format, ", seed = ", seed, ")")
-
-
-  pipeline_chr <- code |>
-    paste(collapse = " |> ")
-
-  cli::cli_alert_info("The following code will be executed: {pipeline_chr}", wrap = T)
-
   # Execute code
-  data <- pipeline_chr |>
+  data <-  construct_code() |>
     glue::glue(.trim = F) |>
     rlang::parse_expr() |>
     rlang::eval_tidy()
 
-  # Check whether data has been accessed before
-
   cli::cli_h1("Check for first-time data access")
   data_hash <- digest::digest(data)
 
-  previous_commits <-
-    gert::git_tag_list() |>
-    dplyr::filter(stringr::str_detect(name, "data_access")) |>
-    dplyr::pull(commit) |>
-    purrr::map_df(function(x){
-      gert::git_commit_info(ref = x) |>
-        tidyr::as_tibble()
-    })
-
-  committed_hashes <- gert::git_log() |>
-    dplyr::filter(commit %in% previous_commits$id) |>
-    dplyr::pull(message) |>
-    (\(.) regmatches(x = ., m = gregexpr("[a-z0-9]{32}", text = .)))() |>
-    unlist()
+  committed_hashes <- check_data_access()
 
   cli::cli_alert_info("{length(committed_hashes)} previously committed data files found.")
 
@@ -141,26 +80,22 @@ read_data <- function(file, read_fun, col_select = NULL, row_filter = NULL, row_
 
     readr::write_file(file = "project_log/MD5", x = paste("\n", data_hash), append = TRUE)
 
-    print(gert::git_status())
 
-    matching_tags <- gert::git_tag_list()$name |>
-      gsub(pattern = "[0-9]*$", replacement = "") |>
-      grepl(pattern = "data_access") |>
-      sum()
+
+    matching_tags <- count_matching_tags(tag = "data_access")
 
     if(matching_tags > 0) {
       tag <- paste0("data_access",matching_tags)
     } else {
       tag <- "data_access"
     }
-    print(tag)
-    print(gert::git_status())
+
     gert::git_add("project_log/MD5")
-    print(gert::git_status())
-    print('shit is added')
+
+    commit <- validate_commit(commit_message)
+
     tryCatch(
       {
-        commit <- gert::git_commit(commit_message)
         gert::git_tag_create(name = tag, message = '', ref = commit, repo = '.')
         gert::git_tag_push(name = tag, repo = ".")
         gert::git_push()
@@ -177,6 +112,7 @@ read_data <- function(file, read_fun, col_select = NULL, row_filter = NULL, row_
   }
   cli::cli_alert_info("Data file was accessed before, so no commit will be initiated.")
   return(data)
+
 }
 
 
@@ -220,3 +156,98 @@ shuffle <- function(data, shuffle_vars, long_format, seed = seed) {
   data
 }
 
+#' Validate read function used in projectlog::initiate_project()
+#' @param file Character, path to data file.
+#' @param fun Character, name of function to read data.
+#' @keywords internal
+validate_fun <- function(file, fun) {
+
+  if(!file.exists(file)) {
+    cli::cli_abort(paste("The file", cli::col_blue(file.path(getwd(), file)), "was not found in your project directory."))
+  }
+
+  if(stringr::str_detect(read_fun, "::", negate = TRUE)) {
+    if(!read_fun %in% ls("package:readr")) {
+      cli::cli_abort(paste0(cli::col_blue("`{read_fun}()`"), " is not a valid function in package ", cli::col_red("`readr`"),". Check your input for typos. If the function is part of another package than ", cli::col_red("`readr`"),", specify the package name explicitly (e.g., '", cli::col_red('haven::read_spss'),"')."))
+    } else {
+      cli::cli_alert_info(paste("Using function", cli::col_blue('`{read_fun}`'), "from the", cli::col_red('`readr`'), "package."))
+    }
+  } else {
+    input <- strsplit(read_fun, "::")
+
+    tryCatch(
+      input[[1]][1] %in% .packages(TRUE),
+      error = cli::cli_abort(paste0("There is no package called ", cli::col_red('{input[[1]][1]}'), ". Try 'install.packages('{input[[1]][1]}')' first."))
+    )
+
+    if(!input[[1]][1] %in% .packages(TRUE)) {
+      cli::cli_abort(paste0("Package ", cli::col_red('`{input[[1]][1]}`'), " not found. Try 'install_packages('{input[[1]][1]}')' first."))
+    }
+    if(!input[[1]][2] %in% ls(glue::glue("package:{input[[1]][1]}"))) {
+      cli::cli_abort(paste0(cli::col_blue("'{input[[1]][2]}'"), " is not a valid function in package ", cli::col_red('`{input[[1]][1]}`'), ". Did you make a typo?"))
+    }
+
+    cli::cli_alert_info(paste0("Using function ", cli::col_blue('{input[[1]][2]}()'), " from the '{input[[1]][1]}' package."))
+  }
+
+  TRUE
+}
+
+#' Construct code that is used to read new data
+#' @param read_fun The name of a function to read data. for 'readr' functions,
+#' you only have to specify the function name (e.g., `read_csv()`). If you use
+#' a function from another package, name the package explicitly
+#' (e.g., `haven::read_spss()`).
+#' @param col_select Columns to include in the results. You can use the same
+#' mini-language as `dplyr::select()` to refer to the columns by name. Use `c()`
+#' to use more than one selection expression. Although this usage is less common,
+#' col_select also accepts a numeric column index. See ?tidyselect::language
+#' for full details on the selection language.
+#' @param row_filter Optional rows to include in the results. Uses `dplyr::filter()`.
+#' @param row_shuffle Optional variables to randomly shuffle.
+#' @param long_format Logical indicating whether the data are in long format
+#' (only relevant when shuffling variables using row_shuffle).
+#' @param seed integer used for replicability purposes when randomly shuffling
+#' data.
+#' @param dots_chr Additional arguments for the read function, parsed as a string
+#' @keywords internal
+construct_code <- function(col_select, read_fun, row_filter, row_shuffle, long_format, seed, dots_chr){
+
+  # Capture data read and manipulation inputs
+  col_select = paste0("col_select = ", ifelse(!is.null(col_select), as.character(col_select), "NULL"))
+  row_shuffle = ifelse(is.null(row_shuffle), "NULL", row_shuffle)
+
+  code <- list()
+
+  code$read = ifelse(grepl(x = read_fun, pattern = "::"), read_fun, paste0("readr::", read_fun)) |>
+    paste0("('", file, "', ", col_select, dots_chr, ")")
+  code$filter = paste0("dplyr::filter(", as.character(row_filter), ")")
+  code$shuffle = paste0("shuffle(data = _, shuffle_vars = '", row_shuffle, "', long_format = ", long_format, ", seed = ", seed, ")")
+
+  pipeline_chr <- code |>
+    paste(collapse = " |> ")
+
+  cli::cli_alert_info("The following code will be executed: {pipeline_chr}", wrap = T)
+
+  pipeline_chr
+}
+
+#' Check whether data was accessed previously
+#' @param data_hash MD5 hash of the current data object (after any modifications).
+#' @keywords internal
+check_data_access <- function(data_hash) {
+  previous_commits <-
+    gert::git_tag_list() |>
+    dplyr::filter(stringr::str_detect(name, "data_access")) |>
+    dplyr::pull(commit) |>
+    purrr::map_df(function(x){
+      gert::git_commit_info(ref = x) |>
+        tidyr::as_tibble()
+    })
+
+  gert::git_log() |>
+    dplyr::filter(commit %in% previous_commits$id) |>
+    dplyr::pull(message) |>
+    (\(.) regmatches(x = ., m = gregexpr("[a-z0-9]{32}", text = .)))() |>
+    unlist()
+}
