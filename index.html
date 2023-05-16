@@ -85,20 +85,23 @@
 <h1 id="the-purpose-of-projectlog">The purpose of <code>projectlog</code>
 <a class="anchor" aria-label="anchor" href="#the-purpose-of-projectlog"></a>
 </h1>
-<p><code>projectlog</code> is a project workflow package for empirical researchers.</p>
-<p>The three core aims of <code>projectlog</code> are:</p>
+<p>Good project management is a crucial part of a researcher’s workflow.</p>
+<p><code>projectlog</code> helps researchers managing and documenting their project from start to finish. The three core aims of <code>projectlog</code> are to help with:</p>
 <ol style="list-style-type: decimal">
-<li>Help you to set up or convert your R project following best practices.</li>
-<li>Help you to easily keep track of important points in your project, such as preregistrations, first-time data access, and article submissions and revisions.</li>
-<li>Create a clear, reproducible, and verifiable history of your project—including major milestones—for others (e.g., reviewers or readers of your article).</li>
+<li>
+<strong>Initiation</strong>: Set up or convert your R project following best practices using a convenient project template.</li>
+<li>
+<strong>Documentation</strong>: Easily keep track of important <em>milestones</em>, such as preregistrations, first-time data access, and article submissions and revisions.</li>
+<li>
+<strong>Communication</strong>: Create a clear, reproducible, and verifiable history of your project—including major milestones—to show what you did and when you did it to others (e.g., reviewers or readers of your article).</li>
 </ol>
-<p>If you are already using git in your workflow to track your changes and share your code and materials, <code>projectlog</code> provides functionality that automates common steps and helps you get the most out of the information that Git stores for you. If you are not familiar with Git—or if the mere mention of it strikes fear into your heart—then <code>projectlog</code> is set up in a way that you rarely have to interact with Git directly.</p>
+<p><code>projectlog</code> uses Git and GitHub throughout all stages of the project. If you are already using git in your workflow to track your changes and share your code and materials, <code>projectlog</code> provides functionality that automates common steps and helps you get the most out of the information that Git stores for you. If you are not familiar with Git—or if the mere mention of it strikes fear into your heart—then <code>projectlog</code> is set up in a way that you rarely have to interact with Git directly. For example, initiating a new project using the <code>projectlog</code> template automatically creates a connected repository on GitHub, and the core steps of documenting project changes on GitHub are made easy through the convenience functions such as <code><a href="reference/log_milestone.html">projectlog::log_milestone</a></code> or <code><a href="reference/log_changes.html">projectlog::log_changes</a></code>. See <a href="https://stefanvermeent.github.io/projectlog/articles/projectlog.html">Get started</a> and the <a href="https://stefanvermeent.github.io/projectlog/articles/">Vignettes</a> for more detailed information.</p>
 </div>
 <div class="section level1">
 <h1 id="before-we-start-setting-up-git">Before we start… Setting up Git<a class="anchor" aria-label="anchor" href="#before-we-start-setting-up-git"></a>
 </h1>
-<p>One of the main aims of projectlog is that it can be used by people who are not (intimately) familiar with Git or GitHub. However, you will still need to to three things to ensure that projectlog works properly:<br> (1) Create a free account on <a href="https://github.com/join" class="external-link">GitHub</a><br> (2) Install <a href="https://git-scm.com/downloads" class="external-link">Git</a> on your device<br> (3) Make sure R knows where to find git on your device<br></p>
-<p>These three steps are described in more detail in the Git vignette (TBD). Note that in principle, you only have to go through these steps once for a particular device.</p>
+<p>One of the main aims of <code>projectlog</code> is that it can be used by people who are not (intimately) familiar with Git or GitHub. However, you will still need to to three things to ensure that <code>projectlog</code> works properly:<br> (1) Create a free account on <a href="https://github.com/join" class="external-link">GitHub</a><br> (2) Install <a href="https://git-scm.com/downloads" class="external-link">Git</a> on your device<br> (3) Make sure R knows where to find git on your device<br></p>
+<p>These three steps are described in more detail in <a href="https://stefanvermeent.github.io/projectlog/articles/setting-up-git.html">This Vignette</a>. Note that you only have to complete step 1 once, and only have to repeat steps 2 and 3 when you switch devices.</p>
 </div>
 <div class="section level1">
 <h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -110,92 +113,7 @@
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>Below are brief examples of how <code>projectlog</code> can be used over the course of your project. See the <a href="XXX">vignette</a> for a more detailed overview and examples.</p>
-<div class="section level3">
-<h3 id="initiating-your-project">Initiating your project<a class="anchor" aria-label="anchor" href="#initiating-your-project"></a>
-</h3>
-<p><img src="inst/img/open_project.png" width="100%"></p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#&gt; ── Create project folder structure ───────────────────────────────────────────────────────────────────────────────────</span></span>
-<span><span class="co">#&gt; Loaded 'groundhog' (version:2.2.1)</span></span>
-<span><span class="co">#&gt; Tips and troubleshooting: https://groundhogR.com</span></span>
-<span><span class="co">#&gt; ✔ Initiated `groundhog` for managing package dependencies ('dependencies.R')</span></span>
-<span></span>
-<span><span class="co">#&gt; ── Add necessary files ───────────────────────────────────────────────────────────────────────────────────────────────</span></span>
-<span><span class="co">#&gt; ✔ 'project_log/MD5'</span></span>
-<span><span class="co">#&gt; ✔ README file: README.Rmd</span></span>
-<span><span class="co">#&gt; ✔ Preregistration: test-repo/preregistrations/preregistation.Rmd</span></span>
-<span></span>
-<span><span class="co">#&gt; ── Configuring Git ───────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
-<span><span class="co">#&gt; ✔ Working version of Git found!</span></span>
-<span><span class="co">#&gt; ✔ Git was configured successfully.</span></span>
-<span><span class="co">#&gt; ✔ Setting active project to 'C:/Repositories/test-repo'</span></span>
-<span><span class="co">#&gt; ✔ Adding '.Rproj.user', '.Rhistory', '.Rdata', '.httr-oauth', '.DS_Store' to '.gitignore'</span></span>
-<span><span class="co">#&gt; There are 6 uncommitted files:</span></span>
-<span><span class="co">#&gt; * '.gitignore'</span></span>
-<span><span class="co">#&gt; * 'dependencies.R'</span></span>
-<span><span class="co">#&gt; * 'preregistrations/'</span></span>
-<span><span class="co">#&gt; * 'project_log/'</span></span>
-<span><span class="co">#&gt; * 'README.Rmd'</span></span>
-<span><span class="co">#&gt; * 'test-repo.Rproj'</span></span>
-<span><span class="co">#&gt; Is it ok to commit them?</span></span>
-<span></span>
-<span><span class="co">#&gt; 1: Yes</span></span>
-<span><span class="co">#&gt; 2: No</span></span>
-<span><span class="co">#&gt; 3: Not now</span></span>
-<span></span>
-<span><span class="co">#&gt; Selection: 1</span></span>
-<span><span class="co">#&gt; ✔ Adding files</span></span>
-<span><span class="co">#&gt; ✔ Making a commit with message 'Initial commit'</span></span>
-<span><span class="co">#&gt; ✔ Creating private GitHub repository 'StefanVermeent/test-repo'</span></span>
-<span><span class="co">#&gt; ✔ Setting remote 'origin' to 'https://github.com/StefanVermeent/test-repo.git'</span></span>
-<span><span class="co">#&gt; ✔ Pushing 'master' branch to GitHub and setting 'origin/master' as upstream branch</span></span>
-<span><span class="co">#&gt; ✔ Opening URL 'https://github.com/StefanVermeent/test-repo'</span></span></code></pre></div>
-<p>TBD</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="logging-project-milestones-to-github">Logging project milestones to GitHub<a class="anchor" aria-label="anchor" href="#logging-project-milestones-to-github"></a>
-</h2>
-<p>Milestones are any major update to your project that you want to give a special tag. Examples are timestamping a preregistration, a final version of analysis code, submission of a manuscript, etc. In other words, milestones are the events in your project history that you want to point out to reviewers and/or future interested readers.</p>
-<p>Let’s say that you finished your preregistration and want to mark it as a timestamped version in GitHub. In order to do this, you would use the <code>log_milestone</code> function:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/log_milestone.html">log_milestone</a></span><span class="op">(</span></span>
-<span>  <span class="st">"preregistrations/preregistration.md"</span>, </span>
-<span>  commit_message <span class="op">=</span> <span class="st">"Timestamped preregistration for study 1"</span>, </span>
-<span>  tag <span class="op">=</span> <span class="st">"preregistration"</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-<p><code>log_milestones</code> takes three arguments. The first argument (…) takes all the files that you want to include in this commit. You can use either use “.” to include all currently modified files, or you can include specific files only (e.g., only the preregistration files. See <code><a href="reference/show_changes.html">show_changes()</a></code> for an overview of all modified files). The second argument (commit_message) can be used to give your milestone an informative commit. For example, you can use the commit_message to give the reader more information about the scope and type of the preregistration. The third argument (tag) is a unique tag that defines this milestone. You should use the same tag across all milestones that achieve the same thing. For example, if you register three preregistrations over the course of your project, all of them should get identical tags (e.g., ‘preregistration’).</p>
-<p><code>projectlog</code> does not come with predefined tags, but instead gives you the freedom to name the tags yourself. The only requirement is that the tag does not contain spaces and does not end with a number. The latter requirement is necessary because <code>projectlog</code> automatically appends a number to your tab if the same tag was used before. For example, if you’ve used the tag ‘preregistration’ before to timestamp the preregistration for your first study, and later on use the same tag again to timestamp the preregistration for your second study, <code>projectlog</code> will automatically change the new tag to ‘preregistration1’. The reason for this is that Git tags need to be unique strings. When summarizing your project history later on, the same tags will be grouped together.</p>
-<p>This freedom to define your own tag comes with a trade-off: you will have to be careful that you do not make typos, and that new tags exactly match previous tags (e.g., if you use ‘preregistration’ at one point and ‘prereg’ at a later point, these will be seen as two different types of milestones). Below, we list some examples of tags that might come in handy for many empirical projects:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> <span class="st">'preregistration'</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> <span class="st">'code'</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> <span class="st">'submission'</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> <span class="st">'revision'</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="logging-regular-changes-to-github">Logging regular changes to GitHub<a class="anchor" aria-label="anchor" href="#logging-regular-changes-to-github"></a>
-</h2>
-<p>Aside from logging important milestones, it is good practice to regularly log changes to your repository to GitHub. This ensures that you can always go back to previous versions of your project, and that your code is safe if your PC crashes. For the most part, these intermediate changes are not important enough to be considered milestones. For example, they might be incremental updates to your code, bug fixes, and various intermediate versions of your manuscript. To log these changes, you would use the <code><a href="reference/log_changes.html">log_changes()</a></code> function:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/log_changes.html">log_changes</a></span><span class="op">(</span><span class="st">"."</span>, commit_message <span class="op">=</span> <span class="st">"add data exclusions to analysis script"</span><span class="op">)</span></span></code></pre></div>
-<p>As you can see, <code><a href="reference/log_changes.html">log_changes()</a></code> is very similar to <code><a href="reference/log_milestone.html">log_milestone()</a></code>. The only difference is that <code><a href="reference/log_changes.html">log_changes()</a></code> does not create a tag that get’s added to the commit.</p>
-</div>
-<div class="section level2">
-<h2 id="logging-data-access">Logging data access<a class="anchor" aria-label="anchor" href="#logging-data-access"></a>
-</h2>
-<p>One special type of milestone that <code>projectlog</code> allows you to log is the first time you access certain parts of your data. It is becoming increasingly common to conduct secondary data analyses on existing data following open science principles. This is helped, for example, by specific <a href="https://osf.io/x4gzt/" class="external-link">preregistration templates for secondary data</a>. In addition, several established openly available datasets—such as the <a href="https://abcdstudy.org/" class="external-link">ABCD study</a>—actively encourage using the Registered Report format. In such cases, you might want to document that you only accessed the data after writing your preregistration or after obtaining Stage 1 acceptance of your Registered Report. You might even want to explore isolated parts of the data without making crucial links between dependent and independent variables—for example, making sure that there is enough variation in key variables. <code>projectlog</code> allows you to automatically log your access to the data.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/read_data.html">read_data</a></span><span class="op">(</span></span>
-<span>  file <span class="op">=</span> <span class="st">"data/data.csv"</span>, </span>
-<span>  read_fun <span class="op">=</span> <span class="st">"read_csv"</span>, </span>
-<span>  col_select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">iv1</span>, <span class="va">iv2</span><span class="op">)</span>, </span>
-<span>  row_shuffle <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="creating-your-project-log">Creating your project log<a class="anchor" aria-label="anchor" href="#creating-your-project-log"></a>
-</h2>
-<p>TBD</p>
+<p>See <a href="https://stefanvermeent.github.io/projectlog/articles/projectlog.html">Get started</a> for examples of how to use projectlog.</p>
 </div>
 </div>
 
