@@ -1,0 +1,11 @@
+pandoc: 2.19.2
+pkgdown: 2.0.7
+pkgdown_sha: ~
+articles:
+  projectlog: projectlog.html
+  setting-up-git: setting-up-git.html
+last_built: 2023-05-16T10:52Z
+urls:
+  reference: https://stefanvermeent.github.io/projectlog/reference
+  article: https://stefanvermeent.github.io/projectlog/articles
+
