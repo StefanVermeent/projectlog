@@ -25,7 +25,7 @@ Below are brief examples of how `projectlog` can be used over the course of your
 ### Initiating your project
 
 ```{r, eval=TRUE, echo=FALSE, message=TRUE, fig.height = 2}
-knitr::include_graphics("inst/img/open_project.png")
+knitr::include_graphics("../inst/img/open_project.png")
 ```
 
 ```{r, eval=TRUE,echo=TRUE}
