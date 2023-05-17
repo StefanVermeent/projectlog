@@ -26,7 +26,7 @@ initiate_project <- function(path, project = "single_study", preregistration = "
 
   cli::cli_h1("Create project folder structure")
 
-  add_project_readme(path = path)
+
 
   if(project == "single_study") {
     c("codebooks", "data", "manuscript", "preregistration", "scripts", "supplement", "materials") |>
@@ -34,7 +34,7 @@ initiate_project <- function(path, project = "single_study", preregistration = "
         dir.create(file.path(path, x), recursive = TRUE)
       })
     add_manuscript_readme(path = file.path(path, "manuscript"))
-    add_preregistration_readme(path = file.path(path, "preregistration"))
+    add_preregistration_readme(path = file.path(path, "preregistration"), template = preregistration)
     add_scripts_readme(path = file.path(path, "scripts"))
     add_supplement_readme(path = file.path(path, "supplement"))
     add_materials_readme(path = file.path(path, "materials"))
@@ -49,6 +49,7 @@ initiate_project <- function(path, project = "single_study", preregistration = "
       lapply(function(x){
         dir.create(file.path(path, "study1", x))
       })
+    add_project_readme(path = path)
     add_manuscript_readme(path = file.path(path, "manuscript"))
     add_preregistration_readme(path = file.path(path, "study1", "preregistration"))
     add_scripts_readme(path = file.path(path, "study1", "scripts"))
@@ -88,7 +89,7 @@ initiate_project <- function(path, project = "single_study", preregistration = "
       groundhog::groundhog.library(pkgs, date = date)
     "
       writeLines(groundhog_script, con = file.path(path,"dependencies.R"))
-      cli::cli_alert_success("Initiated `groundhog` for managing package dependencies ('dependencies.R')")
+      cli::cli_alert_success("Initiated `groundhog` for managing package dependencies ('dependencies.R'). See {.url https://groundhogr.com/} for more information.")
     }
 
     if(dependencies == "renv") {
@@ -100,7 +101,7 @@ initiate_project <- function(path, project = "single_study", preregistration = "
         }
       )
       renv::init()
-      cli::cli_alert_success("Initiated `renv` for managing package dependencies.")
+      cli::cli_alert_success("Initiated `renv` for managing package dependencies. See {.url https://rstudio.github.io/renv/articles/renv.html} for more information.")
     }
   }
 
@@ -117,7 +118,7 @@ initiate_project <- function(path, project = "single_study", preregistration = "
     cli::cli_alert_success("Working version of Git found!")
     gert::git_init(path = path)
   }
-  cli::cli_alert_success("Git was configured successfully.")
+  cli::cli_alert_success("Local Git configuration was succesful.")
 
   # Switch to new project and manually create an .Rproj file
   setwd(path)
@@ -131,4 +132,6 @@ initiate_project <- function(path, project = "single_study", preregistration = "
     private = TRUE,
     protocol = 'https'
   )
+
+  cli::cli_alert_success(paste0("All set! Switching now to your new project at ", cli::col_blue(path)))
 }

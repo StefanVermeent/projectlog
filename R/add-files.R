@@ -4,7 +4,7 @@
 add_project_readme <- function(path){
   link <- paste0(get_git_url(), "/tree/master/")
 
-  README <- writeLines(
+  writeLines(
     paste0("
   ---
   title: '[Your title here]'
@@ -94,8 +94,8 @@ These are the supplemental materials.
 #' @param path Character, path to project repository.
 #' @param template Character, preregistration template to be used.
 #' @keywords internal
-add_preregistration_readme <- function(path){
-  prereg_path <- grep(x = list.dirs(path = path), pattern = "preregistrations", value = T)
+add_preregistration_readme <- function(path, template){
+  prereg_path <- grep(x = list.dirs(path = path), pattern = "preregistration", value = T)
   if(!template %in% c("empty", "secondary")) {
     rmarkdown::draft(
       file = file.path(prereg_path, "README.Rmd"),
@@ -106,10 +106,12 @@ add_preregistration_readme <- function(path){
   } else {
     if(template == "empty") {
       copy_resource(file = "prereg_empty.rmd", from = "rmd", to = prereg_path)
+      file.rename(from = file.path(prereg_path, "prereg_empty.rmd"), to = file.path(prereg_path, "README.rmd"))
     }
 
     if(template == "secondary") {
       copy_resource(file = "secondary.rmd", from = "rmd", to = prereg_path)
+      file.rename(from = file.path(prereg_path, "secondary.rmd"), to = file.path(prereg_path, "README.rmd"))
     }
   }
 }
