@@ -29,41 +29,53 @@ knitr::include_graphics("../inst/img/open_project.png")
 ```
 
 ```{r, eval=TRUE,echo=TRUE}
-#> ── Create project folder structure ───────────────────────────────────────────────────────────────────────────────────
-#> Loaded 'groundhog' (version:2.2.1)
-#> Tips and troubleshooting: https://groundhogR.com
-#> ✔ Initiated `groundhog` for managing package dependencies ('dependencies.R')
+#> ── Create project folder structure ─────────────────────────────────────────────────────────────────────────────────────────────────
+#> ✔ All folders and related files were successfully created. The directory looks as follows:
+#> test-repo
+#> ├── codebooks
+#> ├── data
+#> ├── manuscript
+#> │   └── README.Rmd
+#> ├── materials
+#> │   └── README.Rmd
+#> ├── preregistration
+#> │   └── README.Rmd
+#> ├── scripts
+#> │   └── README.Rmd
+#> └── supplement
+#>     └── README.Rmd
 
-#> ── Add necessary files ───────────────────────────────────────────────────────────────────────────────────────────────
-#> ✔ 'project_log/MD5'
-#> ✔ README file: README.Rmd
-#> ✔ Preregistration: test-repo/preregistrations/preregistation.Rmd
+#> ── Setting up project dependency management ────────────────────────────────────────────────────────────────────────────────────────
+#> ✔ Initiated `groundhog` for managing package dependencies ('dependencies.R'). See <https://groundhogr.com/> for more information.
 
-#> ── Configuring Git ───────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── Configure Git ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✔ Working version of Git found!
-#> ✔ Git was configured successfully.
-#> ✔ Setting active project to 'C:/Repositories/test-repo'
+#> #> ✔ Local Git configuration was succesful.
 #> ✔ Adding '.Rproj.user', '.Rhistory', '.Rdata', '.httr-oauth', '.DS_Store' to '.gitignore'
-#> There are 6 uncommitted files:
+#> There are 9 uncommitted files:
 #> * '.gitignore'
+#> * '.projectlog/'
 #> * 'dependencies.R'
-#> * 'preregistrations/'
-#> * 'project_log/'
-#> * 'README.Rmd'
+#> * 'manuscript/'
+#> * 'materials/'
+#> * 'preregistration/'
+#> * 'scripts/'
+#> * 'supplement/'
 #> * 'test-repo.Rproj'
 #> Is it ok to commit them?
 
-#> 1: Yes
-#> 2: No
-#> 3: Not now
+#> 1: Negative
+#> 2: No way
+#> 3: For sure
 
-#> Selection: 1
+#> Selection: 3
 #> ✔ Adding files
 #> ✔ Making a commit with message 'Initial commit'
 #> ✔ Creating private GitHub repository 'StefanVermeent/test-repo'
 #> ✔ Setting remote 'origin' to 'https://github.com/StefanVermeent/test-repo.git'
 #> ✔ Pushing 'master' branch to GitHub and setting 'origin/master' as upstream branch
 #> ✔ Opening URL 'https://github.com/StefanVermeent/test-repo'
+#> ✔ All set! Switching now to your new project at test-repo
 ```
 
 TBD
