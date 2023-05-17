@@ -4,7 +4,7 @@
 \alias{add_preregistration_readme}
 \title{Add preregistration file to project}
 \usage{
-add_preregistration_readme(path)
+add_preregistration_readme(path, template)
 }
 \arguments{
 \item{path}{Character, path to project repository.}
