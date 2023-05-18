@@ -33,6 +33,7 @@ initiate_project <- function(path, project = "single_study", preregistration = "
       lapply(function(x){
         dir.create(file.path(path, x), recursive = TRUE)
       })
+    add_project_readme(path = path)
     add_manuscript_readme(path = file.path(path, "manuscript"))
     add_preregistration_readme(path = file.path(path, "preregistration"), template = preregistration)
     add_scripts_readme(path = file.path(path, "scripts"))
@@ -51,7 +52,7 @@ initiate_project <- function(path, project = "single_study", preregistration = "
       })
     add_project_readme(path = path)
     add_manuscript_readme(path = file.path(path, "manuscript"))
-    add_preregistration_readme(path = file.path(path, "study1", "preregistration"))
+    add_preregistration_readme(path = file.path(path, "study1", "preregistration"), template = preregistration)
     add_scripts_readme(path = file.path(path, "study1", "scripts"))
     add_supplement_readme(path = file.path(path, "supplement"))
     add_materials_readme(path = file.path(path, "study1", "materials"))
