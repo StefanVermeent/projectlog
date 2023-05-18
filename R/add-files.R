@@ -96,25 +96,21 @@ These are the supplemental materials.
 #' @keywords internal
 add_preregistration_readme <- function(path, template){
   prereg_path <- grep(x = list.dirs(path = path), pattern = "preregistration", value = T)
-  if(!template %in% c("empty", "secondary")) {
-    rmarkdown::draft(
-      file = file.path(prereg_path, "README.Rmd"),
-      template = paste0(template, "_prereg"),
-      package = "prereg",
-      edit = FALSE
-    )
-  } else {
-    if(template == "empty") {
-      copy_resource(file = "prereg_empty.rmd", from = "rmd", to = prereg_path)
-      file.rename(from = file.path(prereg_path, "prereg_empty.rmd"), to = file.path(prereg_path, "README.rmd"))
-    }
 
+    if(template == "empty") {
+      copy_resource(file = "prereg_empty.Rmd", from = "rmd", to = prereg_path)
+      file.rename(from = file.path(prereg_path, "prereg_empty.Rmd"), to = file.path(prereg_path, "README.Rmd"))
+    }
+    if(template == "aspredicted") {
+      copy_resource(file = "prereg_aspredicted.Rmd", from = "rmd", to = prereg_path)
+      file.rename(from = file.path(prereg_path, "prereg_aspredicted.Rmd"), to = file.path(prereg_path, "README.Rmd"))
+    }
     if(template == "secondary") {
-      copy_resource(file = "secondary.rmd", from = "rmd", to = prereg_path)
-      file.rename(from = file.path(prereg_path, "secondary.rmd"), to = file.path(prereg_path, "README.rmd"))
+      copy_resource(file = "prereg_secondary.Rmd", from = "rmd", to = prereg_path)
+      file.rename(from = file.path(prereg_path, "prereg_secondary.Rmd"), to = file.path(prereg_path, "README.Rmd"))
     }
   }
-}
+
 
 #' Add scripts folder README file to project
 #' @param path Character, path to project repository.

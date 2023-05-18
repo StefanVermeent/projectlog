@@ -17,7 +17,7 @@ test_that("creating a single study folder structure works", {
   )
 
 
-  initiate_project(path = path, project = "single_study")
+  initiate_project(path = path, project = "single_study", preregistration = 'secondary')
 
   expect_true(file.exists(path))
   expect_true(file.exists(file.path(path, "README.Rmd")))
@@ -51,7 +51,7 @@ test_that("creating a multistudy folder structure works", {
     get_git_url = function(...) "https://github.com/username/repo-name"
   )
 
-  initiate_project(path = path, project = "multistudy")
+  initiate_project(path = path, project = "multistudy", preregistration = 'aspredicted')
 
   expect_true(file.exists(path))
   expect_true(file.exists(file.path(path, ".projectlog")))
