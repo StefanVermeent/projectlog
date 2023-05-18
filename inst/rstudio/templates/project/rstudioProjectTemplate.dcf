@@ -19,7 +19,7 @@ Position: left
 Parameter: preregistration
 Widget: SelectInput
 Label: Specify preregistration template
-Fields: empty, aspredicted, brandt, cos, fmri, prp_quant, psyquant, rr, vantveer, secondary
+Fields: empty, aspredicted, secondary
 Default: empty
 Position: left
 
