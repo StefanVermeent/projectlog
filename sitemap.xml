@@ -58,6 +58,9 @@
     <loc>https://stefanvermeent.github.io/projectlog/reference/count_matching_tags.html</loc>
   </url>
   <url>
+    <loc>https://stefanvermeent.github.io/projectlog/reference/file_size.html</loc>
+  </url>
+  <url>
     <loc>https://stefanvermeent.github.io/projectlog/reference/get_git_url.html</loc>
   </url>
   <url>
@@ -104,5 +107,11 @@
   </url>
   <url>
     <loc>https://stefanvermeent.github.io/projectlog/reference/validate_tag.html</loc>
+  </url>
+  <url>
+    <loc>https://stefanvermeent.github.io/projectlog/reference/wrap_use_git.html</loc>
+  </url>
+  <url>
+    <loc>https://stefanvermeent.github.io/projectlog/reference/wrap_use_github.html</loc>
   </url>
 </urlset>

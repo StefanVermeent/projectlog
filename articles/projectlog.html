@@ -88,7 +88,28 @@ over the course of your project.</p>
 <div class="section level3">
 <h3 id="initiating-your-project">Initiating your project<a class="anchor" aria-label="anchor" href="#initiating-your-project"></a>
 </h3>
+<p>To initiate your project, go to ‘File &gt; New Project…’ and select
+‘New Directory’. In the overview of R project templates, select
+‘projectlog Template’ (see below).</p>
 <p><img src="../inst/img/open_project.png"><!-- --></p>
+<p>You will have a couple of choices to make. First, choose an
+informative directory name (i.e., the name of your project) and indicate
+where you want it to live on your PC. It is good practice to keep
+related projects in the same subdirectory. Second, you will have to
+specify the project type. You have the choice between a ‘single_study’
+and a ‘multistudy’ project. Both are very similar, with the difference
+that in the multistudy version, some of the subfolders are nested under
+a ‘study1’ folder. Third, you indicate if and how you want to keep track
+of package dependencies. You have the choice between ‘None’, ‘renv’, and
+‘groundhog’. For more information about dependency management, see the
+dedicated <a href="https://stefanvermeent.github.io/projectlog/articles/dependency-management">vignette</a>.
+Fourth, you can choose a specific preregistration template (either <a href="https://aspredicted.org/" class="external-link">asPredicted</a>, the <a href="https://osf.io/x4gzt/" class="external-link">template for secondary data analysis</a>,
+or an empty template). Finally, you can indicate whether you want the
+GitHub Repository to be set to private (i.e., only visible for you) or
+to public (i.e., visible for anyone). This setting can be changed later
+on through GitHub.</p>
+<p>After making your decisions, you’re all set to initiate your project.
+If everything goes well, initiation should look something like this:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#&gt; ── Create project folder structure ─────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; ✔ All folders and related files were successfully created. The directory looks as follows:</span></span>
@@ -137,7 +158,6 @@ over the course of your project.</p>
 <span><span class="co">#&gt; ✔ Pushing 'master' branch to GitHub and setting 'origin/master' as upstream branch</span></span>
 <span><span class="co">#&gt; ✔ Opening URL 'https://github.com/StefanVermeent/test-repo'</span></span>
 <span><span class="co">#&gt; ✔ All set! Switching now to your new project at test-repo</span></span></code></pre></div>
-<p>TBD</p>
 </div>
 <div class="section level2">
 <h2 id="logging-project-milestones-to-github">Logging project milestones to GitHub<a class="anchor" aria-label="anchor" href="#logging-project-milestones-to-github"></a>
