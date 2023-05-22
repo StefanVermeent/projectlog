@@ -22,7 +22,8 @@
 #' @export
 log_milestone <- function(files, commit_message, tag) {
   if(gert::user_is_configured()) {
-    validate_files(files)
+    files <- ifelse(files == '.', gert::git_status()$file, files)
+    validate_files(files, changed_files = gert::git_status()$file)
     validate_tag(tag)
     matching_tags <- count_matching_tags(tag)
 
@@ -48,7 +49,7 @@ log_milestone <- function(files, commit_message, tag) {
     cli::cli_bullets(c(
       "v" = "Logging was successful!",
       "v" = paste("Milestone tag",cli::col_blue(tag),"was succesfully created."),
-      "i" = paste0("Go to {.url {'", file.path(gert::git_remote_list()$url |> gsub(x = _, pattern = "\\.git$", replacement = ""), "commit", commit_hash,"'}}"))
+      "i" = paste0("To see the commit on GiHub, go to {.url {'", file.path(gert::git_remote_list()$url |> gsub(x = _, pattern = "\\.git$", replacement = ""), "commit", commit_hash,"'}}"))
     ))
   } else {
     cli::cli_abort("Git user is not configured!")
@@ -75,14 +76,15 @@ log_milestone <- function(files, commit_message, tag) {
 log_changes <- function(files = ".", commit_message) {
 
   if(gert::user_is_configured()) {
-    validate_files(files)
+    files <- ifelse(files == '.', gert::git_status()$file, files)
+    validate_files(files, changed_files = gert::git_status()$file)
     gert::git_add(files)
     commit <- gert::git_commit(commit_message)
     gert::git_push()
 
     git_url <- gert::git_remote_info()$url |> stringr::str_remove("\\.git") |> paste0("/commit/", commit)
 
-    cli::cli_alert_success("Logging was successful! To see the commit on Github, go to {.url {git_url}}")
+    cli::cli_alert_success("Logging was successful! To see the commit on GitHub, go to {.url {git_url}}")
   } else {
     cli::cli_abort("Git user is not configured!")
   }
@@ -100,39 +102,64 @@ count_matching_tags <- function(tag) {
 
 #' Check whether files to be logged are valid.
 #' @param files Vector of files to be logged.
+#' @param changed_files Vector of all files with changes.
 #' @keywords internal
-validate_files <- function(files) {
-  if(nrow(gert::git_status()) == 0) {
+validate_files <- function(files, changed_files) {
+  if(length(changed_files) == 0) {
     cli::cli_abort("There are no files with changes to log.")
   }
 
-  list.files(files, recursive = TRUE) %in% gert::git_status()$file |>
-    purrr::map(function(x) {
-
-      if(file.size(x) > 1e+08) {
-        cli::cli_abort(paste0("File '", cli::col_blue(x), "' exceeds the maximum file size for GitHub (100mb). Either remove or edit the file, or go to {.url {'https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-git-large-file-storage'}} for more information on how to handle big files on GitHub."))
-      }
+  lapply(files, function(x){
+    matches <- lapply(changed_files, function(y){
+      grepl(paste0("^", x), paste0("^", y), fixed = TRUE)
     })
+    if(all(matches == FALSE)) {
+      cli::cli_abort("The file {cli::col_blue(x)} does not exist.")
+      }
+  })
 
-  if(files == ".") {
-    return(invisible(TRUE))
+  matched_files_lgl <-
+    lapply(changed_files, function(x){
+      lapply(files, function(y){
+        grepl(paste0("^", x), paste0("^", y), fixed = TRUE)
+      }) |>
+        unlist()
+    }) |>
+    sapply(X = _, function(x)any(x == TRUE))
+
+  print(matched_files_lgl)
+  print(changed_files[matched_files_lgl])
+  for(i in changed_files[matched_files_lgl]){
+
+    if(file_size(i) > 1e+08){
+      cli::cli_abort(paste0("File '", cli::col_blue(i), "' exceeds the maximum file size for GitHub (100mb). Either remove or edit the file, or go to {.url {'https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-git-large-file-storage'}} for more information on how to handle big files on GitHub."))
+    }
   }
 
-  if(any(!file.exists(files))) {
-    error_files <- files[!file.exists(files)]
-    cli::cli_abort("Could not find the following specified file{?s} in your project: {error_files}")
-    return(invisible(FALSE))
-  } else {
-    invisible(TRUE)
-  }
+  invisible(TRUE)
 }
 
 #' Check whether supplied tag is valid
 #' @param tag Character, a tag to be used in the milestone commit.
 #' @keywords internal
 validate_tag <- function(tag) {
-  TRUE
-  #TODO
+
+  if(grepl(x = tag, pattern = "[0-9]$")){
+    cli::cli_abort("The tag should not end with a number.")
+  }
+  if(grepl(x = tag, pattern = "^\\/|\\/$|\\/{2,}")){
+    cli::cli_abort("The tag should not begin or end with, or contain multiple consecutive / characters.")
+  }
+  if(grepl(x = tag, pattern = "\\\\|\\?|\\~|\\^|\\:|\\*|\\[|\\]|\\@")){
+    cli::cli_abort("The tag should not contain any of the following characters: \\, ?, ~, ^, :, * , [, @.")
+  }
+  if(grepl(x = tag, pattern = "\\s")){
+    cli::cli_abort("The tag should not contain spaces.")
+  }
+  if(grepl(x = tag, pattern = "\\.$|\\.\\.")){
+    cli::cli_abort("The tag should not end with a . or contain two consecutive dots anywhere in the tag.")
+  }
+  invisible(TRUE)
 }
 
 #' Check whether milestone can be committed to GitHub.
@@ -145,4 +172,10 @@ validate_commit <- function(commit_message) {
     gert::git_reset_mixed()
     cli::cli_abort("Failed to commit your changes locally. Reverting changes...")
   })
+}
+
+#' Wrapper around file.size.
+#' @keywords internal
+file_size <- function(...){
+  file.size(...)
 }
