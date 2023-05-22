@@ -4,10 +4,12 @@
 \alias{validate_files}
 \title{Check whether files to be logged are valid.}
 \usage{
-validate_files(files)
+validate_files(files, changed_files)
 }
 \arguments{
 \item{files}{Vector of files to be logged.}
+
+\item{changed_files}{Vector of all files with changes.}
 }
 \description{
 Check whether files to be logged are valid.
