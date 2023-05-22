@@ -126,13 +126,27 @@ initiate_project <- function(path, project = "single_study", preregistration = "
   add_rproj(path)
 
   # Create local git repository
-  usethis::use_git(message = "Initial commit")
+  wrap_use_git(message = "Initial commit")
 
   # Create remote git repository
-  usethis::use_github(
+  wrap_use_github(
     private = TRUE,
     protocol = 'https'
   )
 
   cli::cli_alert_success(paste0("All set! Switching now to your new project at ", cli::col_blue(path)))
 }
+
+#' Wrapper around `usethis::use_git`.
+#' @keywords internal
+wrap_use_git <- function(...){
+  usethis::use_git(...)
+}
+
+#' Wrapper around `usethis::use_github`.
+#' @keywords internal
+wrap_use_github <- function(...){
+  usethis::use_git(...)
+}
+
+

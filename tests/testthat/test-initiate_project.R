@@ -7,10 +7,10 @@ test_that("creating a single study folder structure works", {
   on.exit(unlink(path, recursive = TRUE), add = TRUE)
 
   testthat::local_mocked_bindings(
-    use_git = function(...) TRUE, .package = 'usethis'
+    wrap_use_git = function(...) TRUE
   )
   testthat::local_mocked_bindings(
-    use_github = function(...) "This one connects to github", .package = 'usethis'
+    wrap_use_github = function(...) TRUE
   )
   testthat::local_mocked_bindings(
     get_git_url = function(...) "https://github.com/username/repo-name"
