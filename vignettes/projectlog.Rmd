@@ -24,9 +24,28 @@ Below are brief examples of how `projectlog` can be used over the course of your
 
 ### Initiating your project
 
+To initiate your project, go to 'File > New Project...' and select 'New Directory'. 
+In the overview of R project templates, select 'projectlog Template' (see below).
+
+
 ```{r, eval=TRUE, echo=FALSE, message=TRUE, fig.height = 2}
 knitr::include_graphics("../inst/img/open_project.png")
 ```
+
+You will have a couple of choices to make.
+First, choose an informative directory name (i.e., the name of your project) and indicate where you want it to live on your PC.
+It is good practice to keep related projects in the same subdirectory.
+Second, you will have to specify the project type.
+You have the choice between a 'single_study' and a 'multistudy' project.
+Both are very similar, with the difference that in the multistudy version, some of the subfolders are nested under a 'study1' folder.
+Third, you indicate if and how you want to keep track of package dependencies.
+You have the choice between 'None', 'renv', and 'groundhog'.
+For more information about dependency management, see the dedicated [vignette](https://stefanvermeent.github.io/projectlog/articles/dependency-management).
+Fourth, you can choose a specific preregistration template (either [asPredicted](https://aspredicted.org/), the [template for secondary data analysis](https://osf.io/x4gzt/), or an empty template).
+Finally, you can indicate whether you want the GitHub Repository to be set to private (i.e., only visible for you) or to public (i.e., visible for anyone).
+This setting can be changed later on through GitHub.
+
+After making your decisions, you're all set to initiate your project. If everything goes well, initiation should look something like this:
 
 ```{r, eval=TRUE,echo=TRUE}
 #> ── Create project folder structure ─────────────────────────────────────────────────────────────────────────────────────────────────
@@ -78,7 +97,6 @@ knitr::include_graphics("../inst/img/open_project.png")
 #> ✔ All set! Switching now to your new project at test-repo
 ```
 
-TBD
 
 ## Logging project milestones to GitHub
 
