@@ -33,7 +33,7 @@ initiate_project <- function(path, project = "single_study", preregistration = "
       lapply(function(x){
         dir.create(file.path(path, x), recursive = TRUE)
       })
-    add_project_readme(path = path)
+   # add_project_readme(path = path)
     add_manuscript_readme(path = file.path(path, "manuscript"))
     add_preregistration_readme(path = file.path(path, "preregistration"), template = preregistration)
     add_scripts_readme(path = file.path(path, "scripts"))
@@ -50,7 +50,7 @@ initiate_project <- function(path, project = "single_study", preregistration = "
       lapply(function(x){
         dir.create(file.path(path, "study1", x))
       })
-    add_project_readme(path = path)
+   # add_project_readme(path = path)
     add_manuscript_readme(path = file.path(path, "manuscript"))
     add_preregistration_readme(path = file.path(path, "study1", "preregistration"), template = preregistration)
     add_scripts_readme(path = file.path(path, "study1", "scripts"))
@@ -146,7 +146,7 @@ wrap_use_git <- function(...){
 #' Wrapper around `usethis::use_github`.
 #' @keywords internal
 wrap_use_github <- function(...){
-  usethis::use_git(...)
+  usethis::use_github(...)
 }
 
 
