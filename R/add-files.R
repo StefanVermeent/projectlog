@@ -6,34 +6,34 @@ add_project_readme <- function(path){
 
   writeLines(
     paste0("
-  ---
-  title: '[Your title here]'
-  output: github_document
-  bibliography: bib-files/references.bib
-  csl: bib-files/apa.csl
-  link-citations: true
-  ---
+---
+title: '[Your title here]'
+output: github_document
+bibliography: bib-files/references.bib
+csl: bib-files/apa.csl
+link-citations: true
+---
 
-  *Last updated `r format(Sys.time(), 'on %A, %B %d, %Y at %I:%M %p')`*
+*Last updated `r format(Sys.time(), 'on %A, %B %d, %Y at %I:%M %p')`*
 
-  ## Overview
+## Overview
 
-  This repository contains a preregistration, data, code, an (eventual) reproducible manuscript/supplement for a project entitled '[Your title here]'.
+This repository contains a preregistration, data, code, an (eventual) reproducible manuscript/supplement for a project entitled '[Your title here]'.
 
-  [Brief description of your project here].
+[Brief description of your project here].
 
-  ## Directory Structure
+## Directory Structure
 
-  The names of each folder are intended to be self-explanatory. There are six components organize the inputs and outputs of this project:
+The names of each folder are intended to be self-explanatory. There are six components organize the inputs and outputs of this project:
 
-  1.  [`codebooks`](", link, "codebooks): lists of variable names, labels, and value labels (where applicable).
-  2.  [`data`](", link, "data): raw data, stored as `.Rdata` and .csv files.
-  3.  [`manuscript`](", link, "manuscript): a reproducible manuscript for submission to a journal.
-  4.  [`preregistration`](", link, "preregistration): a preregistration document that details the plans for this project.
-  5.  [`scripts`](", link, "scripts): R-scripts that read, analyze, and produce all outputs.
-  6.  [`supplement`](", link, "supplement): a supplemental text with additional information and materials.
+1.  [`codebooks`](", link, "codebooks): lists of variable names, labels, and value labels (where applicable).
+2.  [`data`](", link, "data): raw data, stored as `.Rdata` and .csv files.
+3.  [`manuscript`](", link, "manuscript): a reproducible manuscript for submission to a journal.
+4.  [`preregistration`](", link, "preregistration): a preregistration document that details the plans for this project.
+5.  [`scripts`](", link, "scripts): R-scripts that read, analyze, and produce all outputs.
+6.  [`supplement`](", link, "supplement): a supplemental text with additional information and materials.
 
-  ## References"
+## References"
     ),
     con = file.path(path,"README.Rmd"))
 }
