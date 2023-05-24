@@ -1,7 +1,7 @@
 Binding: initiate_project
 Title: projectlog Template
 OpenFiles: README.Rmd
-icon: projectlog.png
+Icon: projectlog.png
 
 Parameter: project
 Widget: SelectInput
