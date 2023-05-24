@@ -127,8 +127,6 @@ validate_files <- function(files, changed_files) {
     }) |>
     sapply(X = _, function(x)any(x == TRUE))
 
-  print(matched_files_lgl)
-  print(changed_files[matched_files_lgl])
   for(i in changed_files[matched_files_lgl]){
 
     if(file_size(i) > 1e+08){
