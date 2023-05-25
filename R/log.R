@@ -51,7 +51,7 @@ log_milestone <- function(files, commit_message, tag) {
     cli::cli_bullets(c(
       "v" = "Logging was successful!",
       "v" = paste("Milestone tag",cli::col_blue(tag),"was succesfully created."),
-      "i" = paste0("To see the commit on GiHub, go to {.url {'", file.path(gert::git_remote_list()$url |> gsub(x = _, pattern = "\\.git$", replacement = ""), "commit", commit_hash,"'}}"))
+      "i" = paste0("To see the commit on GitHub, go to {.url {'", file.path(gert::git_remote_list()$url |> gsub(x = _, pattern = "\\.git$", replacement = ""), "commit", commit_hash,"'}}"))
     ))
     }
 

@@ -9,8 +9,8 @@ initiate_project(
   project = "single_study",
   preregistration = "empty",
   dependencies = "groundhog",
-  create_github = "yes",
-  private_repo = "yes",
+  create_github = TRUE,
+  private_repo = FALSE,
   ...
 )
 }
