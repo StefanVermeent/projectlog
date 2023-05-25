@@ -12,11 +12,18 @@
 #' @param dependencies Character, indicates whether and how you want to keep track
 #' of package dependencies. Options include "renv",
 #' "groundhog", or "none".
+#' Default: 'groundhog'
+#' @param create_github Character, should a remote repository be created on GitHub?
+#' If 'yes', a remote repository is created with the same name as the local project,
+#' and all current changes are pushed to this remote repository. If 'no', git is
+#' only set up locally.
+#' Default: 'yes'
 #' @param private_repo Logical, Should the created GitHub repository be private or public?
+#' Default: 'yes'
 #' @param ... Additional arguments passed to and from functions.
 #' @return The initial set-up of your project repository.
 #' @export
-initiate_project <- function(path, project = "single_study", preregistration = "empty", dependencies = "groundhog", private_repo = TRUE, ...) {
+initiate_project <- function(path, project = "single_study", preregistration = "empty", dependencies = "groundhog", create_github = TRUE, private_repo = FALSE, ...) {
 
   dots <- list(...)
 
@@ -29,10 +36,14 @@ initiate_project <- function(path, project = "single_study", preregistration = "
 
 
   if(project == "single_study") {
-    c("codebooks", "data", "manuscript", "preregistration", "scripts", "supplement", "materials") |>
+    c("codebooks", "data", "manuscript", "preregistration", "scripts", "supplement", "materials", "bib-files") |>
       lapply(function(x){
         dir.create(file.path(path, x), recursive = TRUE)
       })
+    copy_resource(file = "references.bib", from = "rmd", to = file.path(path, "bib-files", "references.bib"))
+    copy_resource(file = "apa.csl", from = "rmd", to = file.path(path, "apa.csl"))
+    copy_resource(file = "reference-doc.docx", from = "rmd", to = file.path(path, "manuscript/reference-doc.docx"))
+    copy_resource(file = "reference-doc.docx", from = "rmd", to = file.path(path, "supplement/reference-doc.docx"))
     add_manuscript_readme(path = file.path(path, "manuscript"))
     add_preregistration_readme(path = file.path(path, "preregistration"), template = preregistration)
     add_scripts_readme(path = file.path(path, "scripts"))
@@ -41,7 +52,7 @@ initiate_project <- function(path, project = "single_study", preregistration = "
   }
 
   if(project == "multistudy") {
-    c("manuscript", "supplement", "study1") |>
+    c("manuscript", "supplement", "study1", "bib-files") |>
       lapply(function(x){
         dir.create(file.path(path, x), recursive = TRUE)
       })
@@ -49,6 +60,10 @@ initiate_project <- function(path, project = "single_study", preregistration = "
       lapply(function(x){
         dir.create(file.path(path, "study1", x))
       })
+    copy_resource(file = "references.bib", from = "rmd", to = file.path(path, "bib-files", "references.bib"))
+    copy_resource(file = "apa.csl", from = "rmd", to = file.path(path, "apa.csl"))
+    copy_resource(file = "reference-doc.docx", from = "rmd", to = file.path(path, "manuscript", "reference-doc.docx"))
+    copy_resource(file = "reference-doc.docx", from = "rmd", to = file.path(path, "supplement", "reference-doc.docx"))
     add_manuscript_readme(path = file.path(path, "manuscript"))
     add_preregistration_readme(path = file.path(path, "study1", "preregistration"), template = preregistration)
     add_scripts_readme(path = file.path(path, "study1", "scripts"))
@@ -126,15 +141,18 @@ initiate_project <- function(path, project = "single_study", preregistration = "
   # Create local git repository
   wrap_use_git(message = "Initial commit")
 
-  add_project_readme(path = path)
-
   # Create remote git repository
-  wrap_use_github(
-    private = TRUE,
-    protocol = 'https'
-  )
+  if(create_github == TRUE) {
+    wrap_use_github(
+      private = private_repo,
+      protocol = 'https'
+    )
+  }
 
-  cli::cli_alert_success(paste0("All set! Switching now to your new project at ", cli::col_blue(path)))
+  add_project_readme(path = path)
+  log_changes(c('README.Rmd', "README.md"), commit_message = "Add project README file")
+
+  cli::cli_alert_success("All set! Switching now to your new project at {cli::col_blue(path)}")
 }
 
 #' Wrapper around `usethis::use_git`.

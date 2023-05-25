@@ -9,7 +9,8 @@ initiate_project(
   project = "single_study",
   preregistration = "empty",
   dependencies = "groundhog",
-  private_repo = TRUE,
+  create_github = "yes",
+  private_repo = "yes",
   ...
 )
 }
@@ -26,9 +27,17 @@ Default: 'single_study'.}
 
 \item{dependencies}{Character, indicates whether and how you want to keep track
 of package dependencies. Options include "renv",
-"groundhog", or "none".}
+"groundhog", or "none".
+Default: 'groundhog'}
 
-\item{private_repo}{Logical, Should the created GitHub repository be private or public?}
+\item{create_github}{Character, should a remote repository be created on GitHub?
+If 'yes', a remote repository is created with the same name as the local project,
+and all current changes are pushed to this remote repository. If 'no', git is
+only set up locally.
+Default: 'yes'}
+
+\item{private_repo}{Logical, Should the created GitHub repository be private or public?
+Default: 'yes'}
 
 \item{...}{Additional arguments passed to and from functions.}
 }

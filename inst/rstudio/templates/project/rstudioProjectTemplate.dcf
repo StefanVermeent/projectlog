@@ -24,9 +24,16 @@ Fields: empty, aspredicted, secondary
 Default: empty
 Position: left
 
+Parameter: create_github
+Widget: SelectInput
+Label: Should a remote repository already be created and linked?
+Fields: TRUE, FALSE
+Default: TRUE
+Position: left
+
 Parameter: private_repo
 Widget: SelectInput
 Label: Should the GitHub Repository be set to Private?
-Fields: yes, no
+Fields: TRUE, FALSE
 Position: left
-Default: yes
+Default: TRUE

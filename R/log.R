@@ -43,6 +43,8 @@ log_milestone <- function(files, commit_message, tag) {
 
     commit_hash <- validate_commit(commit_message)
     gert::git_tag_create(name = tag, message = '', ref = commit_hash, repo = '.')
+
+    if(length(gert::git_remote_list()$url) > 0){
     gert::git_tag_push(name = tag, repo = ".")
     gert::git_push()
 
@@ -51,6 +53,16 @@ log_milestone <- function(files, commit_message, tag) {
       "v" = paste("Milestone tag",cli::col_blue(tag),"was succesfully created."),
       "i" = paste0("To see the commit on GiHub, go to {.url {'", file.path(gert::git_remote_list()$url |> gsub(x = _, pattern = "\\.git$", replacement = ""), "commit", commit_hash,"'}}"))
     ))
+    }
+
+    if(length(gert::git_remote_list()$url) == 0) {
+      cli::cli_bullets(c(
+        "v" = "Logging was successful!",
+        "v" = paste("Milestone tag",cli::col_blue(tag),"was succesfully created."),
+        "!" =  "A remote GitHub repository has not been configured yet. This means that all logged changes only exist locally.\nTo create a remote repository for you project, use `projectlog::initiate_github_repo()`"
+      ))
+    }
+
   } else {
     cli::cli_abort("Git user is not configured!")
   }
@@ -80,11 +92,21 @@ log_changes <- function(files = ".", commit_message) {
     validate_files(files, changed_files = gert::git_status()$file)
     gert::git_add(files)
     commit <- gert::git_commit(commit_message)
-    gert::git_push()
 
-    git_url <- gert::git_remote_info()$url |> stringr::str_remove("\\.git") |> paste0("/commit/", commit)
+    if(length(gert::git_remote_list()$url) > 0){
+      gert::git_push()
+      git_url <- gert::git_remote_info()$url |> stringr::str_remove("\\.git") |> paste0("/commit/", commit)
+      cli::cli_alert_success("Logging was successful! To see the commit on GitHub, go to {.url {git_url}}")
+    }
 
-    cli::cli_alert_success("Logging was successful! To see the commit on GitHub, go to {.url {git_url}}")
+    if(length(gert::git_remote_list()$url) == 0) {
+      cli::cli_bullets(c(
+        "v" = "Logging was successful!",
+        "!" = "A remote GitHub repository has not been configured yet. This means that all logged changes only exist locally.\nTo create a remote repository for you project, use `projectlog::initiate_remote_repo()`"
+      ))
+    }
+
+
   } else {
     cli::cli_abort("Git user is not configured!")
   }
