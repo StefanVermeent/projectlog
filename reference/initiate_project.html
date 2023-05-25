@@ -56,7 +56,8 @@
 <span>  project <span class="op">=</span> <span class="st">"single_study"</span>,</span>
 <span>  preregistration <span class="op">=</span> <span class="st">"empty"</span>,</span>
 <span>  dependencies <span class="op">=</span> <span class="st">"groundhog"</span>,</span>
-<span>  private_repo <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  create_github <span class="op">=</span> <span class="st">"yes"</span>,</span>
+<span>  private_repo <span class="op">=</span> <span class="st">"yes"</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -82,11 +83,21 @@ Default: 'single_study'.</p></dd>
 <dt>dependencies</dt>
 <dd><p>Character, indicates whether and how you want to keep track
 of package dependencies. Options include "renv",
-"groundhog", or "none".</p></dd>
+"groundhog", or "none".
+Default: 'groundhog'</p></dd>
+
+
+<dt>create_github</dt>
+<dd><p>Character, should a remote repository be created on GitHub?
+If 'yes', a remote repository is created with the same name as the local project,
+and all current changes are pushed to this remote repository. If 'no', git is
+only set up locally.
+Default: 'yes'</p></dd>
 
 
 <dt>private_repo</dt>
-<dd><p>Logical, Should the created GitHub repository be private or public?</p></dd>
+<dd><p>Logical, Should the created GitHub repository be private or public?
+Default: 'yes'</p></dd>
 
 
 <dt>...</dt>
