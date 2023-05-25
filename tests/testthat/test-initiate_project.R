@@ -16,6 +16,11 @@ test_that("creating a single study folder structure works", {
     get_git_url = function(...) "https://github.com/username/repo-name"
   )
 
+  testthat::local_mocked_bindings(
+    log_changes = function(...) TRUE
+  )
+
+
 
   initiate_project(path = path, project = "single_study", preregistration = 'secondary')
 
@@ -50,6 +55,11 @@ test_that("creating a multistudy folder structure works", {
   testthat::local_mocked_bindings(
     get_git_url = function(...) "https://github.com/username/repo-name"
   )
+
+  testthat::local_mocked_bindings(
+    log_changes = function(...) TRUE
+  )
+
 
   initiate_project(path = path, project = "multistudy", preregistration = 'aspredicted')
 

@@ -4,13 +4,13 @@
 add_project_readme <- function(path){
   link <- paste0(get_git_url(), "/tree/master/")
 
+  print(path)
   writeLines(
-    paste0("
----
+    paste0("---
 title: '[Your title here]'
 output: github_document
 bibliography: bib-files/references.bib
-csl: bib-files/apa.csl
+csl: apa.csl
 link-citations: true
 ---
 
@@ -33,9 +33,21 @@ The names of each folder are intended to be self-explanatory. There are six comp
 5.  [`scripts`](", link, "scripts): R-scripts that read, analyze, and produce all outputs.
 6.  [`supplement`](", link, "supplement): a supplemental text with additional information and materials.
 
-## References"
+## References
+
+           "
     ),
-    con = file.path(path,"README.Rmd"))
+    con = file.path(path, "README.Rmd"))
+
+  tryCatch(
+    {
+      suppressMessages(rmarkdown::render(input = file.path(path, "README.Rmd"), output_format = "github_document", output_dir = file.path(path)))
+      file.remove(file.path(path, "README.html"))
+    },
+    error = function(e){
+      cli::cli_alert_warning("{cli::col_blue('README.Rmd')} could not be rendered.")
+    }
+  )
 }
 
 #' Add manuscript folder README file to project
@@ -45,8 +57,8 @@ add_manuscript_readme <- function(path){
   README <- writeLines(
     paste0(
     "---
-bibliography: bib-files/references.bib
-csl: apa.csl
+bibliography: ../bib-files/references.bib
+csl: ../apa.csl
 format:
   docx:
     reference-doc: reference-doc.docx
@@ -81,7 +93,7 @@ editor:
     wrap: sentence
 ---
 
-These are the supplemental materials.
+This is the main manuscript.
 
 ## References
   "
@@ -121,8 +133,8 @@ add_scripts_readme <- function(path){
     "---
 title: 'Analysis scripts'
 output: github_document
-bibliography: bib-files/references.bib
-csl: bib-files/apa.csl
+bibliography: ../bib-files/references.bib
+csl: ../apa.csl
 link-citations: true
 ---"
     ),
@@ -136,9 +148,10 @@ link-citations: true
 add_supplement_readme <- function(path){
   README <- writeLines(
     paste0(
-    "---
-bibliography: bib-files/references.bib
-csl: apa.csl
+    "
+---
+bibliography: ../bib-files/references.bib
+csl: ../apa.csl
 format:
   docx:
     reference-doc: reference-doc.docx
@@ -251,7 +264,7 @@ copy_resource <- function(file, from, to) {
   tryCatch(
     file %in% dir_files,
     error = function(e) {
-      cli::cli_abort("Could not copy preregistration template to the correct folder.")
+      cli::cli_abort("Error copying file from projectlog.")
     }
   )
   path_to_file <- file.path(system.file(from, package = "projectlog"), file)
