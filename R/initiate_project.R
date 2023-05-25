@@ -23,7 +23,7 @@
 #' @param ... Additional arguments passed to and from functions.
 #' @return The initial set-up of your project repository.
 #' @export
-initiate_project <- function(path, project = "single_study", preregistration = "empty", dependencies = "groundhog", create_github = TRUE, private_repo = FALSE, ...) {
+initiate_project <- function(path, project = "single_study", preregistration = "empty", dependencies = "groundhog", create_github = TRUE, private_repo = TRUE, ...) {
 
   dots <- list(...)
 
@@ -165,4 +165,24 @@ wrap_use_git <- function(...){
 #' @keywords internal
 wrap_use_github <- function(...){
   usethis::use_github(...)
+}
+
+
+#' Create a remote project repository on GitHub
+
+#' Creates a remote repository on GitHub if you had not already done so when
+#' initiating the project. It automatically creates the repository for you
+#' and pushes all the changes and milestones that you have logged so far.
+
+#' @param private_repo Logical, should the GitHub repository be private or
+#' public?
+#' Default is TRUE
+#' @return Nothing, this function is called for it's side-effects.
+#' @export
+create_github_repo <- function(private_repo = TRUE){
+  wrap_use_github(
+    private = private_repo,
+    protocol = 'https'
+  )
+
 }

@@ -10,7 +10,7 @@ initiate_project(
   preregistration = "empty",
   dependencies = "groundhog",
   create_github = TRUE,
-  private_repo = FALSE,
+  private_repo = TRUE,
   ...
 )
 }
