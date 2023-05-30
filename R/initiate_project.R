@@ -150,10 +150,15 @@ initiate_project <- function(path, project = "single_study", preregistration = "
   }
 
   add_project_readme(path = path)
-  log_changes(c('README.Rmd', "README.md"), commit_message = "Add project README file")
+  if(file.exists('README.md')){
+    log_changes(c('README.Rmd', "README.md"), commit_message = "Add project README file")
+  } else {
+    log_changes(c('README.Rmd'), commit_message = "Add project README file")
+  }
 
   cli::cli_alert_success("All set! Switching now to your new project at {cli::col_blue(path)}")
 }
+
 
 #' Wrapper around `usethis::use_git`.
 #' @keywords internal

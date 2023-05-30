@@ -3,8 +3,6 @@
 #' @keywords internal
 add_project_readme <- function(path){
   link <- paste0(get_git_url(), "/tree/master/")
-
-  print(path)
   writeLines(
     paste0("---
 title: '[Your title here]'
@@ -37,11 +35,11 @@ The names of each folder are intended to be self-explanatory. There are six comp
 
            "
     ),
-    con = file.path(path, "README.Rmd"))
+    con = file.path(getwd(), "README.Rmd"))
 
   tryCatch(
     {
-      suppressMessages(rmarkdown::render(input = file.path(path, "README.Rmd"), output_format = "github_document", output_dir = file.path(path)))
+      rmarkdown::render(input = file.path(getwd(), "README.Rmd"), output_dir = file.path(getwd()), quiet = TRUE)
       file.remove(file.path(path, "README.html"))
     },
     error = function(e){
