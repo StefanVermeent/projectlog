@@ -32,13 +32,13 @@ read_data <- function(file, read_fun, col_select = NULL, row_filter = NULL, row_
 
   read_fun <- read_fun |> gsub(pattern="\\(|\\)", replacement = "")
 
-  validate_fun()
+  validate_fun(file = file, read_fun = read_fun)
 
   dots <- list(...)
 
   if(length(dots) > 0) {
     dots_chr <- 1:length(dots) |>
-      purrr::map(function(x) {
+      lapply(function(x) {
         paste0(names(dots[x]), " = '", dots[[x]], "'")
       }) |>
       purrr::compact() |>
@@ -50,7 +50,7 @@ read_data <- function(file, read_fun, col_select = NULL, row_filter = NULL, row_
   }
 
   # Execute code
-  data <-  construct_code() |>
+  data <-  construct_code(col_select, read_fun, row_filter, row_shuffle, long_format, seed, dots_chr) |>
     glue::glue(.trim = F) |>
     rlang::parse_expr() |>
     rlang::eval_tidy()
@@ -137,7 +137,7 @@ shuffle <- function(data, shuffle_vars, long_format, seed = seed) {
   set.seed(seed)
 
   data <- shuffle_vars |>
-    purrr::map_dfc(function(x){
+    lapply(function(x){
       data |>
         dplyr::select(tidyselect::matches(x)) |>
         dplyr::mutate(rows = rep(1:length(row_nums), row_nums)) |>
@@ -146,6 +146,7 @@ shuffle <- function(data, shuffle_vars, long_format, seed = seed) {
         dplyr::bind_rows() |>
         dplyr::select(-rows)
     }) |>
+    do.call("cbind", args = _) |>
     dplyr::bind_cols(
       data |>
         dplyr::select(-matches(shuffle_vars))
@@ -158,12 +159,12 @@ shuffle <- function(data, shuffle_vars, long_format, seed = seed) {
 
 #' Validate read function used in projectlog::initiate_project()
 #' @param file Character, path to data file.
-#' @param fun Character, name of function to read data.
+#' @param read_fun Character, name of function to read data.
 #' @keywords internal
-validate_fun <- function(file, fun) {
+validate_fun <- function(file, read_fun) {
 
   if(!file.exists(file)) {
-    cli::cli_abort(paste("The file", cli::col_blue(file.path(getwd(), file)), "was not found in your project directory."))
+    cli::cli_abort("The file {cli::col_blue(file.path(getwd(), file))} was not found in your project directory.")
   }
 
   if(stringr::str_detect(read_fun, "::", negate = TRUE)) {
@@ -238,12 +239,14 @@ construct_code <- function(col_select, read_fun, row_filter, row_shuffle, long_f
 check_data_access <- function(data_hash) {
   previous_commits <-
     gert::git_tag_list() |>
+    dplyr::add_row(name = 'data_access', ref = 'dkdkdk', commit = 'kjksjk') |>
     dplyr::filter(stringr::str_detect(name, "data_access")) |>
     dplyr::pull(commit) |>
-    purrr::map_df(function(x){
+    lapply(function(x){
       gert::git_commit_info(ref = x) |>
         tidyr::as_tibble()
-    })
+    }) |>
+    do.call("rbind", args = _)
 
   gert::git_log() |>
     dplyr::filter(commit %in% previous_commits$id) |>

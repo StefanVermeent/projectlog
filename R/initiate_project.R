@@ -174,11 +174,9 @@ wrap_use_github <- function(...){
 
 
 #' Create a remote project repository on GitHub
-
 #' Creates a remote repository on GitHub if you had not already done so when
 #' initiating the project. It automatically creates the repository for you
 #' and pushes all the changes and milestones that you have logged so far.
-
 #' @param private_repo Logical, should the GitHub repository be private or
 #' public?
 #' Default is TRUE
