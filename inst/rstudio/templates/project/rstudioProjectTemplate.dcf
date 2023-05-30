@@ -35,5 +35,5 @@ Parameter: private_repo
 Widget: SelectInput
 Label: Private GitHub repository?
 Fields: TRUE, FALSE
-Position: right
+Position: left
 Default: TRUE
