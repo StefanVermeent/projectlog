@@ -6,7 +6,7 @@ Icon: projectlog.png
 Parameter: project
 Widget: SelectInput
 Label: Specify project type
-Fields: registered_report, single_study, multistudy
+Fields: single_study, multistudy
 Default: single_study
 Position: left
 
@@ -35,5 +35,5 @@ Parameter: private_repo
 Widget: SelectInput
 Label: Should the GitHub Repository be set to Private?
 Fields: TRUE, FALSE
-Position: left
+Position: right
 Default: TRUE
