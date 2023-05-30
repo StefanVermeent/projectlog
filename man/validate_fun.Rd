@@ -4,12 +4,12 @@
 \alias{validate_fun}
 \title{Validate read function used in projectlog::initiate_project()}
 \usage{
-validate_fun(file, fun)
+validate_fun(file, read_fun)
 }
 \arguments{
 \item{file}{Character, path to data file.}
 
-\item{fun}{Character, name of function to read data.}
+\item{read_fun}{Character, name of function to read data.}
 }
 \description{
 Validate read function used in projectlog::initiate_project()
