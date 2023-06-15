@@ -2,7 +2,7 @@
 #' @param path Path to project
 #' @keywords internal
 get_project_name <- function(path){
-  regexpr(pattern = "([a-z]|[0-9]|-|_)*$", text = path) |>
+  regexpr(pattern = "([a-zA-Z]|[0-9]|-|_)*$", text = path) |>
   regmatches(m = _, x = path)
 }
 
