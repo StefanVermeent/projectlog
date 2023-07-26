@@ -12,6 +12,8 @@ status](https://www.r-pkg.org/badges/version/projectlog)](https://CRAN.R-project
 [![R-CMD-check](https://github.com/stefanvermeent/projectlog/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/stefanvermeent/projectlog/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
+***Please note that `projectlog` is still under active development.***
+
 # The purpose of `projectlog`
 
 Good project management and documentation is a crucial part any
