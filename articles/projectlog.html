@@ -257,9 +257,32 @@ the data.</p>
 <span>  row_shuffle <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="creating-your-project-log">Creating your project log<a class="anchor" aria-label="anchor" href="#creating-your-project-log"></a>
+<h2 id="creating-your-project-history">Creating your project history<a class="anchor" aria-label="anchor" href="#creating-your-project-history"></a>
 </h2>
-<p>TBD</p>
+<p>When you create your project using <code>projectlog</code>, the
+top-level README file automatically contains code to generate your
+project history. This code generates a table in the README file
+containing the following information:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>milestone</strong>: The name of the milestone (e.g.,
+‘preregistration’) as a hyperlink which takes you to the tag on
+GitHub.</li>
+<li>
+<strong>timestamp</strong>: The date and time at which the milestone
+was logged.</li>
+<li>
+<strong>author</strong>: The person who created the milestone.</li>
+<li>
+<strong>message</strong>: The message that you included when logging
+the milestone, providing the reader with more context.</li>
+<li>
+<strong>link</strong>: A link that takes the reader to the historic
+version of the project at the moment of the milestone.</li>
+</ol>
+<p>You can update the table after logging a new milestone by re-knitting
+<code>README.Rmd</code> (by clicking ‘Knit’). Don’t forget to log these
+changes to GitHub using <code><a href="../reference/log_changes.html">log_changes()</a></code>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
