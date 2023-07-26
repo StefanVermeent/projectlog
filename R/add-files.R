@@ -31,6 +31,45 @@ The names of each folder are intended to be self-explanatory. There are six comp
 5.  [`scripts`](", link, "scripts): R-scripts that read, analyze, and produce all outputs.
 6.  [`supplement`](", link, "supplement): a supplemental text with additional information and materials.
 
+# Project History
+
+Below is an overview of all the major milestones of this project, including a description and links.
+The links take you to the historic version of the project that corresponds to the milestone.
+
+```{r}
+proj_history <-
+  git_tag_list() |>
+  dplyr::rename(
+    milestone = name,
+    milestone_hash = commit) |>
+  mutate(
+    commit_hash = (\\\\(x) purrr::pmap_chr(list(milestone, ref, milestone_hash), .f = function(milestone, ref, milestone_hash) {
+      git_commit_info(milestone_hash)$id
+    }))()
+  ) |>
+  left_join(
+    git_log() |>
+      rename(commit_hash = commit)
+  ) |>
+  mutate(
+    milestone_link = paste0(get_git_url(), '/releases/tag/', milestone),
+    link = commit_hash,
+    commit_link = paste0(get_git_url(), '/tree/', commit_hash)
+  )
+
+reactable(
+  proj_history |> select(milestone, timestamp = time, author, message, link),
+  columns = list(
+    milestone = colDef(html = TRUE, cell = function(value, index) {
+      sprintf(\"<a href='%s' target='_blank'>%s</a>\", proj_history$milestone_link[index], value)
+    }),
+    link = colDef(html = TRUE, cell = function(value, index) {
+      sprintf(\"<a href='%s' target=' _blank'>%s</a>\", proj_history$commit_link[index], value)
+    })
+  )
+)
+```
+
 ## References
 
            "

@@ -156,7 +156,7 @@ initiate_project <- function(path, project = "single_study", preregistration = "
     log_changes(c('README.Rmd'), commit_message = "Add project README file")
   }
 
-  cli::cli_alert_success("All set! Switching now to your new project at {cli::col_blue(path)}")
+  cli::cli_alert_success("All set! Switching now to your new project at {cli::col_blue(getwd())}")
 }
 
 
