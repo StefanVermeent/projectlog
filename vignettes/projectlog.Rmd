@@ -174,7 +174,17 @@ read_data(
   row_shuffle = "id")
 ```
 
-## Creating your project log
+## Creating your project history
 
-TBD
+When you create your project using `projectlog`, the top-level README file automatically contains code to generate your project history.
+This code generates a table in the README file containing the following information:
+
+1. **milestone**: The name of the milestone (e.g., 'preregistration') as a hyperlink which takes you to the tag on GitHub.
+2. **timestamp**: The date and time at which the milestone was logged.
+3. **author**: The person who created the milestone.
+4. **message**: The message that you included when logging the milestone, providing the reader with more context.
+5. **link**: A link that takes the reader to the historic version of the project at the moment of the milestone. 
+
+You can update the table after logging a new milestone by re-knitting `README.Rmd` (by clicking 'Knit'). 
+Don't forget to log these changes to GitHub using `log_changes()`.
 
