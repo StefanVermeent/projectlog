@@ -7,13 +7,29 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
+`projectlog` is designed to handle most of the git/GitHub workflow for you.
+However, if you have never used git before, you will have to take some basic steps for `projectlog` to work properly. This Vignette takes you through all the necessary steps.
 
-```{r setup}
-library(projectlog)
-```
+## 1. Creating an account on GitHub.
+
+If you don't have one already, start by creating an account on [GitHub](https://github.com/signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F&source=header-home). GitHub is the place where you will be able to see all of your projects, and share them with others.
+
+## 2. Install git on your device
+
+In order to use git locally, you will have to install the application on your device.
+Go to [https://git-scm.com/download/](https://git-scm.com/download/) and choose the correct operating system.
+Go through the installation steps keeping with the default options; This will make it easier for Rstudio to find Git on you device.
+
+## 3. Connecting Rstudio and Git
+
+If Rstudio was already opened before installing Git, make sure to first restart it.
+
+In the Rstudio menu, navigate to Tools > Global Options. 
+Click on the 'Git/SVN' tab and make sure the box is checked that says 'Enable version control interface for Rstudio projects'.
+If you installed git using the default options, the path to git under 'Git executable' should be correct.
+If not, you can manually find the path to Git and enter it here.
+For Mac, open the terminal in Rstudio and type `which git` to get the right path.
+For Windows, find git under Program Files (make sure you link to the subdirectory `/bin/git`).
+
+When you are done, click OK. Restart Rstudio again for the changes to take effect.
+
