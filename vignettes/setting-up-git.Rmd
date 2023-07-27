@@ -8,7 +8,7 @@ vignette: >
 ---
 
 ```{r setup}
-library(yourpackage)
+library(projectlog)
 ```
 
 `projectlog` is designed to handle most of the git/GitHub workflow for you.
