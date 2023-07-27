@@ -7,6 +7,10 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r setup}
+library(yourpackage)
+```
+
 `projectlog` is designed to handle most of the git/GitHub workflow for you.
 However, if you have never used git before, you will have to take some basic steps for `projectlog` to work properly. This Vignette takes you through all the necessary steps.
 
