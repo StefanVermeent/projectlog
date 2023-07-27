@@ -80,9 +80,45 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stefanvermeent.github.io/projectlog/">projectlog</a></span><span class="op">)</span></span></code></pre></div>
-  </main>
+<p><code>projectlog</code> is designed to handle most of the git/GitHub
+workflow for you. However, if you have never used git before, you will
+have to take some basic steps for <code>projectlog</code> to work
+properly. This Vignette takes you through all the necessary steps.</p>
+<div class="section level2">
+<h2 id="creating-an-account-on-github-">1. Creating an account on GitHub.<a class="anchor" aria-label="anchor" href="#creating-an-account-on-github-"></a>
+</h2>
+<p>If you don’t have one already, start by creating an account on <a href="https://github.com/signup?ref_cta=Sign+up&amp;ref_loc=header+logged+out&amp;ref_page=%2F&amp;source=header-home" class="external-link">GitHub</a>.
+GitHub is the place where you will be able to see all of your projects,
+and share them with others.</p>
+</div>
+<div class="section level2">
+<h2 id="install-git-on-your-device">2. Install git on your device<a class="anchor" aria-label="anchor" href="#install-git-on-your-device"></a>
+</h2>
+<p>In order to use git locally, you will have to install the application
+on your device. Go to <a href="https://git-scm.com/download/" class="external-link">https://git-scm.com/download/</a>
+and choose the correct operating system. Go through the installation
+steps keeping with the default options; This will make it easier for
+Rstudio to find Git on you device.</p>
+</div>
+<div class="section level2">
+<h2 id="connecting-rstudio-and-git">3. Connecting Rstudio and Git<a class="anchor" aria-label="anchor" href="#connecting-rstudio-and-git"></a>
+</h2>
+<p>If Rstudio was already opened before installing Git, make sure to
+first restart it.</p>
+<p>In the Rstudio menu, navigate to Tools &gt; Global Options. Click on
+the ‘Git/SVN’ tab and make sure the box is checked that says ‘Enable
+version control interface for Rstudio projects’. If you installed git
+using the default options, the path to git under ‘Git executable’ should
+be correct. If not, you can manually find the path to Git and enter it
+here. For Mac, open the terminal in Rstudio and type
+<code>which git</code> to get the right path. For Windows, find git
+under Program Files (make sure you link to the subdirectory
+<code>/bin/git</code>).</p>
+<p>When you are done, click OK. Restart Rstudio again for the changes to
+take effect.</p>
+</div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 

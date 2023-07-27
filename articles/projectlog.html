@@ -213,25 +213,6 @@ handy for many empirical projects:</p>
 <span><span class="op">-</span> <span class="st">'revision'</span></span></code></pre>
 </div>
 <div class="section level2">
-<h2 id="logging-regular-changes-to-github">Logging regular changes to GitHub<a class="anchor" aria-label="anchor" href="#logging-regular-changes-to-github"></a>
-</h2>
-<p>Aside from logging important milestones, it is good practice to
-regularly log changes to your repository to GitHub. This ensures that
-you can always go back to previous versions of your project, and that
-your code is safe if your PC crashes. For the most part, these
-intermediate changes are not important enough to be considered
-milestones. For example, they might be incremental updates to your code,
-bug fixes, and various intermediate versions of your manuscript. To log
-these changes, you would use the <code><a href="../reference/log_changes.html">log_changes()</a></code>
-function:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/log_changes.html">log_changes</a></span><span class="op">(</span><span class="st">"."</span>, commit_message <span class="op">=</span> <span class="st">"add data exclusions to analysis script"</span><span class="op">)</span></span></code></pre></div>
-<p>As you can see, <code><a href="../reference/log_changes.html">log_changes()</a></code> is very similar to
-<code><a href="../reference/log_milestone.html">log_milestone()</a></code>. The only difference is that
-<code><a href="../reference/log_changes.html">log_changes()</a></code> does not create a tag that get’s added to the
-commit.</p>
-</div>
-<div class="section level2">
 <h2 id="logging-data-access">Logging data access<a class="anchor" aria-label="anchor" href="#logging-data-access"></a>
 </h2>
 <p>One special type of milestone that <code>projectlog</code> allows you
@@ -249,12 +230,31 @@ links between dependent and independent variables—for example, making
 sure that there is enough variation in key variables.
 <code>projectlog</code> allows you to automatically log your access to
 the data.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/read_data.html">read_data</a></span><span class="op">(</span></span>
 <span>  file <span class="op">=</span> <span class="st">"data/data.csv"</span>, </span>
 <span>  read_fun <span class="op">=</span> <span class="st">"read_csv"</span>, </span>
 <span>  col_select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">iv1</span>, <span class="va">iv2</span><span class="op">)</span>, </span>
 <span>  row_shuffle <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="logging-regular-changes-to-github">Logging regular changes to GitHub<a class="anchor" aria-label="anchor" href="#logging-regular-changes-to-github"></a>
+</h2>
+<p>Aside from logging important milestones, it is good practice to
+regularly log changes to your repository to GitHub. This ensures that
+you can always go back to previous versions of your project, and that
+your code is safe if your PC crashes. For the most part, these
+intermediate changes are not important enough to be considered
+milestones. For example, they might be incremental updates to your code,
+bug fixes, and various intermediate versions of your manuscript. To log
+these changes, you would use the <code><a href="../reference/log_changes.html">log_changes()</a></code>
+function:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/log_changes.html">log_changes</a></span><span class="op">(</span><span class="st">"."</span>, commit_message <span class="op">=</span> <span class="st">"add data exclusions to analysis script"</span><span class="op">)</span></span></code></pre></div>
+<p>As you can see, <code><a href="../reference/log_changes.html">log_changes()</a></code> is very similar to
+<code><a href="../reference/log_milestone.html">log_milestone()</a></code>. The only difference is that
+<code><a href="../reference/log_changes.html">log_changes()</a></code> does not create a tag that get’s added to the
+commit.</p>
 </div>
 <div class="section level2">
 <h2 id="creating-your-project-history">Creating your project history<a class="anchor" aria-label="anchor" href="#creating-your-project-history"></a>
