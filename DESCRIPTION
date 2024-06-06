@@ -25,8 +25,7 @@ Imports:
   renv,
   rlang,
   tidyselect,
-  fs,
-  officedown
+  fs
 RoxygenNote: 7.2.3
 Suggests: 
     knitr,
