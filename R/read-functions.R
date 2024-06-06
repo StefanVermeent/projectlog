@@ -191,6 +191,9 @@ validate_fun <- function(file, read_fun) {
   } else {
     input <- strsplit(read_fun, "::")
 
+    if(!paste0("package:", input[[1]][[1]]) %in% search()) {
+      cli::cli_abort(paste0("Package ", cli::col_red('`{input[[1]][1]}`'), " has not been loaded yet. Try 'library('{input[[1]][1]}')' first."))
+    }
 
     if(!input[[1]][1] %in% .packages(TRUE)) {
       cli::cli_abort(paste0("Package ", cli::col_red('`{input[[1]][1]}`'), " not found. Try 'install_packages('{input[[1]][1]}')' first."))
