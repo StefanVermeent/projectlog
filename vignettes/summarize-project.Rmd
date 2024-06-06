@@ -1,0 +1,47 @@
+---
+title: "summarize-project"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{summarize-project}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(projectlog)
+```
+
+This vignette explains how you can leverage `projectlog` to create a summary of all the milestones of your project.
+
+## 1. A scenario where you have used `projectlog` from the start of your project
+
+If you used `projectlog` to initiate your project repository, a top-level `README.Rmd` file was automatically created.
+This `README.Rmd` file by default contains the function `generate_milestone_overview()`, which creates a bulleted overview of all the milestones that you logged along the way using `log_milestones()`.
+Simply reknitting the `README.Rmd` file at any point will regenerate the milestones to include your latest changes.
+
+Running `generate_milestone_overview()`, either manually or by knitting the `README.Rmd` file, will do three things behind the scenes:
+
+1. All the tags that were created on GitHub as a result of using `log_milestones()` are extracted from GitHub, and matched to the metadata that were provided when logging the milestone (e.g., date, description, code, etc.).
+
+2. For each milestone that signals first-time access to data, an .R file is generated under `.projectlog/`. This .R file contains the code that was used to read in the data, and contains a link to the GitHub commit associated with the first-time data access.
+
+3. A bulleted overview of each milestone is created, containing relevant meta data.
+
+## 2. A scenario where you have started using `projectlog` later in project
+
+If you did not use `projectlog` to initiate your project, chances are you do not have a `README.Rmd` file containing the code to generate the milestones.
+If so, you can manually create this README file using `add_project_readme()`.
+This README will by default contain the `generate_milestone_overview()` function (see section 1).
+Alternatively, you can manually run `generate_milestone_overview()` and include the output anywhere you'd like.
+Note that by adding `copy = TRUE`, the overview of milestones will automatically be copied to your clipboard.
+
+It might happen that you did not log certain milestones, for example, because you started using projectlog later in your project, or because you forgot to do so at some point.
+TBD
+

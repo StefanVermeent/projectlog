@@ -4,12 +4,15 @@
 \alias{add_project_readme}
 \title{Add top-level project README file to project}
 \usage{
-add_project_readme(path)
+add_project_readme(path = getwd())
 }
 \arguments{
 \item{path}{Character, path to project repository.}
 }
-\description{
-Add top-level project README file to project
+\value{
+A README.Rmd file at the highest level of your repository
 }
-\keyword{internal}
+\description{
+If you did not initiate your project using `projectlog::initiate_project()`, you can use this function to generate a README file that will be placed at the highest level of your repository.
+It will include example text for a description of your project, an overview of the (most important) folders, and code to generate an overview of your project milestones.
+}

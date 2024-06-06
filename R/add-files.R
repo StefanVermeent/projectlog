@@ -1,7 +1,16 @@
 #' Add top-level project README file to project
+#'
+#' If you did not initiate your project using `projectlog::initiate_project()`, you can use this function to generate a README file that will be placed at the highest level of your repository.
+#' It will include example text for a description of your project, an overview of the (most important) folders, and code to generate an overview of your project milestones.
 #' @param path Character, path to project repository.
-#' @keywords internal
-add_project_readme <- function(path){
+#' @return A README.Rmd file at the highest level of your repository
+#' @export
+add_project_readme <- function(path = getwd()){
+
+  if(file.exists(file.path(path, "README.Rmd"))) {
+    cli::cli_abort("Your repository already contains a top-level README.Rmd file. If you want to generate a new README file, please remove the old file first.")
+  }
+
   link <- paste0(get_git_url(), "/tree/master/")
   writeLines(
     paste0("---
