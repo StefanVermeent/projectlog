@@ -23,7 +23,7 @@ Options include 'single_study' for a project consisting of a single study,
 'registered_report' for a project containing a Registered Report.
 Default: 'single_study'.}
 
-\item{preregistration}{Character, The preregistration template that you want to use.}
+\item{preregistration}{TBD}
 
 \item{dependencies}{Character, indicates whether and how you want to keep track
 of package dependencies. Options include "renv",

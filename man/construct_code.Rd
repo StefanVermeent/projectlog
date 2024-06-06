@@ -5,6 +5,7 @@
 \title{Construct code that is used to read new data}
 \usage{
 construct_code(
+  file,
   col_select,
   read_fun,
   row_filter,

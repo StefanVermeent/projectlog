@@ -50,8 +50,9 @@ read_data <- function(file, read_fun, col_select = NULL, row_filter = NULL, row_
   }
 
   # Execute code
-  data <-  construct_code(col_select, read_fun, row_filter, row_shuffle, long_format, seed, dots_chr) |>
-    glue::glue(.trim = F) |>
+  pipeline_chr <- construct_code(file, col_select, read_fun, row_filter, row_shuffle, long_format, seed, dots_chr)
+  data <- pipeline_chr |>
+   # glue::glue(.trim = F) |>
     rlang::parse_expr() |>
     rlang::eval_tidy()
 
@@ -78,7 +79,7 @@ read_data <- function(file, read_fun, col_select = NULL, row_filter = NULL, row_
 
     cli::cli_alert_info("The following commit message will be used: {commit_message}")
 
-    readr::write_file(file = "project_log/MD5", x = paste("\n", data_hash), append = TRUE)
+    readr::write_file(file = ".projectlog/MD5", x = paste("\n", data_hash), append = TRUE)
 
 
 
@@ -90,7 +91,7 @@ read_data <- function(file, read_fun, col_select = NULL, row_filter = NULL, row_
       tag <- "data_access"
     }
 
-    gert::git_add("project_log/MD5")
+    gert::git_add(".projectlog/MD5")
 
     commit <- validate_commit(commit_message)
 
@@ -101,9 +102,9 @@ read_data <- function(file, read_fun, col_select = NULL, row_filter = NULL, row_
         gert::git_push()
       },
       error = function(e) {
-        readr::read_file("project_log/MD5") |>
+        readr::read_file(".projectlog/MD5") |>
           gsub(x = _, pattern = paste0("\n", data_hash), replacement = "") |>
-          readr::write_file("project_log/MD5")
+          readr::write_file(".projectlog/MD5")
         cli::cli_abort("Failed to commit data access to remote GitHub repository. Reverting changes to MD5 file...")
       }
     )
@@ -129,7 +130,7 @@ shuffle <- function(data, shuffle_vars, long_format, seed = seed) {
   }
 
   if(long_format) {
-    row_nums <- data |> dplyr::group_by_at(shuffle_vars[[1]]) |> dplyr::summarise(n = dplyr::n()) |> dplyr::pull(n)
+    row_nums <- data |> dplyr::group_by_at(shuffle_vars[[1]]) |> dplyr::summarise(n = dplyr::n()) |> dplyr::pull(.data$n)
   } else {
     row_nums <- rep(1, nrow(data))
   }
@@ -141,15 +142,15 @@ shuffle <- function(data, shuffle_vars, long_format, seed = seed) {
       data |>
         dplyr::select(tidyselect::matches(x)) |>
         dplyr::mutate(rows = rep(1:length(row_nums), row_nums)) |>
-        dplyr::group_split(rows) |>
+        dplyr::group_split(.data$rows) |>
         sample() |>
         dplyr::bind_rows() |>
-        dplyr::select(-rows)
+        dplyr::select(-.data$rows)
     }) |>
     do.call("cbind", args = _) |>
     dplyr::bind_cols(
       data |>
-        dplyr::select(-matches(shuffle_vars))
+        dplyr::select(-tidyselect::matches(shuffle_vars))
     ) |>
     dplyr::select(names(data)) |>
     dplyr::arrange(dplyr::across(tidyselect::matches(shuffle_vars[[1]])))
@@ -163,9 +164,23 @@ shuffle <- function(data, shuffle_vars, long_format, seed = seed) {
 #' @keywords internal
 validate_fun <- function(file, read_fun) {
 
-  if(!file.exists(file)) {
-    cli::cli_abort("The file {cli::col_blue(file.path(getwd(), file))} was not found in your project directory.")
+  if(stringr::str_detect(file, "list.files", negate = T)) {
+    if(!file.exists(file)) {
+      cli::cli_abort("The file {cli::col_blue(file.path(getwd(), file))} was not found in your project directory.")
+    }
   }
+
+  if(stringr::str_detect(file, "list.files")) {
+    all_files <- file |> rlang::parse_expr() |>rlang::eval_tidy()
+    files_exist <- lapply(all_files, file.exists)
+
+
+    if(!all(files_exist |> unlist())) {
+      error_files <- all_files[files_exist == FALSE]
+      cli::cli_abort("The following files were not found in your project directory:{cli::col_blue(error_files)}.")
+    }
+  }
+
 
   if(stringr::str_detect(read_fun, "::", negate = TRUE)) {
     if(!read_fun %in% ls("package:readr")) {
@@ -176,10 +191,6 @@ validate_fun <- function(file, read_fun) {
   } else {
     input <- strsplit(read_fun, "::")
 
-    tryCatch(
-      input[[1]][1] %in% .packages(TRUE),
-      error = cli::cli_abort(paste0("There is no package called ", cli::col_red('{input[[1]][1]}'), ". Try 'install.packages('{input[[1]][1]}')' first."))
-    )
 
     if(!input[[1]][1] %in% .packages(TRUE)) {
       cli::cli_abort(paste0("Package ", cli::col_red('`{input[[1]][1]}`'), " not found. Try 'install_packages('{input[[1]][1]}')' first."))
@@ -212,21 +223,42 @@ validate_fun <- function(file, read_fun) {
 #' data.
 #' @param dots_chr Additional arguments for the read function, parsed as a string
 #' @keywords internal
-construct_code <- function(col_select, read_fun, row_filter, row_shuffle, long_format, seed, dots_chr){
+construct_code <- function(file, col_select, read_fun, row_filter, row_shuffle, long_format, seed, dots_chr){
 
   # Capture data read and manipulation inputs
-  col_select = paste0("col_select = ", ifelse(!is.null(col_select), as.character(col_select), "NULL"))
+  col_select = paste0("col_select = ", ifelse(!is.null(col_select), paste0("'", as.character(col_select), "'"), "NULL"))
   row_shuffle = ifelse(is.null(row_shuffle), "NULL", row_shuffle)
+
+
 
   code <- list()
 
-  code$read = ifelse(grepl(x = read_fun, pattern = "::"), read_fun, paste0("readr::", read_fun)) |>
-    paste0("('", file, "', ", col_select, dots_chr, ")")
-  code$filter = paste0("dplyr::filter(", as.character(row_filter), ")")
-  code$shuffle = paste0("shuffle(data = _, shuffle_vars = '", row_shuffle, "', long_format = ", long_format, ", seed = ", seed, ")")
+  if(stringr::str_detect(file, "list.files", negate = T)) {
+    code$read = ifelse(grepl(x = read_fun, pattern = "::"), read_fun, paste0("readr::", read_fun)) |>
+      paste0("('", file, "', ", col_select, dots_chr, ")")
+    code$filter = paste0("dplyr::filter(", as.character(row_filter), ")")
+    code$shuffle = paste0("shuffle(data = _, shuffle_vars = '", row_shuffle, "', long_format = ", long_format, ", seed = ", seed, ")")
 
-  pipeline_chr <- code |>
-    paste(collapse = " |> ")
+    pipeline_chr <- code |>
+      paste(collapse = " |> ")
+  }
+
+  if(stringr::str_detect(file, "list.files")) {
+    code$read = paste0(
+      "purrr::map(.x = ",
+      file, ", function(x) {",
+      ifelse(grepl(x = read_fun, pattern = "::"), read_fun, paste0("readr::", read_fun)),
+      "(file = x, ", col_select, dots_chr, ")"
+    )
+
+    code$filter = paste0("dplyr::filter(", as.character(row_filter), ")")
+    code$shuffle = paste0("shuffle(data = _, shuffle_vars = '", row_shuffle, "', long_format = ", long_format, ", seed = ", seed, ")")
+
+    pipeline_chr <- code |>
+      paste(collapse = " |> ") |> paste0("})")
+  }
+
+
 
   cli::cli_alert_info("The following code will be executed: {pipeline_chr}", wrap = T)
 
@@ -239,18 +271,17 @@ construct_code <- function(col_select, read_fun, row_filter, row_shuffle, long_f
 check_data_access <- function(data_hash) {
   previous_commits <-
     gert::git_tag_list() |>
-    dplyr::add_row(name = 'data_access', ref = 'dkdkdk', commit = 'kjksjk') |>
-    dplyr::filter(stringr::str_detect(name, "data_access")) |>
-    dplyr::pull(commit) |>
+    dplyr::filter(stringr::str_detect(.data$name, "data_access")) |>
+    dplyr::pull(.data$commit) |>
     lapply(function(x){
       gert::git_commit_info(ref = x) |>
         tidyr::as_tibble()
     }) |>
     do.call("rbind", args = _)
 
-  gert::git_log() |>
-    dplyr::filter(commit %in% previous_commits$id) |>
-    dplyr::pull(message) |>
+  gert::git_log(max = 10000) |>
+    dplyr::filter(.data$commit %in% previous_commits$id) |>
+    dplyr::pull(.data$message) |>
     (\(.) regmatches(x = ., m = gregexpr("[a-z0-9]{32}", text = .)))() |>
     unlist()
 }

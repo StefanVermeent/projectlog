@@ -8,11 +8,11 @@
 #' 'multistudy' for a project consisting of multiple studies, and
 #' 'registered_report' for a project containing a Registered Report.
 #' Default: 'single_study'.
-#' @param preregistration Character, The preregistration template that you want to use.
 #' @param dependencies Character, indicates whether and how you want to keep track
 #' of package dependencies. Options include "renv",
 #' "groundhog", or "none".
 #' Default: 'groundhog'
+#' @param preregistration TBD
 #' @param create_github Character, should a remote repository be created on GitHub?
 #' If 'yes', a remote repository is created with the same name as the local project,
 #' and all current changes are pushed to this remote repository. If 'no', git is

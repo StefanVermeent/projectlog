@@ -17,13 +17,6 @@ Fields: renv, groundhog, none
 Default: groundhog
 Position: right
 
-Parameter: preregistration
-Widget: SelectInput
-Label: Preregistration template
-Fields: empty, aspredicted, secondary
-Default: empty
-Position: left
-
 Parameter: create_github
 Widget: CheckboxInput
 Label: Create GitHub repository?
