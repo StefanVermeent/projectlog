@@ -25,7 +25,8 @@ Imports:
   renv,
   rlang,
   tidyselect,
-  fs
+  fs,
+  clipr
 RoxygenNote: 7.2.3
 Suggests: 
     knitr,

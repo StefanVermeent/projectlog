@@ -27,7 +27,7 @@ generate_milestone_overview <- function(copy = FALSE) {
     ) |>
     dplyr::select(-.data$commit, -.data$ref) |>
     tidyr::unnest(.data$tags) |>
-    tidyr::separate(.data$message, into = c("description", "hash", "code"), sep = "\\n") |>
+    tidyr::separate(.data$message, into = c("description", "hash", "code"), sep = "\\n", fill = "right") |>
     dplyr::mutate(
       branch = gert::git_branch_list() |> dplyr::filter(local == TRUE) |> dplyr::pull(.data$name),
       name = purrr::map_chr(.data$name, function(name) {
@@ -56,7 +56,7 @@ generate_milestone_overview <- function(copy = FALSE) {
           stringr::str_remove(string = _, "^code ")
 
         url <- get_git_url() |>
-          paste0("/commit/", .data$commit)
+          paste0("/commit/", commit)
 
         script <-
           glue::glue(
@@ -68,17 +68,23 @@ generate_milestone_overview <- function(copy = FALSE) {
           {code}"
           )
 
-        writeLines(script, con = paste0(".projectlog/", .data$commit, ".R"))
+        writeLines(script, con = paste0(".projectlog/", commit, ".R"))
       }
     })
 
   # Print milestones
-  glue::glue_data(milestones, "  - **[{time}]({link_to_git}): {description}**
+  milestones_list <- glue::glue_data(milestones, "  - **[{time}]({link_to_git}): {description}**
         - **Milestone:** {name}
         - **Data MD5 hash**: {hash}
         - [Link to code snippet]({link_to_git})
         \n
     ")
+
+  if(isTRUE(copy)) {
+    clipr::write_clip(milestones_list)
+
+    cli::cli_alert_success("The project milestone overview has been copied to your clipboard!")
+  }
 
 
 }
