@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="projectlog">
-<title>setting-up-git • projectlog</title>
+<title>summarize-project • projectlog</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="setting-up-git">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="summarize-project">
 <meta property="og:description" content="projectlog">
 <meta property="og:image" content="https://stefanvermeent.github.io/projectlog/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -72,53 +72,64 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>setting-up-git</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>summarize-project</h1>
             
       
       
-      <div class="d-none name"><code>setting-up-git.Rmd</code></div>
+      <div class="d-none name"><code>summarize-project.Rmd</code></div>
     </div>
 
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stefanvermeent.github.io/projectlog/">projectlog</a></span><span class="op">)</span></span></code></pre></div>
-<p><code>projectlog</code> is designed to handle most of the git/GitHub
-workflow for you. However, if you have never used git before, you will
-have to take some basic steps for <code>projectlog</code> to work
-properly. This Vignette takes you through all the necessary steps.</p>
+<p>This vignette explains how you can leverage <code>projectlog</code>
+to create a summary of all the milestones of your project.</p>
 <div class="section level2">
-<h2 id="creating-an-account-on-github-">1. Creating an account on GitHub.<a class="anchor" aria-label="anchor" href="#creating-an-account-on-github-"></a>
+<h2 id="a-scenario-where-you-have-used-projectlog-from-the-start-of-your-project">1. A scenario where you have used <code>projectlog</code> from the
+start of your project<a class="anchor" aria-label="anchor" href="#a-scenario-where-you-have-used-projectlog-from-the-start-of-your-project"></a>
 </h2>
-<p>If you don’t have one already, start by creating an account on <a href="https://github.com/signup?ref_cta=Sign+up&amp;ref_loc=header+logged+out&amp;ref_page=%2F&amp;source=header-home" class="external-link">GitHub</a>.
-GitHub is the place where you will be able to see all of your projects,
-and share them with others.</p>
+<p>If you used <code>projectlog</code> to initiate your project
+repository, a top-level <code>README.Rmd</code> file was automatically
+created. This <code>README.Rmd</code> file by default contains the
+function <code><a href="../reference/generate_milestone_overview.html">generate_milestone_overview()</a></code>, which creates a
+bulleted overview of all the milestones that you logged along the way
+using <code>log_milestones()</code>. Simply reknitting the
+<code>README.Rmd</code> file at any point will regenerate the milestones
+to include your latest changes.</p>
+<p>Running <code><a href="../reference/generate_milestone_overview.html">generate_milestone_overview()</a></code>, either manually
+or by knitting the <code>README.Rmd</code> file, will do three things
+behind the scenes:</p>
+<ol style="list-style-type: decimal">
+<li><p>All the tags that were created on GitHub as a result of using
+<code>log_milestones()</code> are extracted from GitHub, and matched to
+the metadata that were provided when logging the milestone (e.g., date,
+description, code, etc.).</p></li>
+<li><p>For each milestone that signals first-time access to data, an .R
+file is generated under <code>.projectlog/</code>. This .R file contains
+the code that was used to read in the data, and contains a link to the
+GitHub commit associated with the first-time data access.</p></li>
+<li><p>A bulleted overview of each milestone is created, containing
+relevant meta data.</p></li>
+</ol>
 </div>
 <div class="section level2">
-<h2 id="install-git-on-your-device">2. Install git on your device<a class="anchor" aria-label="anchor" href="#install-git-on-your-device"></a>
+<h2 id="a-scenario-where-you-have-started-using-projectlog-later-in-project">2. A scenario where you have started using <code>projectlog</code>
+later in project<a class="anchor" aria-label="anchor" href="#a-scenario-where-you-have-started-using-projectlog-later-in-project"></a>
 </h2>
-<p>In order to use git locally, you will have to install the application
-on your device. Go to <a href="https://git-scm.com/download/" class="external-link">https://git-scm.com/download/</a>
-and choose the correct operating system. Go through the installation
-steps keeping with the default options; This will make it easier for
-Rstudio to find Git on you device.</p>
-</div>
-<div class="section level2">
-<h2 id="connecting-rstudio-and-git">3. Connecting Rstudio and Git<a class="anchor" aria-label="anchor" href="#connecting-rstudio-and-git"></a>
-</h2>
-<p>If Rstudio was already opened before installing Git, make sure to
-first restart it.</p>
-<p>In the Rstudio menu, navigate to Tools &gt; Global Options. Click on
-the ‘Git/SVN’ tab and make sure the box is checked that says ‘Enable
-version control interface for Rstudio projects’. If you installed git
-using the default options, the path to git under ‘Git executable’ should
-be correct. If not, you can manually find the path to Git and enter it
-here. For Mac, open the terminal in Rstudio and type
-<code>which git</code> to get the right path. For Windows, find git
-under Program Files (make sure you link to the subdirectory
-<code>/bin/git</code>).</p>
-<p>When you are done, click OK. Restart Rstudio again for the changes to
-take effect.</p>
+<p>If you did not use <code>projectlog</code> to initiate your project,
+chances are you do not have a <code>README.Rmd</code> file containing
+the code to generate the milestones. If so, you can manually create this
+README file using <code><a href="../reference/add_project_readme.html">add_project_readme()</a></code>. This README will by
+default contain the <code><a href="../reference/generate_milestone_overview.html">generate_milestone_overview()</a></code> function
+(see section 1). Alternatively, you can manually run
+<code><a href="../reference/generate_milestone_overview.html">generate_milestone_overview()</a></code> and include the output
+anywhere you’d like. Note that by adding <code>copy = TRUE</code>, the
+overview of milestones will automatically be copied to your
+clipboard.</p>
+<p>It might happen that you did not log certain milestones, for example,
+because you started using projectlog later in your project, or because
+you forgot to do so at some point. TBD</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
