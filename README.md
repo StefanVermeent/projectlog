@@ -12,7 +12,9 @@ status](https://www.r-pkg.org/badges/version/projectlog)](https://CRAN.R-project
 [![R-CMD-check](https://github.com/stefanvermeent/projectlog/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/stefanvermeent/projectlog/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-***Please note that `projectlog` is still under active development.***
+***Please note that `projectlog` is still under active development.
+Until the first official release, any new changes are potentially
+breaking changes.***
 
 # The purpose of `projectlog`
 
