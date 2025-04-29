@@ -5,8 +5,8 @@ Icon: projectlog.png
 
 Parameter: project
 Widget: SelectInput
-Label: Project type
-Fields: single_study, multistudy
+Label: Project template
+Fields: TIER protocol 4.0, single_study, multistudy
 Default: single_study
 Position: left
 
