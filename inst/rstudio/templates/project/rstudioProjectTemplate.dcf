@@ -15,7 +15,7 @@ Widget: SelectInput
 Label: Dependency management
 Fields: renv, groundhog, none
 Default: groundhog
-Position: right
+Position: left
 
 Parameter: create_github
 Widget: CheckboxInput
